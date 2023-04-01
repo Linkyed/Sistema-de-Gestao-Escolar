@@ -9,6 +9,7 @@ import java.sql.Date;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import app.modelo.AreasDeFormacao;
 import app.modelo.Funcionalidades;
 import app.modelo.Professor;
 
@@ -19,7 +20,7 @@ public class ProfessorTeste {
 	@BeforeEach
 	void iniciarProfessor() throws ParseException {
 		Date sqlDate = Funcionalidades.cirarDataSQL(10, 3, 2023);
-		prof = new Professor("Josias", "93774484090", "Masculino", "josias@gmail.com", 5050.50, sqlDate);
+		prof = new Professor("Josias", "93774484090", "Masculino", "josias@gmail.com", AreasDeFormacao.GEOGRAFIA, 5050.50, sqlDate);
 	}
 	
 	@Test
@@ -155,6 +156,31 @@ public class ProfessorTeste {
 	void alterarCPF3() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			prof.setCPF("10");
+		});
+	}
+	
+	@Test
+	void alterarAreaDeFormacao1() {
+		prof.setAreaDeFormacao(AreasDeFormacao.LINGUA_ALEMA);
+		assertEquals("Língua Alemã", prof.getAreaDeFormacao());
+	}
+	
+	@Test
+	void alterarAreaDeFormacao2() {
+		prof.setAreaDeFormacao(AreasDeFormacao.LINGUA_INGLESA);
+		assertEquals("Língua Inglesa", prof.getAreaDeFormacao());
+	}
+	
+	@Test
+	void alterarAreaDeFormacao3() {
+		prof.setAreaDeFormacao(AreasDeFormacao.LINGUA_FRANCESA);
+		assertEquals("Língua Francesa", prof.getAreaDeFormacao());
+	}
+
+	@Test
+	void alterarAreaDeFormacao4() {
+		assertThrows(NullPointerException.class, () -> {
+			prof.setAreaDeFormacao(null);
 		});
 	}
 	

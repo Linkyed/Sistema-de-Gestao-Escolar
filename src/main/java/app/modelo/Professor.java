@@ -30,6 +30,9 @@ public class Professor {
 	@Column(nullable = false, length = 150, unique = true)
 	private String email;
 	
+	@Column(nullable = false, length = 80)
+	private String areaDeFormacao;
+	
 	@Column(nullable = false, precision = 11, scale = 2)
 	private Double salario;
 	
@@ -40,12 +43,13 @@ public class Professor {
 		
 	}
 	
-	public Professor(String nome, String CPF, String sexo, String email, Double salario, Date inicioContrato) {
+	public Professor(String nome, String CPF, String sexo, String email, AreasDeFormacao areaDeFormacao, Double salario, Date inicioContrato) {
 		setNome(nome);
 		setCPF(CPF);
 		setSexo(sexo);
 		setEmail(email);
 		setSalario(salario);
+		setAreaDeFormacao(areaDeFormacao);
 		setInicioContrato(inicioContrato);
 	}
 
@@ -94,6 +98,29 @@ public class Professor {
 		email = Funcionalidades.verificarStringVazia(email);
 		if (!Funcionalidades.verificarEmail(email)) throw new IllegalArgumentException("Email invalido.");
 		this.email = email.toLowerCase();
+	}
+
+	public String getAreaDeFormacao() {
+		return areaDeFormacao;
+	}
+
+	public void setAreaDeFormacao(AreasDeFormacao areaDeFormacao) {
+		if (areaDeFormacao == null) throw new NullPointerException("Area de Formação nula.");
+		
+		if (areaDeFormacao.equals(AreasDeFormacao.GEOGRAFIA)) this.areaDeFormacao = "Geografia";
+		else if (areaDeFormacao.equals(AreasDeFormacao.ARTES)) this.areaDeFormacao = "Artes";
+		else if (areaDeFormacao.equals(AreasDeFormacao.BIOLOGIA)) this.areaDeFormacao = "Bioloia";
+		else if (areaDeFormacao.equals(AreasDeFormacao.EDUCACAO_FISICA)) this.areaDeFormacao = "Educação Física";
+		else if (areaDeFormacao.equals(AreasDeFormacao.FILOSOFIA)) this.areaDeFormacao = "Filosofia";
+		else if (areaDeFormacao.equals(AreasDeFormacao.HISTORIA)) this.areaDeFormacao = "História";
+		else if (areaDeFormacao.equals(AreasDeFormacao.MATEMATICA)) this.areaDeFormacao = "Matemática";
+		else if (areaDeFormacao.equals(AreasDeFormacao.QUIMICA)) this.areaDeFormacao = "Química";
+		else if (areaDeFormacao.equals(AreasDeFormacao.SOCIOLOGIA)) this.areaDeFormacao = "Sociologia";
+		else if (areaDeFormacao.equals(AreasDeFormacao.LINGUA_PORTUGUESA)) this.areaDeFormacao = "Língua Portuguesa";
+		else if (areaDeFormacao.equals(AreasDeFormacao.LITERATURA)) this.areaDeFormacao = "Literatura";
+		else if (areaDeFormacao.equals(AreasDeFormacao.LINGUA_INGLESA)) this.areaDeFormacao = "Língua Inglesa";
+		else if (areaDeFormacao.equals(AreasDeFormacao.LINGUA_ALEMA)) this.areaDeFormacao = "Língua Alemã";
+		else if (areaDeFormacao.equals(AreasDeFormacao.LINGUA_FRANCESA)) this.areaDeFormacao = "Língua Francesa";
 	}
 
 	public Double getSalario() {
