@@ -33,12 +33,30 @@ public class Funcionalidades {
 	 }
 	 
 	 static public Date cirarDataSQL(int dia, int mes, int ano) {
+		verificarData(dia, mes, ano);
 		Calendar calendario = Calendar.getInstance();
 		calendario.set(ano, mes-1, dia);
 		java.util.Date data = calendario.getTime();
 		Date sqlData = new java.sql.Date(data.getTime());
 		
 		return sqlData;
+	 }
+	 
+	 static private void verificarData(int dia, int mes, int ano) {
+		 if (ano < 0) {
+			 throw new IllegalArgumentException("Ano negativo.");
+		 }
+		 if (mes < 1 && mes > 12) {
+			 throw new IllegalArgumentException("Mes " + mes + " invalido.");
+		 }
+		 if ((mes == 2) && (dia < 1 || dia > 28)) {
+			 throw new IllegalArgumentException("Dia invalido");
+		 } else if (mes % 2 == 0 && (dia < 1 || dia > 30)) {
+			 throw new IllegalArgumentException("Dia invalido");
+		 } else if (mes % 2 != 0 && (dia < 1 || dia > 31)) {
+			 throw new IllegalArgumentException("Dia invalido");
+		 }
+		 
 	 }
 	 
 	 

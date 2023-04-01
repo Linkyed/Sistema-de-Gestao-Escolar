@@ -3,12 +3,8 @@ package app.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.sql.Date;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,10 +17,7 @@ public class ProfessorTeste {
 	
 	@BeforeEach
 	void iniciarProfessor() throws ParseException {
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(2023, Calendar.MONTH, 28);
-		Date date = calendar.getTime();
-		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+		Date sqlDate = Funcionalidades.cirarDataSQL(10, 3, 2023);
 		prof = new Professor("Josias", "Masculino", "josias@gmail.com", 5050.50, sqlDate);
 	}
 	
@@ -111,6 +104,37 @@ public class ProfessorTeste {
 	void alterarSalario3() {
 		prof.setSalario(11520.20);
 		assertEquals(11520.20, prof.getSalario());
+	}
+	
+	@Test
+	void alterarContrato1() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			Date sqlDate = Funcionalidades.cirarDataSQL(29, 2, 2023);
+			prof.setInicioContrato(sqlDate);
+		});
+	}
+	
+	@Test
+	void alterarContrato2() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			Date sqlDate = Funcionalidades.cirarDataSQL(32, 3, 2023);
+			prof.setInicioContrato(sqlDate);
+		});
+	}
+	
+	@Test
+	void alterarContrato3() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			Date sqlDate = Funcionalidades.cirarDataSQL(31, 4, 2023);
+			prof.setInicioContrato(sqlDate);
+		});
+	}
+	
+	@Test
+	void alterarContrato4() {
+		Date sqlDate = Funcionalidades.cirarDataSQL(31, 3, 2023);
+		prof.setInicioContrato(sqlDate);
+		assertEquals(prof.getInicioContrato(), sqlDate);
 	}
 	
 }
