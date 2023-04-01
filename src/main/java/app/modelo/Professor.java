@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import app.model.Funcionalidades;
+
 @Entity
 @Table(name = "professores")
 public class Professor {
@@ -58,7 +60,8 @@ public class Professor {
 	}
 
 	public void setNome(String nome) {
-		this.nome = nome;
+		nome = Funcionalidades.verificarStringVazia(nome);
+		this.nome = Funcionalidades.primeiraLetraMaiuscula(nome.trim());
 	}
 
 	public String getSexo() {
@@ -66,7 +69,12 @@ public class Professor {
 	}
 
 	public void setSexo(String sexo) {
-		this.sexo = sexo;
+		sexo = Funcionalidades.verificarStringVazia(sexo);
+		if ("feminino".equalsIgnoreCase(sexo) || "masculino".equalsIgnoreCase(sexo) || "outro".equalsIgnoreCase(sexo)) {
+			this.sexo = Funcionalidades.primeiraLetraMaiuscula(sexo);			
+		} else {
+			throw new IllegalArgumentException("Sexo invalido");
+		}
 	}
 
 	public String getEmail() {
@@ -74,6 +82,8 @@ public class Professor {
 	}
 
 	public void setEmail(String email) {
+		email = Funcionalidades.verificarStringVazia(email);
+		if (!Funcionalidades.verificarEmail(email)) throw new IllegalArgumentException("Email invalido.");
 		this.email = email;
 	}
 
