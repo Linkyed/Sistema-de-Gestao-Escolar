@@ -1,7 +1,6 @@
 package app.modelo;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,12 +10,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "professores")
-public class Professor {
-	
+@Table(name = "alunos")
+public class Aluno {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@Column(nullable = false, length = 15, unique = true)
+	private String matricula;
 	
 	@Column(nullable = false, length = 200)
 	private String nome;
@@ -30,23 +31,20 @@ public class Professor {
 	@Column(nullable = false, length = 150, unique = true)
 	private String email;
 	
-	@Column(nullable = false, precision = 11, scale = 2)
-	private Double salario;
-	
 	@Column(nullable = false)
-	private Date inicioContrato;
-	
-	public Professor() {
+	private Date dataNacimento;
+
+	public Aluno() {
 		
 	}
 	
-	public Professor(String nome, String CPF, String sexo, String email, Double salario, Date inicioContrato) {
+	public Aluno(String nome, String CPF, String sexo, String email, Date dataNacimento) {
 		setNome(nome);
 		setCPF(CPF);
 		setSexo(sexo);
 		setEmail(email);
-		setSalario(salario);
-		setInicioContrato(inicioContrato);
+		setDataNacimento(dataNacimento);
+		setMatricula();
 	}
 
 	public Long getId() {
@@ -57,14 +55,24 @@ public class Professor {
 		this.id = id;
 	}
 
+	public String getMatricula() {
+		return matricula;
+	}
+
+	private void setMatricula() {
+		String resultado = funcaoGerarMatricua();
+		matricula = String.format("%s%s", resultado, dataNacimento.toString().replace("-", ""));
+	}
+
 	public String getNome() {
 		return nome;
 	}
 
 	public void setNome(String nome) {
-		this.nome = Funcionalidades.primeiraLetraMaiuscula(nome);
+		nome = Funcionalidades.verificarStringVazia(nome);
+		this.nome = Funcionalidades.primeiraLetraMaiuscula(nome.trim());
 	}
-	
+
 	public String getCPF() {
 		return CPF;
 	}
@@ -72,15 +80,15 @@ public class Professor {
 	public void setCPF(String CPF) {
 		this.CPF = Funcionalidades.verificarValidadeCPF(CPF);
 	}
-
+	
 	public String getSexo() {
 		return sexo;
 	}
 
 	public void setSexo(String sexo) {
-		sexo = Funcionalidades.primeiraLetraMaiuscula(sexo);
+		sexo = Funcionalidades.verificarStringVazia(sexo);
 		if ("feminino".equalsIgnoreCase(sexo) || "masculino".equalsIgnoreCase(sexo) || "outro".equalsIgnoreCase(sexo)) {
-			this.sexo = sexo;			
+			this.sexo = Funcionalidades.primeiraLetraMaiuscula(sexo);			
 		} else {
 			throw new IllegalArgumentException("Sexo invalido");
 		}
@@ -96,27 +104,22 @@ public class Professor {
 		this.email = email.toLowerCase();
 	}
 
-	public Double getSalario() {
-		return salario;
+	public Date getDataNacimento() {
+		return dataNacimento;
 	}
 
-	public void setSalario(Double salario) {
-		if (salario > 999999999.99 ) {
-			throw new IllegalArgumentException("Salario ultrapassou o limite.");
-		} else if(salario < 0) {
-			throw new IllegalArgumentException("Salario negativo.");
+	public void setDataNacimento(Date dataNacimento) {
+		this.dataNacimento = dataNacimento;
+	}
+	
+	private String funcaoGerarMatricua() {
+		int finalCPF = Integer.parseInt(CPF.substring(9));
+		int outrosDigitosSoma = 0;
+		
+		for (int i = 0; i < 9; i++) {
+			outrosDigitosSoma += Integer.parseInt(CPF.substring(i, i+1));
 		}
-		this.salario = salario;
+		String funcaoMatricula = finalCPF + "" + outrosDigitosSoma;
+		return funcaoMatricula;
 	}
-
-	public Date getInicioContrato() {
-		return inicioContrato;
-	}
-
-	public void setInicioContrato(Date inicioContrato) {
-		this.inicioContrato = inicioContrato;
-	}
-	
-	
-	
 }

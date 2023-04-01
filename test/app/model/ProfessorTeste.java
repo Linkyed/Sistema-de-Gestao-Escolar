@@ -9,6 +9,7 @@ import java.sql.Date;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import app.modelo.Funcionalidades;
 import app.modelo.Professor;
 
 public class ProfessorTeste {
@@ -18,7 +19,7 @@ public class ProfessorTeste {
 	@BeforeEach
 	void iniciarProfessor() throws ParseException {
 		Date sqlDate = Funcionalidades.cirarDataSQL(10, 3, 2023);
-		prof = new Professor("Josias", "Masculino", "josias@gmail.com", 5050.50, sqlDate);
+		prof = new Professor("Josias", "93774484090", "Masculino", "josias@gmail.com", 5050.50, sqlDate);
 	}
 	
 	@Test
@@ -135,6 +136,26 @@ public class ProfessorTeste {
 		Date sqlDate = Funcionalidades.cirarDataSQL(31, 3, 2023);
 		prof.setInicioContrato(sqlDate);
 		assertEquals(prof.getInicioContrato(), sqlDate);
+	}
+	
+	@Test
+	void alterarCPF1() {
+		prof.setCPF("08023420518");
+		assertEquals(prof.getCPF(), "08023420518");
+	}
+	
+	@Test
+	void alterarCPF2() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			prof.setCPF("000123456789");
+		});
+	}
+	
+	@Test
+	void alterarCPF3() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			prof.setCPF("10");
+		});
 	}
 	
 }
