@@ -83,7 +83,7 @@ public class Disciplina {
 		
 		if (disiplina.equals(AreasDeConhecimento.GEOGRAFIA)) this.nome = "Geografia";
 		else if (disiplina.equals(AreasDeConhecimento.ARTES)) this.nome = "Artes";
-		else if (disiplina.equals(AreasDeConhecimento.BIOLOGIA)) this.nome = "Bioloia";
+		else if (disiplina.equals(AreasDeConhecimento.BIOLOGIA)) this.nome = "Biologia";
 		else if (disiplina.equals(AreasDeConhecimento.EDUCACAO_FISICA)) this.nome = "Educação Física";
 		else if (disiplina.equals(AreasDeConhecimento.FILOSOFIA)) this.nome = "Filosofia";
 		else if (disiplina.equals(AreasDeConhecimento.HISTORIA)) this.nome = "História";
@@ -103,8 +103,10 @@ public class Disciplina {
 	}
 
 	public void setCargaHoraria(Integer cargaHoraria) {
-		if (cargaHoraria < 0) throw new IllegalArgumentException("Carga Horaria negativa.");
-		if (cargaHoraria > 200) throw new IllegalArgumentException("Carga Horaria passou do limite.");
+		if(cargaHoraria == null) throw new NullPointerException("Carga horaria nula.");
+		if (cargaHoraria < 0) throw new IllegalArgumentException("Carga horaria negativa.");
+		if ("fundamental".equalsIgnoreCase(nivelDaDisciplina) && cargaHoraria > 160) throw new IllegalArgumentException("Carga Horaria passou do limite.");
+		if ("ensino medio".equalsIgnoreCase(nivelDaDisciplina) && cargaHoraria > 200) throw new IllegalArgumentException("Carga Horaria passou do limite.");
 		this.cargaHoraria = cargaHoraria;
 	}
 
@@ -113,6 +115,7 @@ public class Disciplina {
 	}
 
 	public void setNivelDaDisciplina(NivelEscolar nvEsc) {
+		if(nvEsc == null) throw new NullPointerException("Nivel escolar nulo.");
 		if (nvEsc.equals(NivelEscolar.FUNDAMENTAL)) {
 			this.nivelDaDisciplina = "Fundamental";
 		} else if (nvEsc.equals(NivelEscolar.ENSINO_MEDIO)) {
