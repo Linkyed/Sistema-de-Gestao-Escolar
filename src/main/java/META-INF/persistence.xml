@@ -11,7 +11,7 @@
             <property name="javax.persistence.jdbc.user"
                 value=""/>
             <property name="javax.persistence.jdbc.password"
-                value="s"/>
+                value=""/>
             
             <property name="hibernate.dialect"
                 value="org.hibernate.dialect.MySQL57Dialect"/>
