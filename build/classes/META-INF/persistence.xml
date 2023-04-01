@@ -5,13 +5,13 @@
 		<class>app.modelo.Professor</class> 
         <properties>
             <property name="javax.persistence.jdbc.driver" 	
-                value="com.mysql.jdbc.Driver"/>
+                value="com.mysql.jdbc.Driver"/> 
             <property name="javax.persistence.jdbc.url"
                 value=""/>
             <property name="javax.persistence.jdbc.user"
                 value=""/>
             <property name="javax.persistence.jdbc.password"
-                value=""/>
+                value="s"/>
             
             <property name="hibernate.dialect"
                 value="org.hibernate.dialect.MySQL57Dialect"/>
