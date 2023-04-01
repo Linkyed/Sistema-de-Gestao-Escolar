@@ -43,7 +43,7 @@ public class Professor {
 		
 	}
 	
-	public Professor(String nome, String CPF, String sexo, String email, AreasDeFormacao areaDeFormacao, Double salario, Date inicioContrato) {
+	public Professor(String nome, String CPF, String sexo, String email, AreasDeConhecimento areaDeFormacao, Double salario, Date inicioContrato) {
 		setNome(nome);
 		setCPF(CPF);
 		setSexo(sexo);
@@ -104,23 +104,23 @@ public class Professor {
 		return areaDeFormacao;
 	}
 
-	public void setAreaDeFormacao(AreasDeFormacao areaDeFormacao) {
+	public void setAreaDeFormacao(AreasDeConhecimento areaDeFormacao) {
 		if (areaDeFormacao == null) throw new NullPointerException("Area de Formação nula.");
 		
-		if (areaDeFormacao.equals(AreasDeFormacao.GEOGRAFIA)) this.areaDeFormacao = "Geografia";
-		else if (areaDeFormacao.equals(AreasDeFormacao.ARTES)) this.areaDeFormacao = "Artes";
-		else if (areaDeFormacao.equals(AreasDeFormacao.BIOLOGIA)) this.areaDeFormacao = "Bioloia";
-		else if (areaDeFormacao.equals(AreasDeFormacao.EDUCACAO_FISICA)) this.areaDeFormacao = "Educação Física";
-		else if (areaDeFormacao.equals(AreasDeFormacao.FILOSOFIA)) this.areaDeFormacao = "Filosofia";
-		else if (areaDeFormacao.equals(AreasDeFormacao.HISTORIA)) this.areaDeFormacao = "História";
-		else if (areaDeFormacao.equals(AreasDeFormacao.MATEMATICA)) this.areaDeFormacao = "Matemática";
-		else if (areaDeFormacao.equals(AreasDeFormacao.QUIMICA)) this.areaDeFormacao = "Química";
-		else if (areaDeFormacao.equals(AreasDeFormacao.SOCIOLOGIA)) this.areaDeFormacao = "Sociologia";
-		else if (areaDeFormacao.equals(AreasDeFormacao.LINGUA_PORTUGUESA)) this.areaDeFormacao = "Língua Portuguesa";
-		else if (areaDeFormacao.equals(AreasDeFormacao.LITERATURA)) this.areaDeFormacao = "Literatura";
-		else if (areaDeFormacao.equals(AreasDeFormacao.LINGUA_INGLESA)) this.areaDeFormacao = "Língua Inglesa";
-		else if (areaDeFormacao.equals(AreasDeFormacao.LINGUA_ALEMA)) this.areaDeFormacao = "Língua Alemã";
-		else if (areaDeFormacao.equals(AreasDeFormacao.LINGUA_FRANCESA)) this.areaDeFormacao = "Língua Francesa";
+		if (areaDeFormacao.equals(AreasDeConhecimento.GEOGRAFIA)) this.areaDeFormacao = "Geografia";
+		else if (areaDeFormacao.equals(AreasDeConhecimento.ARTES)) this.areaDeFormacao = "Artes";
+		else if (areaDeFormacao.equals(AreasDeConhecimento.BIOLOGIA)) this.areaDeFormacao = "Bioloia";
+		else if (areaDeFormacao.equals(AreasDeConhecimento.EDUCACAO_FISICA)) this.areaDeFormacao = "Educação Física";
+		else if (areaDeFormacao.equals(AreasDeConhecimento.FILOSOFIA)) this.areaDeFormacao = "Filosofia";
+		else if (areaDeFormacao.equals(AreasDeConhecimento.HISTORIA)) this.areaDeFormacao = "História";
+		else if (areaDeFormacao.equals(AreasDeConhecimento.MATEMATICA)) this.areaDeFormacao = "Matemática";
+		else if (areaDeFormacao.equals(AreasDeConhecimento.QUIMICA)) this.areaDeFormacao = "Química";
+		else if (areaDeFormacao.equals(AreasDeConhecimento.SOCIOLOGIA)) this.areaDeFormacao = "Sociologia";
+		else if (areaDeFormacao.equals(AreasDeConhecimento.LINGUA_PORTUGUESA)) this.areaDeFormacao = "Língua Portuguesa";
+		else if (areaDeFormacao.equals(AreasDeConhecimento.LITERATURA)) this.areaDeFormacao = "Literatura";
+		else if (areaDeFormacao.equals(AreasDeConhecimento.LINGUA_INGLESA)) this.areaDeFormacao = "Língua Inglesa";
+		else if (areaDeFormacao.equals(AreasDeConhecimento.LINGUA_ALEMA)) this.areaDeFormacao = "Língua Alemã";
+		else if (areaDeFormacao.equals(AreasDeConhecimento.LINGUA_FRANCESA)) this.areaDeFormacao = "Língua Francesa";
 	}
 
 	public Double getSalario() {
