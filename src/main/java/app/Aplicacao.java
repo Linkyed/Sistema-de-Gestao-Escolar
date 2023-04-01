@@ -11,11 +11,12 @@ import app.modelo.infra.ProfessorDAO;
 
 public class Aplicacao {
 	public static void main(String[] args) throws ParseException {
-		//Iniciando Tabelas
+		//Criando Data
 		DateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 		Date data = formato.parse("17/10/2002");
 		Timestamp salvar = new Timestamp(data.getTime());
 		
+		//Iniciando Tabelas
 		Professor p = new Professor("Estefani Grilo Aguiar", "Masculino", "estefani@gmail.com", 4550.0, salvar);
 		ProfessorDAO dao = new ProfessorDAO();
 		
