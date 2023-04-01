@@ -1,6 +1,5 @@
 package app.modelo;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
