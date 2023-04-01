@@ -161,24 +161,97 @@ public class ProfessorTeste {
 	
 	@Test
 	void alterarAreaDeFormacao1() {
-		prof.setAreaDeFormacao(AreasDeConhecimento.LINGUA_ALEMA);
-		assertEquals("Língua Alemã", prof.getAreaDeFormacao());
+		prof.setAreaDeFormacao(AreasDeConhecimento.GEOGRAFIA);
+		assertEquals("Geografia", prof.getAreaDeFormacao());
 	}
 	
 	@Test
 	void alterarAreaDeFormacao2() {
+		prof.setAreaDeFormacao(AreasDeConhecimento.ARTES);
+		assertEquals("Artes", prof.getAreaDeFormacao());
+	}
+	
+	@Test
+	void alterarAreaDeFormacao3() {
+		prof.setAreaDeFormacao(AreasDeConhecimento.BIOLOGIA);
+		assertEquals("Biologia", prof.getAreaDeFormacao());
+	}
+	
+	@Test
+	void alterarAreaDeFormacao4() {
+		prof.setAreaDeFormacao(AreasDeConhecimento.EDUCACAO_FISICA);
+		assertEquals("Educação Física", prof.getAreaDeFormacao());
+	}
+	
+	@Test
+	void alterarAreaDeFormacao5() {
+		prof.setAreaDeFormacao(AreasDeConhecimento.FILOSOFIA);
+		assertEquals("Filosofia", prof.getAreaDeFormacao());
+	}
+	
+	@Test
+	void alterarAreaDeFormacao6() {
+		prof.setAreaDeFormacao(AreasDeConhecimento.HISTORIA);
+		assertEquals("História", prof.getAreaDeFormacao());
+	}
+	
+	@Test
+	void alterarAreaDeFormacao7() {
+		prof.setAreaDeFormacao(AreasDeConhecimento.MATEMATICA);
+		assertEquals("Matemática", prof.getAreaDeFormacao());
+	}
+	
+	@Test
+	void alterarAreaDeFormacao8() {
+		prof.setAreaDeFormacao(AreasDeConhecimento.FISICA);
+		assertEquals("Física", prof.getAreaDeFormacao());
+	}
+	
+	@Test
+	void alterarAreaDeFormacao9() {
+		prof.setAreaDeFormacao(AreasDeConhecimento.QUIMICA);
+		assertEquals("Química", prof.getAreaDeFormacao());
+	}
+	
+	@Test
+	void alterarAreaDeFormacao10() {
+		prof.setAreaDeFormacao(AreasDeConhecimento.SOCIOLOGIA);
+		assertEquals("Sociologia", prof.getAreaDeFormacao());
+	}
+	
+	@Test
+	void alterarAreaDeFormacao11() {
+		prof.setAreaDeFormacao(AreasDeConhecimento.LINGUA_PORTUGUESA);
+		assertEquals("Língua Portuguesa", prof.getAreaDeFormacao());
+	}
+	
+	@Test
+	void alterarAreaDeFormacao12() {
+		prof.setAreaDeFormacao(AreasDeConhecimento.LITERATURA);
+		assertEquals("Literatura", prof.getAreaDeFormacao());
+	}
+	
+	@Test
+	void alterarAreaDeFormacao13() {
 		prof.setAreaDeFormacao(AreasDeConhecimento.LINGUA_INGLESA);
 		assertEquals("Língua Inglesa", prof.getAreaDeFormacao());
 	}
 	
 	@Test
-	void alterarAreaDeFormacao3() {
+	void alterarAreaDeFormacao14() {
+		prof.setAreaDeFormacao(AreasDeConhecimento.LINGUA_ALEMA);
+		assertEquals("Língua Alemã", prof.getAreaDeFormacao());
+	}
+	
+	@Test
+	void alterarAreaDeFormacao15() {
 		prof.setAreaDeFormacao(AreasDeConhecimento.LINGUA_FRANCESA);
 		assertEquals("Língua Francesa", prof.getAreaDeFormacao());
 	}
-
+	
+	
 	@Test
-	void alterarAreaDeFormacao4() {
+	void alterarAreaDeFormacao16() {
 		assertThrows(NullPointerException.class, () -> {
 			prof.setAreaDeFormacao(null);
 		});

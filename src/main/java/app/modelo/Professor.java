@@ -109,11 +109,12 @@ public class Professor {
 		
 		if (areaDeFormacao.equals(AreasDeConhecimento.GEOGRAFIA)) this.areaDeFormacao = "Geografia";
 		else if (areaDeFormacao.equals(AreasDeConhecimento.ARTES)) this.areaDeFormacao = "Artes";
-		else if (areaDeFormacao.equals(AreasDeConhecimento.BIOLOGIA)) this.areaDeFormacao = "Bioloia";
+		else if (areaDeFormacao.equals(AreasDeConhecimento.BIOLOGIA)) this.areaDeFormacao = "Biologia";
 		else if (areaDeFormacao.equals(AreasDeConhecimento.EDUCACAO_FISICA)) this.areaDeFormacao = "Educação Física";
 		else if (areaDeFormacao.equals(AreasDeConhecimento.FILOSOFIA)) this.areaDeFormacao = "Filosofia";
 		else if (areaDeFormacao.equals(AreasDeConhecimento.HISTORIA)) this.areaDeFormacao = "História";
 		else if (areaDeFormacao.equals(AreasDeConhecimento.MATEMATICA)) this.areaDeFormacao = "Matemática";
+		else if (areaDeFormacao.equals(AreasDeConhecimento.FISICA)) this.areaDeFormacao = "Física";
 		else if (areaDeFormacao.equals(AreasDeConhecimento.QUIMICA)) this.areaDeFormacao = "Química";
 		else if (areaDeFormacao.equals(AreasDeConhecimento.SOCIOLOGIA)) this.areaDeFormacao = "Sociologia";
 		else if (areaDeFormacao.equals(AreasDeConhecimento.LINGUA_PORTUGUESA)) this.areaDeFormacao = "Língua Portuguesa";

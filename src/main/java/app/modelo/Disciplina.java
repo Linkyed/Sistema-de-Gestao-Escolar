@@ -88,6 +88,7 @@ public class Disciplina {
 		else if (disiplina.equals(AreasDeConhecimento.FILOSOFIA)) this.nome = "Filosofia";
 		else if (disiplina.equals(AreasDeConhecimento.HISTORIA)) this.nome = "História";
 		else if (disiplina.equals(AreasDeConhecimento.MATEMATICA)) this.nome = "Matemática";
+		else if (disiplina.equals(AreasDeConhecimento.FISICA)) this.nome = "Física";
 		else if (disiplina.equals(AreasDeConhecimento.QUIMICA)) this.nome = "Química";
 		else if (disiplina.equals(AreasDeConhecimento.SOCIOLOGIA)) this.nome = "Sociologia";
 		else if (disiplina.equals(AreasDeConhecimento.LINGUA_PORTUGUESA)) this.nome = "Língua Portuguesa";

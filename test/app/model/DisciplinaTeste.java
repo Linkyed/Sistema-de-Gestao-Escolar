@@ -63,48 +63,54 @@ public class DisciplinaTeste {
 	
 	@Test
 	void alterarNome8() {
+		dis.setNome(AreasDeConhecimento.FISICA);
+		assertEquals("Física", dis.getNome());
+	}
+	
+	@Test
+	void alterarNome9() {
 		dis.setNome(AreasDeConhecimento.QUIMICA);
 		assertEquals("Química", dis.getNome());
 	}
 	
 	@Test
-	void alterarNome9() {
+	void alterarNome10() {
 		dis.setNome(AreasDeConhecimento.SOCIOLOGIA);
 		assertEquals("Sociologia", dis.getNome());
 	}
 	
 	@Test
-	void alterarNome10() {
+	void alterarNome11() {
 		dis.setNome(AreasDeConhecimento.LINGUA_PORTUGUESA);
 		assertEquals("Língua Portuguesa", dis.getNome());
 	}
 	
 	@Test
-	void alterarNome11() {
+	void alterarNome12() {
 		dis.setNome(AreasDeConhecimento.LITERATURA);
 		assertEquals("Literatura", dis.getNome());
 	}
 	
 	@Test
-	void alterarNome12() {
+	void alterarNome13() {
 		dis.setNome(AreasDeConhecimento.LINGUA_INGLESA);
 		assertEquals("Língua Inglesa", dis.getNome());
 	}
 	
 	@Test
-	void alterarNome13() {
+	void alterarNome14() {
 		dis.setNome(AreasDeConhecimento.LINGUA_ALEMA);
 		assertEquals("Língua Alemã", dis.getNome());
 	}
 	
 	@Test
-	void alterarNome14() {
+	void alterarNome15() {
 		dis.setNome(AreasDeConhecimento.LINGUA_FRANCESA);
 		assertEquals("Língua Francesa", dis.getNome());
 	}
 	
 	@Test
-	void alterarNome15() {
+	void alterarNome16() {
 		assertThrows(NullPointerException.class, () -> {
 			dis.setNome(null);
 		});
