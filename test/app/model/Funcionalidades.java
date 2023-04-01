@@ -1,5 +1,7 @@
 package app.model;
 
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,7 +20,7 @@ public class Funcionalidades {
 	}
 	
 	
-	 public static boolean verificarEmail(String email) {
+	static public boolean verificarEmail(String email) {
 	        Matcher matcher = PADRAO_EMAIL.matcher(email);
 	        return matcher.matches();
 	    }
@@ -29,4 +31,15 @@ public class Funcionalidades {
 		 if (texto.isEmpty()) throw new IllegalArgumentException("String vazia.");
 		 return texto;
 	 }
+	 
+	 static public Date cirarDataSQL(int dia, int mes, int ano) {
+		Calendar calendario = Calendar.getInstance();
+		calendario.set(ano, mes-1, dia);
+		java.util.Date data = calendario.getTime();
+		Date sqlData = new java.sql.Date(data.getTime());
+		
+		return sqlData;
+	 }
+	 
+	 
 }

@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -20,10 +21,11 @@ public class ProfessorTeste {
 	
 	@BeforeEach
 	void iniciarProfessor() throws ParseException {
-		DateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-		Date data = formato.parse("17/10/2002");
-		Timestamp dataHora = new Timestamp(data.getTime());
-		prof = new Professor("Josias", "Masculino", "josias@gmail.com", 5050.50, dataHora);
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(2023, Calendar.MONTH, 28);
+		Date date = calendar.getTime();
+		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+		prof = new Professor("Josias", "Masculino", "josias@gmail.com", 5050.50, sqlDate);
 	}
 	
 	@Test
@@ -89,6 +91,26 @@ public class ProfessorTeste {
 		assertThrows(IllegalArgumentException.class, () -> {
 			prof.setEmail("josiasbonifaiogmail.com");
 		});
+	}
+	
+	@Test
+	void alterarSalario1() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			prof.setSalario(-100.0);
+		});
+	}
+	
+	@Test
+	void alterarSalario2() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			prof.setSalario(1000000000.0);
+		});
+	}
+	
+	@Test
+	void alterarSalario3() {
+		prof.setSalario(11520.20);
+		assertEquals(11520.20, prof.getSalario());
 	}
 	
 }

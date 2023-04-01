@@ -1,5 +1,6 @@
 package app.modelo;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -32,13 +33,13 @@ public class Professor {
 	private Double salario;
 	
 	@Column(nullable = false)
-	private Timestamp inicioContrato;
+	private Date inicioContrato;
 	
 	public Professor() {
 		
 	}
 	
-	public Professor(String nome, String sexo, String email, Double salario, Timestamp inicioContrato) {
+	public Professor(String nome, String sexo, String email, Double salario, Date inicioContrato) {
 		this.nome = nome;
 		this.sexo = sexo;
 		this.email = email;
@@ -91,14 +92,19 @@ public class Professor {
 	}
 
 	public void setSalario(Double salario) {
+		if (salario > 999999999.99 ) {
+			throw new IllegalArgumentException("Salario ultrapassou o limite.");
+		} else if(salario < 0) {
+			throw new IllegalArgumentException("Salario negativo.");
+		}
 		this.salario = salario;
 	}
 
-	public Timestamp getInicioContrato() {
+	public Date getInicioContrato() {
 		return inicioContrato;
 	}
 
-	public void setInicioContrato(Timestamp inicioContrato) {
+	public void setInicioContrato(Date inicioContrato) {
 		this.inicioContrato = inicioContrato;
 	}
 	
