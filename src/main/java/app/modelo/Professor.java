@@ -163,6 +163,27 @@ public class Professor {
 		return Objects.equals(CPF, other.CPF);
 	}
 	
-	
+	static public AreasDeConhecimento formacaoString(String areConhe) {
+		if (areConhe == null) throw new NullPointerException("Area de Formação nula.");
+		
+		if ("geografia".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.GEOGRAFIA;
+		else if ("artes".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.ARTES;
+		else if ("biologia".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.BIOLOGIA;
+		else if ("educação física".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.EDUCACAO_FISICA;
+		else if ("filosofia".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.FILOSOFIA;
+		else if ("história".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.HISTORIA;
+		else if ("matemática".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.MATEMATICA;
+		else if ("física".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.FISICA;
+		else if ("química".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.QUIMICA;
+		else if ("sociologia".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.SOCIOLOGIA;
+		else if ("língua portuguesa".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.LINGUA_PORTUGUESA;
+		else if ("literatura".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.LITERATURA;
+		else if ("língua inglesa".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.LINGUA_INGLESA;
+		else if ("língua alemã".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.LINGUA_ALEMA;
+		else if ("língua francesa".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.LINGUA_FRANCESA;
+		else {
+			return null;
+		}
+	}
 	
 }

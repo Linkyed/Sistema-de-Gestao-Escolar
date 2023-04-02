@@ -30,6 +30,16 @@ public class DAO<E> {
 		return this;
 	}
 	
+	DAO<E> mergeMudanca(E entidade){
+		em.merge(entidade);
+		return this;
+	}
+	
+	DAO<E> mergeAtomico(E entidade){
+		abrirTransacao().mergeMudanca(entidade).fecharTransacao();
+		return this;
+	}
+	
 	DAO<E> fecharTransacao(){
 		em.getTransaction().commit();
 		return this;

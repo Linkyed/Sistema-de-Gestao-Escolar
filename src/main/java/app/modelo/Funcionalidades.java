@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 public class Funcionalidades {
 	
@@ -35,14 +36,33 @@ public class Funcionalidades {
 		 return matcher.matches();
 	 }
 	 
-	 static public Date cirarDataSQL(int dia, int mes, int ano) {
-		verificarData(dia, mes, ano);
+	 //Formato da data dd-mm-aaaa
+	 static public Date cirarDataSQL(String date) {
+		Integer[] dataSeparada = converterStringPraData(date);
+		verificarData(dataSeparada[0], dataSeparada[1], dataSeparada[2]);
 		Calendar calendario = Calendar.getInstance();
-		calendario.set(ano, mes-1, dia);
+		calendario.set(dataSeparada[2], dataSeparada[1]-1, dataSeparada[0]);
 		java.util.Date data = calendario.getTime();
 		Date sqlData = new java.sql.Date(data.getTime());
 		
 		return sqlData;
+	 }
+	 
+	 static public Integer[] converterStringPraData(String data) {
+		 Integer[] dataVetor = new Integer[3];
+		 try {
+			 String[] dataSeparada = data.split("-");
+			 int index = 0;
+			 for (String parteData: dataSeparada) {
+				 dataVetor[index] = Integer.parseInt(parteData);
+				 index++;
+			 }
+			 return dataVetor;
+		 } catch (PatternSyntaxException e)  {
+			throw new IllegalArgumentException("Formato da Data errado.");
+		} catch (NumberFormatException e) {
+			throw new IllegalArgumentException("Valores de data errado.");
+		}
 	 }
 	 
 	 static public boolean verificarEscritaCPF(String CPF) {
@@ -95,8 +115,16 @@ public class Funcionalidades {
 			 throw new IllegalArgumentException("Dia invalido");
 		 } else if (mes % 2 != 0 && (dia < 1 || dia > 31)) {
 			 throw new IllegalArgumentException("Dia invalido");
-		 }
-		 
+		 } 
 	 }
-
+	 
+	 static public Double converterStringPraDouble(String numero) {
+		try {
+			Double num = Double.parseDouble(numero);
+			return num;
+		} catch (NumberFormatException e) {
+			throw e;
+		}
+	 }
+	 
 }

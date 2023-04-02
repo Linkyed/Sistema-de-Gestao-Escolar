@@ -4,6 +4,7 @@ import java.sql.Date;
 import app.excecao.RegistroDuplicadoException;
 import app.modelo.Aluno;
 import app.modelo.AreasDeConhecimento;
+import app.modelo.AtributosProfessor;
 import app.modelo.Disciplina;
 import app.modelo.Funcionalidades;
 import app.modelo.NivelEscolar;
@@ -15,7 +16,7 @@ import app.modelo.infra.ProfessorDAO;
 public class Aplicacao {
 	public static void main(String[] args) {
 		//Criando Data
-		Date sqlDate = Funcionalidades.cirarDataSQL(10, 3, 2023);
+		Date sqlDate = Funcionalidades.cirarDataSQL("28-02-2023");
 				
 		
 		//Iniciando Tabelas
@@ -26,12 +27,16 @@ public class Aplicacao {
 		ProfessorDAO profDAO = new ProfessorDAO();
 		AlunoDAO alunDAO = new AlunoDAO();
 		DisciplinaDAO discDAO = new DisciplinaDAO();
+
+		//profDAO.criarProfessor(p);
 		
 		try {
-			profDAO.criarProfessor(p);			
-		} catch (RegistroDuplicadoException e) {
-			System.out.println("Prof duplicado");
+			profDAO.Atualizar("93774484090", AtributosProfessor.CPF, "05959533014");
+		} catch (Exception e) {
+			System.out.println("A VIDA É INJUSTA");
 		}
+		
+		//System.out.println(profDAO.getProfessorPorEmail("estefani@gmail.com").getNome());
 		//alunDAO.incluirAtomico(a);
 		//discDAO.incluirAtomico(d);
 		//profDAO.removerEntidade(p);

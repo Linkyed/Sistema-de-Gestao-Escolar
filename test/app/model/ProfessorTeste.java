@@ -19,7 +19,7 @@ public class ProfessorTeste {
 	
 	@BeforeEach
 	void iniciarProfessor() throws ParseException {
-		Date sqlDate = Funcionalidades.cirarDataSQL(10, 3, 2023);
+		Date sqlDate = Funcionalidades.cirarDataSQL("10-03-2023");
 		prof = new Professor("Josias", "93774484090", "Masculino", "josias@gmail.com", AreasDeConhecimento.GEOGRAFIA, 5050.50, sqlDate);
 	}
 	
@@ -111,7 +111,7 @@ public class ProfessorTeste {
 	@Test
 	void alterarContrato1() {
 		assertThrows(IllegalArgumentException.class, () -> {
-			Date sqlDate = Funcionalidades.cirarDataSQL(29, 2, 2023);
+			Date sqlDate = Funcionalidades.cirarDataSQL("29-02-2023");
 			prof.setInicioContrato(sqlDate);
 		});
 	}
@@ -119,7 +119,7 @@ public class ProfessorTeste {
 	@Test
 	void alterarContrato2() {
 		assertThrows(IllegalArgumentException.class, () -> {
-			Date sqlDate = Funcionalidades.cirarDataSQL(32, 3, 2023);
+			Date sqlDate = Funcionalidades.cirarDataSQL("32-03-2023");
 			prof.setInicioContrato(sqlDate);
 		});
 	}
@@ -127,14 +127,14 @@ public class ProfessorTeste {
 	@Test
 	void alterarContrato3() {
 		assertThrows(IllegalArgumentException.class, () -> {
-			Date sqlDate = Funcionalidades.cirarDataSQL(31, 4, 2023);
+			Date sqlDate = Funcionalidades.cirarDataSQL("31-04-2023");
 			prof.setInicioContrato(sqlDate);
 		});
 	}
 	
 	@Test
 	void alterarContrato4() {
-		Date sqlDate = Funcionalidades.cirarDataSQL(31, 3, 2023);
+		Date sqlDate = Funcionalidades.cirarDataSQL("31-03-2023");
 		prof.setInicioContrato(sqlDate);
 		assertEquals(prof.getInicioContrato(), sqlDate);
 	}

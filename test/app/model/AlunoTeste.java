@@ -16,7 +16,7 @@ public class AlunoTeste {
 	
 	@BeforeEach
 	void iniciarAluno(){
-		Date sqlDate = Funcionalidades.cirarDataSQL(10, 3, 2023);
+		Date sqlDate = Funcionalidades.cirarDataSQL("10-03-2023");
 		alun = new Aluno("Thales ViTOr Costa", "05959533014", "Masculino", "thales@gmail.com", sqlDate);
 	}
 	
@@ -108,7 +108,7 @@ public class AlunoTeste {
 	@Test
 	void alterarContrato1() {
 		assertThrows(IllegalArgumentException.class, () -> {
-			Date sqlDate = Funcionalidades.cirarDataSQL(29, 2, 2023);
+			Date sqlDate = Funcionalidades.cirarDataSQL("29-02-2023");
 			alun.setDataNacimento(sqlDate);
 		});
 	}
@@ -116,7 +116,7 @@ public class AlunoTeste {
 	@Test
 	void alterarContrato2() {
 		assertThrows(IllegalArgumentException.class, () -> {
-			Date sqlDate = Funcionalidades.cirarDataSQL(32, 3, 2023);
+			Date sqlDate = Funcionalidades.cirarDataSQL("32-03-2023");
 			alun.setDataNacimento(sqlDate);
 		});
 	}
@@ -124,14 +124,14 @@ public class AlunoTeste {
 	@Test
 	void alterarContrato3() {
 		assertThrows(IllegalArgumentException.class, () -> {
-			Date sqlDate = Funcionalidades.cirarDataSQL(31, 4, 2023);
+			Date sqlDate = Funcionalidades.cirarDataSQL("31-04-2023");
 			alun.setDataNacimento(sqlDate);
 		});
 	}
 	
 	@Test
 	void alterarContrato4() {
-		Date sqlDate = Funcionalidades.cirarDataSQL(31, 3, 2023);
+		Date sqlDate = Funcionalidades.cirarDataSQL("31-03-2023");
 		alun.setDataNacimento(sqlDate);
 		assertEquals(alun.getDataNacimento(), sqlDate);
 	}
