@@ -2,6 +2,7 @@ package app.modelo;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -143,6 +144,23 @@ public class Professor {
 
 	public void setInicioContrato(Date inicioContrato) {
 		this.inicioContrato = inicioContrato;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(CPF);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Professor other = (Professor) obj;
+		return Objects.equals(CPF, other.CPF);
 	}
 	
 	
