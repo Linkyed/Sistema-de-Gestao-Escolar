@@ -43,6 +43,15 @@ public class Funcionalidades {
 		}
 		return s;
 	};
+	
+	public static Function<String, String> testarSoNumeros = s -> {
+		for (int i = 0; i < s.length(); i++) {
+			if (!Character.isDigit(s.charAt(i)) && !Character.isSpaceChar(s.charAt(i))) {
+				throw new IllegalArgumentException("Só numeros.");
+			}
+		}
+		return s;
+	};
 
 	static public String primeiraLetraMaiuscula(String texto) {
 		texto = testarStringNula.andThen(testarStringVazia).apply(texto);
@@ -166,25 +175,14 @@ public class Funcionalidades {
 	}
 
 	static public Integer converterStringPraInteger(String numero) {
+		numero = testarStringNula.andThen(testarStringVazia)
+				.andThen(testarSoNumeros).apply(numero);
 		try {
 			Integer num = Integer.parseInt(numero);
 			return num;
 		} catch (NumberFormatException e) {
 			throw e;
 		}
-	}
-
-	static public boolean stringSoComLetras(String texto) {
-		texto = verificarStringVazia(texto);
-
-		boolean verificidaror = true;
-		for (int i = 0; i < texto.length(); i++) {
-			if (!Character.isLetter(texto.charAt(i)) && !Character.isSpaceChar(texto.charAt(i))) {
-				verificidaror = false;
-				return verificidaror;
-			}
-		}
-		return verificidaror;
 	}
 
 	static public AreasDeConhecimento stringParaAreaConhecimento(String areConhe) {
@@ -264,14 +262,27 @@ public class Funcionalidades {
 	}
 
 	static public NivelEscolar StringParaNivelEscolar(String nvEsc) {
-		Funcionalidades.testarObjetoNulo.apply(nvEsc);
+		nvEsc = Funcionalidades.testarStringNula
+				.andThen(testarStringVazia).apply(nvEsc);
 
 		if ("fundamental".equalsIgnoreCase(nvEsc)) {
 			return NivelEscolar.FUNDAMENTAL;
 		} else if ("ensino medio".equalsIgnoreCase(nvEsc)) {
 			return NivelEscolar.ENSINO_MEDIO;
 		} else {
-			throw new IllegalArgumentException("Disciplina invalida.");
+			throw new IllegalArgumentException("Nivel Escolar invalido.");
+		}
+	}
+	
+	static public String nivelEscolarParaString(NivelEscolar nvEsc) {
+		Funcionalidades.testarObjetoNulo.apply(nvEsc);
+
+		if (NivelEscolar.FUNDAMENTAL.equals(nvEsc)) {
+			return "Fundamental";
+		} else if (NivelEscolar.ENSINO_MEDIO.equals(nvEsc)) {
+			return "Ensino Medio";
+		} else {
+			throw new IllegalArgumentException("Nivel Escolar invalido.");
 		}
 	}
 

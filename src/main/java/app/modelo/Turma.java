@@ -1,5 +1,8 @@
 package app.modelo;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Turma {
 	
 	private Long id;
@@ -11,6 +14,17 @@ public class Turma {
 	private String letraTurma;
 	
 	private String sala;
+
+	public Turma() {
+		
+	}
+	
+	public Turma(NivelEscolar tipoEnsino, String letraTurma, String sala) {
+		setTipoEnsino(tipoEnsino);
+		setLetraTurma(letraTurma);
+		setSala(sala);
+		setCodigo();
+	}
 
 	public Long getId() {
 		return id;
@@ -24,8 +38,19 @@ public class Turma {
 		return codigo;
 	}
 
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
+	private void setCodigo() {
+		Funcionalidades.testarObjetoNulo.apply(tipoEnsino);
+		Funcionalidades.testarObjetoNulo.apply(letraTurma);
+		
+		String primeiraParte = "";
+		if (tipoEnsino.equals(NivelEscolar.ENSINO_MEDIO)) {
+			primeiraParte = "EM";
+		} else if (tipoEnsino.equals(NivelEscolar.FUNDAMENTAL)) {
+			primeiraParte = "EF";
+		}
+		
+		this.codigo = String.format("%s%s", primeiraParte, letraTurma);
+		
 	}
 
 	public NivelEscolar getTipoEnsino() {
@@ -33,8 +58,11 @@ public class Turma {
 	}
 
 	public void setTipoEnsino(NivelEscolar tipoEnsino) {
-		if (tipoEnsino == null) throw new NullPointerException("Tipo Ensino nulo.");
+		Funcionalidades.testarObjetoNulo.apply(tipoEnsino);
 		this.tipoEnsino = tipoEnsino;
+		if (letraTurma != null) {
+			setCodigo();			
+		}
 	}
 
 	public String getLetraTurma() {
@@ -42,8 +70,14 @@ public class Turma {
 	}
 
 	public void setLetraTurma(String letraTurma) {
-		letraTurma = Funcionalidades.verificarStringVazia(letraTurma);
-		this.letraTurma = letraTurma;
+		letraTurma = Funcionalidades.testarStringNula
+				.andThen(Funcionalidades.testarStringVazia)
+				.andThen(Funcionalidades.testarSoLetras).apply(letraTurma);
+		if (letraTurma.length() != 1) throw new IllegalArgumentException("Letra da turma só pode conter 1 caracter.");
+		this.letraTurma = letraTurma.toUpperCase();
+		if (tipoEnsino != null) {
+			setCodigo();			
+		}
 	}
 
 	public String getSala() {
@@ -51,18 +85,9 @@ public class Turma {
 	}
 
 	public void setSala(String sala) {
+		sala = Funcionalidades.testarStringNula
+			.andThen(Funcionalidades.testarStringVazia).apply(sala);
 		this.sala = sala;
-	}
-	
-	static public NivelEscolar StringParaNivelEscolar (String nvEsc) {
-		if (nvEsc == null) throw new NullPointerException("String Nivel Escolar nula.");
-		if ("fundamental".equalsIgnoreCase(nvEsc)) {
-			return NivelEscolar.FUNDAMENTAL;
-		} else if ("ensino medio".equalsIgnoreCase(nvEsc)) {
-			return NivelEscolar.ENSINO_MEDIO;
-		} else {
-			throw new IllegalArgumentException("Disciplina invalida.");
-		}
 	}
 	
 }

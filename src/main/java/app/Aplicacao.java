@@ -30,7 +30,6 @@ public class Aplicacao {
 		AlunoDAO alunDAO = new AlunoDAO();
 		DisciplinaDAO discDAO = new DisciplinaDAO();
 		
-
 		//alunDAO.criarAluno(a);
 		//profDAO.criarProfessor(p);
 		//System.out.println(alunDAO.getAlunoPorMatricula("664320230228").getNome());
