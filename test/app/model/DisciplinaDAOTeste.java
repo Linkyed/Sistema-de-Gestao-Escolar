@@ -113,7 +113,7 @@ public class DisciplinaDAOTeste {
 	}
 	
 	@Test
-	void alteracaoNula4() {
+	void alteracaoVazia4() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			dao.Atualizar("ART01", AtributosDisciplina.NOME, "");
 		});
