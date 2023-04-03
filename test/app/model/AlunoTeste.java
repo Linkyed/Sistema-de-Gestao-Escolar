@@ -109,7 +109,7 @@ public class AlunoTeste {
 	void alterarContrato1() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			Date sqlDate = Funcionalidades.cirarDataSQL("29-02-2023");
-			alun.setDataNacimento(sqlDate);
+			alun.setDataNascimento(sqlDate);
 		});
 	}
 	
@@ -117,7 +117,7 @@ public class AlunoTeste {
 	void alterarContrato2() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			Date sqlDate = Funcionalidades.cirarDataSQL("32-03-2023");
-			alun.setDataNacimento(sqlDate);
+			alun.setDataNascimento(sqlDate);
 		});
 	}
 	
@@ -125,15 +125,15 @@ public class AlunoTeste {
 	void alterarContrato3() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			Date sqlDate = Funcionalidades.cirarDataSQL("31-04-2023");
-			alun.setDataNacimento(sqlDate);
+			alun.setDataNascimento(sqlDate);
 		});
 	}
 	
 	@Test
 	void alterarContrato4() {
 		Date sqlDate = Funcionalidades.cirarDataSQL("31-03-2023");
-		alun.setDataNacimento(sqlDate);
-		assertEquals(alun.getDataNacimento(), sqlDate);
+		alun.setDataNascimento(sqlDate);
+		assertEquals(alun.getDataNascimento(), sqlDate);
 	}
 	
 	@Test

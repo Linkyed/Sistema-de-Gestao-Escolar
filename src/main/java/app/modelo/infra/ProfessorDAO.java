@@ -41,6 +41,18 @@ public class ProfessorDAO extends DAO<Professor>{
 		}
 	}
 	
+	public Professor criarProfessor(Professor p) {
+		if (p == null) throw new NullPointerException("Objeto Professor nulo.");
+		try {
+			getProfessorPorCPF(p.getCPF());
+			getProfessorPorEmail(p.getEmail());
+			throw new RegistroDuplicadoException("O CPF ou Email do professor já existe no Banco de Dados.");
+		} catch (ConsultaNulaException e) {
+			incluirAtomico(p);
+			return p;
+		}
+	}
+	
 	public Professor removerProfessor(String CPF) {
 		Professor p = getProfessorPorCPF(CPF);
 		if (p != null) {
@@ -48,17 +60,6 @@ public class ProfessorDAO extends DAO<Professor>{
 			return p;			
 		} else {
 			return null;
-		}
-	}
-	
-	public Professor criarProfessor(Professor p) {
-		if (p == null) throw new NullPointerException("Objeto Professor nulo.");
-		try {
-			getProfessorPorCPF(p.getCPF());
-			throw new RegistroDuplicadoException("O CPF do professor já existe no Banco de Dados.");
-		} catch (ConsultaNulaException e) {
-			incluirAtomico(p);
-			return p;
 		}
 	}
 	

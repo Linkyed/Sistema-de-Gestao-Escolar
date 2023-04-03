@@ -60,7 +60,7 @@ public class DAO<E> {
 		return this;
 	}
 	
-	DAO<E> incluirAtomico(E entidade) {
+	public DAO<E> incluirAtomico(E entidade) {
 		return this.abrirTransacao().incluir(entidade).fecharTransacao();
 	}
 	

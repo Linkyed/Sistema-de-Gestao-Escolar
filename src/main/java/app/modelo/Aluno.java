@@ -28,11 +28,11 @@ public class Aluno {
 	@Column(nullable = false, length = 10)
 	private String sexo;
 	
-	@Column(nullable = false, length = 150, unique = true)
-	private String email;
+	@Column(nullable = false, length = 150)
+	private String emailDoResponsavel;
 	
 	@Column(nullable = false)
-	private Date dataNacimento;
+	private Date dataNascimento;
 
 	public Aluno() {
 		
@@ -43,7 +43,7 @@ public class Aluno {
 		setCPF(CPF);
 		setSexo(sexo);
 		setEmail(email);
-		setDataNacimento(dataNacimento);
+		setDataNascimento(dataNacimento);
 		setMatricula();
 	}
 
@@ -61,7 +61,7 @@ public class Aluno {
 
 	private void setMatricula() {
 		String resultado = funcaoGerarMatricua();
-		matricula = String.format("%s%s", resultado, dataNacimento.toString().replace("-", ""));
+		matricula = String.format("%s%s", resultado, dataNascimento.toString().replace("-", ""));
 	}
 
 	public String getNome() {
@@ -79,6 +79,9 @@ public class Aluno {
 	
 	public void setCPF(String CPF) {
 		this.CPF = Funcionalidades.verificarValidadeCPF(CPF);
+		if (this.CPF != null && this.dataNascimento != null) {			
+			setMatricula();
+		}
 	}
 	
 	public String getSexo() {
@@ -95,25 +98,28 @@ public class Aluno {
 	}
 
 	public String getEmail() {
-		return email;
+		return emailDoResponsavel;
 	}
 
 	public void setEmail(String email) {
 		email = Funcionalidades.verificarStringVazia(email);
 		if (!Funcionalidades.verificarEmail(email)) throw new IllegalArgumentException("Email invalido.");
-		this.email = email.toLowerCase();
+		this.emailDoResponsavel = email.toLowerCase();
 	}
 
-	public Date getDataNacimento() {
-		return dataNacimento;
+	public Date getDataNascimento() {
+		return dataNascimento;
 	}
 
-	public void setDataNacimento(Date dataNacimento) {
-		this.dataNacimento = dataNacimento;
+	public void setDataNascimento(Date dataNacimento) {
+		this.dataNascimento = dataNacimento;
+		if (this.CPF != null && this.dataNascimento != null) {			
+			setMatricula();
+		}
 	}
 	
 	private String funcaoGerarMatricua() {
-		int finalCPF = Integer.parseInt(CPF.substring(9));
+		int finalCPF = Integer.parseInt(CPF.substring(7));
 		int outrosDigitosSoma = 0;
 		
 		for (int i = 0; i < 9; i++) {
