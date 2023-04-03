@@ -31,9 +31,6 @@ public class Aplicacao {
 		DisciplinaDAO discDAO = new DisciplinaDAO();
 		
 
-		discDAO.criarDisciplina(new Disciplina(AreasDeConhecimento.MATEMATICA, 120, NivelEscolar.FUNDAMENTAL));
-		
-		System.out.println(discDAO.Atualizar("MAT01", AtributosDisciplina.NOME, "filosofia").getNome());
 		//alunDAO.criarAluno(a);
 		//profDAO.criarProfessor(p);
 		//System.out.println(alunDAO.getAlunoPorMatricula("664320230228").getNome());

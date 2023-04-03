@@ -128,12 +128,27 @@ public class Funcionalidades {
 	 }
 	 
 	 static public Integer converterStringPraInteger(String numero) {
-			try {
-				Integer num = Integer.parseInt(numero);
-				return num;
-			} catch (NumberFormatException e) {
-				throw e;
-			}
+		try {
+			Integer num = Integer.parseInt(numero);
+			return num;
+		} catch (NumberFormatException e) {
+			throw e;
+		}
+	 }
+	 
+	 static public boolean stringSoComLetras(String texto) {
+		 texto = verificarStringVazia(texto);
+		 
+		 boolean verificidaror = true;
+		 for (int i = 0; i < texto.length(); i++) {
+			 if (!Character.isLetter(texto.charAt(i)) && !Character.isSpaceChar(texto.charAt(i))) {
+				 verificidaror = false;
+				 return verificidaror;
+			 }
 		 }
+		 return verificidaror;
+	 }
+	 
+	 
 	 
 }
