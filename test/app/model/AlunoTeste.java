@@ -138,7 +138,7 @@ public class AlunoTeste {
 	
 	@Test
 	void testarMatricula() {
-		assertEquals("143920230310", alun.getMatricula());
+		assertEquals("30143920230310", alun.getMatricula());
 	}
 	
 	

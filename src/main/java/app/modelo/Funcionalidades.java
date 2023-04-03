@@ -17,27 +17,25 @@ public class Funcionalidades {
 	private static final String REGEX_CPF = "([0-9]{11})";
 	private static final Pattern PADRAO_CPF = Pattern.compile(REGEX_CPF);
 
-	Predicate<String> testezada = n -> n == null;
-
-	static Function<Object, Object> testarObjetoNulo = o -> {
+	public static Function<Object, Object> testarObjetoNulo = o -> {
 		if (o == null)
 			throw new NullPointerException("Objeto nulo.");
 		return o;
 	};
 
-	static Function<String, String> testarStringNula = s -> {
+	public static Function<String, String> testarStringNula = s -> {
 		if (s == null)
 			throw new NullPointerException("String nula.");
 		return s;
 	};
-	static Function<String, String> testarStringVazia = s -> {
+	public static Function<String, String> testarStringVazia = s -> {
 		s = s.trim();
 		if (s.isEmpty())
 			throw new IllegalArgumentException("String vazia.");
 		return s;
 	};
 
-	static Function<String, String> testarSoLetras = s -> {
+	public static Function<String, String> testarSoLetras = s -> {
 		for (int i = 0; i < s.length(); i++) {
 			if (!Character.isLetter(s.charAt(i)) && !Character.isSpaceChar(s.charAt(i))) {
 				throw new IllegalArgumentException("Só letras.");
@@ -110,6 +108,7 @@ public class Funcionalidades {
 	}
 
 	static public String verificarValidadeCPF(String CPF) {
+		CPF = testarStringNula.andThen(testarStringVazia).apply(CPF);
 		if (!verificarEscritaCPF(CPF)) {
 			throw new IllegalArgumentException("Escrita CPF invalida.");
 		}

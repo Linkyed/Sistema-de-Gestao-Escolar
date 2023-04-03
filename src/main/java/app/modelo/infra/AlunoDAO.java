@@ -16,7 +16,6 @@ public class AlunoDAO extends DAO<Aluno> {
 	}
 	
 	public Aluno getAlunoPorCPF(String CPF) {
-		if (CPF == null) throw new NullPointerException("Objeto String CPF nulo.");
 		CPF = Funcionalidades.verificarValidadeCPF(CPF);
 		String jpql = "select e from " + classe.getName() + " e where CPF = " + CPF;
 		try {
@@ -32,8 +31,10 @@ public class AlunoDAO extends DAO<Aluno> {
 	}
 	
 	public Aluno getAlunoPorMatricula(String matricula) {
-		if (matricula == null) throw new NullPointerException("Objeto String Matricula nulo.");
+		matricula = Funcionalidades.testarStringNula
+				.andThen(Funcionalidades.testarStringVazia).apply(matricula);
 		if (matricula.length() != 14) throw new IllegalArgumentException("Matricula invalida.");
+		
 		String jpql = "select e from " + classe.getName() + " e where matricula = " + matricula;
 		try {
 			Aluno a = em.createQuery(jpql, classe).getSingleResult();			
@@ -44,7 +45,7 @@ public class AlunoDAO extends DAO<Aluno> {
 	}
 	
 	public Aluno criarAluno(Aluno a) {
-		if (a == null) throw new NullPointerException("Objeto Aluno nulo.");
+		Funcionalidades.testarObjetoNulo.apply(a);
 		try {
 			getAlunoPorCPF(a.getCPF());
 			getAlunoPorMatricula(a.getMatricula());
@@ -66,11 +67,11 @@ public class AlunoDAO extends DAO<Aluno> {
 	}
 	
 	public Aluno Atualizar(String CPF, AtributosAluno escolhaAlteracao, String alteracao){
-		if (CPF == null) throw new NullPointerException("Objeto String CPF nulo.");
-		if (escolhaAlteracao == null) throw new NullPointerException("Objeto AtributosAluno escolhaAlteracao nulo.");
-		if (alteracao == null) throw new NullPointerException("Objeto String alteracao nulo.");
-		else if (alteracao.isEmpty()) throw new IllegalArgumentException("Objeto String alteracao vazio");
 		Aluno a = getAlunoPorCPF(CPF);
+		Funcionalidades.testarObjetoNulo.apply(escolhaAlteracao);
+		alteracao = Funcionalidades.testarStringNula
+				.andThen(Funcionalidades.testarStringVazia).apply(alteracao);
+		
 		if (escolhaAlteracao.equals(AtributosAluno.CPF)) {
 			try {
 				if (getAlunoPorCPF(alteracao) != null) throw new RegistroDuplicadoException("A CPF já existe.");

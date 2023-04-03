@@ -18,8 +18,10 @@ public class DisciplinaDAO extends DAO<Disciplina> {
 	}
 	
 	public Disciplina getDisciplinaPorCodigo(String codigo) {
-		if (codigo == null) throw new NullPointerException("Objeto String Codigo nulo.");
+		codigo = Funcionalidades.testarStringNula
+				.andThen(Funcionalidades.testarStringVazia).apply(codigo);
 		if (codigo.length() != 5) throw new IllegalArgumentException("Codigo invalido.");
+		
 		String jpql = "select e from " + classe.getName() + " e where codigo = '" + codigo + "'";
 		try {
 			TypedQuery<Disciplina> query = em.createQuery(jpql, classe);	
@@ -34,7 +36,8 @@ public class DisciplinaDAO extends DAO<Disciplina> {
 	}
 	
 	public Disciplina criarDisciplina(Disciplina d) {
-		if (d == null) throw new NullPointerException("Objeto Disciplina nulo.");
+		Funcionalidades.testarObjetoNulo.apply(d);
+		
 		try {
 			getDisciplinaPorCodigo(d.getCodigo());
 			throw new RegistroDuplicadoException("O Codigo da disciplina já existe no Banco de Dados.");
@@ -55,11 +58,11 @@ public class DisciplinaDAO extends DAO<Disciplina> {
 	}
 	
 	public Disciplina Atualizar(String codigo, AtributosDisciplina escolhaAlteracao, String alteracao){
-		if (codigo == null) throw new NullPointerException("Objeto String Codigo nulo.");
-		if (escolhaAlteracao == null) throw new NullPointerException("Objeto AtributosDisciplina escolhaAlteracao nulo.");
-		if (alteracao == null) throw new NullPointerException("Objeto String alteracao nulo.");
-		else if (alteracao.isEmpty()) throw new IllegalArgumentException("Objeto String alteracao vazio");
 		Disciplina d = getDisciplinaPorCodigo(codigo);
+		Funcionalidades.testarObjetoNulo.apply(escolhaAlteracao);
+		alteracao = Funcionalidades.testarStringNula
+				.andThen(Funcionalidades.testarStringVazia).apply(alteracao);
+		
 		if (escolhaAlteracao.equals(AtributosDisciplina.NOME)) {
 			Disciplina teste = new Disciplina(Funcionalidades.stringParaAreaConhecimento(alteracao), d.getCargaHoraria(), Funcionalidades.StringParaNivelEscolar(d.getNivelDaDisciplina()));
 			try {

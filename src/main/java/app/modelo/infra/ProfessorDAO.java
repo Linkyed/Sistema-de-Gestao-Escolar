@@ -1,8 +1,6 @@
 package app.modelo.infra;
 
-import javax.management.RuntimeErrorException;
 import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
 
 import app.excecao.ConsultaNulaException;
 import app.excecao.RegistroDuplicadoException;
@@ -27,7 +25,6 @@ public class ProfessorDAO extends DAO<Professor>{
 	}
 	
 	public Professor getProfessorPorCPF(String CPF) {
-		if (CPF == null) throw new NullPointerException("Objeto String CPF nulo.");
 		CPF = Funcionalidades.verificarValidadeCPF(CPF);
 		String jpql = "select e from " + classe.getName() + " e where CPF = " + CPF;
 		try {
@@ -39,7 +36,7 @@ public class ProfessorDAO extends DAO<Professor>{
 	}
 	
 	public Professor criarProfessor(Professor p) {
-		if (p == null) throw new NullPointerException("Objeto Professor nulo.");
+		Funcionalidades.testarObjetoNulo.apply(p);
 		try {
 			getProfessorPorCPF(p.getCPF());
 			getProfessorPorEmail(p.getEmail());
@@ -61,11 +58,11 @@ public class ProfessorDAO extends DAO<Professor>{
 	}
 	
 	public Professor Atualizar(String CPF, AtributosProfessor escolhaAlteracao, String alteracao){
-		if (CPF == null) throw new NullPointerException("Objeto String CPF nulo.");
-		if (escolhaAlteracao == null) throw new NullPointerException("Objeto AtributosProfessor escolhaAlteracao nulo.");
-		if (alteracao == null) throw new NullPointerException("Objeto String alteracao nulo.");
-		else if (alteracao.isEmpty()) throw new IllegalArgumentException("Objeto String alteracao vazio");
 		Professor p = getProfessorPorCPF(CPF);
+		Funcionalidades.testarObjetoNulo.apply(escolhaAlteracao);
+		alteracao = Funcionalidades.testarStringNula
+				.andThen(Funcionalidades.testarStringVazia).apply(alteracao);
+		
 		if (escolhaAlteracao.equals(AtributosProfessor.NOME)) 
 			p.setNome(alteracao);
 		else if (escolhaAlteracao.equals(AtributosProfessor.CPF)) {

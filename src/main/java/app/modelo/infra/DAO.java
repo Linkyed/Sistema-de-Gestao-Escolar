@@ -7,6 +7,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
+import app.modelo.Funcionalidades;
+
 public class DAO<E> {
 	private static EntityManagerFactory emf;
 	EntityManager em;
@@ -65,12 +67,8 @@ public class DAO<E> {
 	}
 	
 	public List<E> obterTodos(int quantidade, int deslocamento){
-		if (classe == null) {
-			throw new RuntimeException();
-		}
-		
+		Funcionalidades.testarObjetoNulo.apply(classe);
 		String jpql = "select e from " + classe.getName() + " e";
-		
 		TypedQuery<E> query =  em.createQuery(jpql, classe).setFirstResult(deslocamento).setMaxResults(quantidade);
 		
 		return query.getResultList();
@@ -82,24 +80,16 @@ public class DAO<E> {
 	}
 	
 	public E obterUltimo(){
-		if (classe == null) {
-			throw new RuntimeException();
-		}
-		
+		Funcionalidades.testarObjetoNulo.apply(classe);
 		String jpql = "select e from " + classe.getName() + " e order by id desc";
-		
 		E entidade = em.createQuery(jpql, classe).setMaxResults(1).getSingleResult();
 		
 		return entidade;
 	}
 	
 	public E obterPrimeiro(){
-		if (classe == null) {
-			throw new RuntimeException();
-		}
-		
+		Funcionalidades.testarObjetoNulo.apply(classe);
 		String jpql = "select e from " + classe.getName() + " e";
-		
 		E entidade = em.createQuery(jpql, classe).setMaxResults(1).getSingleResult();
 		
 		return entidade;
