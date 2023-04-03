@@ -1,6 +1,7 @@
 package app.modelo;
 
 import java.sql.Date;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -128,4 +129,23 @@ public class Aluno {
 		String funcaoMatricula = finalCPF + "" + outrosDigitosSoma;
 		return funcaoMatricula;
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(CPF, matricula);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Aluno other = (Aluno) obj;
+		return Objects.equals(CPF, other.CPF) && Objects.equals(matricula, other.matricula);
+	}
+	
+	
 }

@@ -65,9 +65,9 @@ public class ProfessorDAO extends DAO<Professor>{
 	
 	public Professor Atualizar(String CPF, AtributosProfessor escolhaAlteracao, String alteracao){
 		if (CPF == null) throw new NullPointerException("Objeto String CPF nulo.");
-		if (alteracao == null) throw new NullPointerException("Objeto String alteracao nulo.");
 		if (escolhaAlteracao == null) throw new NullPointerException("Objeto AtributosProfessor escolhaAlteracao nulo.");
-		
+		if (alteracao == null) throw new NullPointerException("Objeto String alteracao nulo.");
+		else if (alteracao.isEmpty()) throw new IllegalArgumentException("Objeto String alteracao vazio");
 		Professor p = getProfessorPorCPF(CPF);
 		if (escolhaAlteracao.equals(AtributosProfessor.NOME)) 
 			p.setNome(alteracao);

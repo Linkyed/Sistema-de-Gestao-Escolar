@@ -1,5 +1,7 @@
 package app.modelo;
 
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -186,4 +188,23 @@ public class Disciplina {
 			throw new IllegalArgumentException("Disciplina invalida.");
 		}
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(codigo);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Disciplina other = (Disciplina) obj;
+		return Objects.equals(codigo, other.codigo);
+	}
+	
+	
 }

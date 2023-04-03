@@ -67,9 +67,9 @@ public class AlunoDAO extends DAO<Aluno> {
 	
 	public Aluno Atualizar(String CPF, AtributosAluno escolhaAlteracao, String alteracao){
 		if (CPF == null) throw new NullPointerException("Objeto String CPF nulo.");
-		if (alteracao == null) throw new NullPointerException("Objeto String alteracao nulo.");
 		if (escolhaAlteracao == null) throw new NullPointerException("Objeto AtributosAluno escolhaAlteracao nulo.");
-		
+		if (alteracao == null) throw new NullPointerException("Objeto String alteracao nulo.");
+		else if (alteracao.isEmpty()) throw new IllegalArgumentException("Objeto String alteracao vazio");
 		Aluno a = getAlunoPorCPF(CPF);
 		if (escolhaAlteracao.equals(AtributosAluno.CPF)) {
 			try {

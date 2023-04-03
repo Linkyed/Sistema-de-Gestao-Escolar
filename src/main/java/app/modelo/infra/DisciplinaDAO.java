@@ -44,7 +44,7 @@ public class DisciplinaDAO extends DAO<Disciplina> {
 		}
 	}
 	
-	public Disciplina removerAluno(String codigo) {
+	public Disciplina removerDisciplina(String codigo) {
 		Disciplina d = getDisciplinaPorCodigo(codigo);
 		if (d != null) {
 			removerEntidade(d);
@@ -56,9 +56,9 @@ public class DisciplinaDAO extends DAO<Disciplina> {
 	
 	public Disciplina Atualizar(String codigo, AtributosDisciplina escolhaAlteracao, String alteracao){
 		if (codigo == null) throw new NullPointerException("Objeto String Codigo nulo.");
-		if (alteracao == null) throw new NullPointerException("Objeto String alteracao nulo.");
 		if (escolhaAlteracao == null) throw new NullPointerException("Objeto AtributosDisciplina escolhaAlteracao nulo.");
-		
+		if (alteracao == null) throw new NullPointerException("Objeto String alteracao nulo.");
+		else if (alteracao.isEmpty()) throw new IllegalArgumentException("Objeto String alteracao vazio");
 		Disciplina d = getDisciplinaPorCodigo(codigo);
 		if (escolhaAlteracao.equals(AtributosDisciplina.NOME)) {
 			Disciplina teste = new Disciplina(Disciplina.StringParaAreaConhecimento(alteracao), d.getCargaHoraria(), Disciplina.StringParaNivelEscolar(d.getNivelDaDisciplina()));
