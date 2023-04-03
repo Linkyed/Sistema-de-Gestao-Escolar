@@ -127,4 +127,13 @@ public class Funcionalidades {
 		}
 	 }
 	 
+	 static public Integer converterStringPraInteger(String numero) {
+			try {
+				Integer num = Integer.parseInt(numero);
+				return num;
+			} catch (NumberFormatException e) {
+				throw e;
+			}
+		 }
+	 
 }

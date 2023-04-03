@@ -5,6 +5,7 @@ import app.excecao.RegistroDuplicadoException;
 import app.modelo.Aluno;
 import app.modelo.AreasDeConhecimento;
 import app.modelo.AtributosAluno;
+import app.modelo.AtributosDisciplina;
 import app.modelo.AtributosProfessor;
 import app.modelo.Disciplina;
 import app.modelo.Funcionalidades;
@@ -29,6 +30,10 @@ public class Aplicacao {
 		AlunoDAO alunDAO = new AlunoDAO();
 		DisciplinaDAO discDAO = new DisciplinaDAO();
 		
+
+		//discDAO.criarDisciplina(new Disciplina(AreasDeConhecimento.MATEMATICA, 120, NivelEscolar.FUNDAMENTAL));
+		
+		System.out.println(discDAO.Atualizar("ART02", AtributosDisciplina.CARGA_HORARIA, "200").getNome());
 		//alunDAO.criarAluno(a);
 		//profDAO.criarProfessor(p);
 		//System.out.println(alunDAO.getAlunoPorMatricula("664320230228").getNome());

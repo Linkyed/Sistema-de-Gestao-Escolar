@@ -79,7 +79,7 @@ public class Disciplina {
 	}
 
 	public void setNome(AreasDeConhecimento disiplina) {
-		if (disiplina == null) throw new NullPointerException("Area de Formação nula.");
+		if (disiplina == null) throw new NullPointerException("Nome da disciplina nulo.");
 		
 		if (disiplina.equals(AreasDeConhecimento.GEOGRAFIA)) this.nome = "Geografia";
 		else if (disiplina.equals(AreasDeConhecimento.ARTES)) this.nome = "Artes";
@@ -96,6 +96,10 @@ public class Disciplina {
 		else if (disiplina.equals(AreasDeConhecimento.LINGUA_INGLESA)) this.nome = "Língua Inglesa";
 		else if (disiplina.equals(AreasDeConhecimento.LINGUA_ALEMA)) this.nome = "Língua Alemã";
 		else if (disiplina.equals(AreasDeConhecimento.LINGUA_FRANCESA)) this.nome = "Língua Francesa";
+		
+		if (nome != null && nivelDaDisciplina != null) {
+			setCodigo();
+		}
 	}
 
 
@@ -122,6 +126,64 @@ public class Disciplina {
 		} else if (nvEsc.equals(NivelEscolar.ENSINO_MEDIO)) {
 			this.nivelDaDisciplina = "Ensino Medio";
 		}
+		if (nome != null && nivelDaDisciplina != null) {
+			setCodigo();
+		}
 	}
 	
+	static public String AreaConhecimentoParaString(AreasDeConhecimento disiplina) {
+		if (disiplina == null) throw new NullPointerException("Area de Conhecimento nula.");
+		
+		if (disiplina.equals(AreasDeConhecimento.GEOGRAFIA)) return "Geografia";
+		else if (disiplina.equals(AreasDeConhecimento.ARTES)) return "Artes";
+		else if (disiplina.equals(AreasDeConhecimento.BIOLOGIA)) return "Biologia";
+		else if (disiplina.equals(AreasDeConhecimento.EDUCACAO_FISICA)) return "Educação Física";
+		else if (disiplina.equals(AreasDeConhecimento.FILOSOFIA)) return "Filosofia";
+		else if (disiplina.equals(AreasDeConhecimento.HISTORIA)) return "História";
+		else if (disiplina.equals(AreasDeConhecimento.MATEMATICA)) return "Matemática";
+		else if (disiplina.equals(AreasDeConhecimento.FISICA)) return "Física";
+		else if (disiplina.equals(AreasDeConhecimento.QUIMICA)) return "Química";
+		else if (disiplina.equals(AreasDeConhecimento.SOCIOLOGIA)) return "Sociologia";
+		else if (disiplina.equals(AreasDeConhecimento.LINGUA_PORTUGUESA)) return "Língua Portuguesa";
+		else if (disiplina.equals(AreasDeConhecimento.LITERATURA)) return "Literatura";
+		else if (disiplina.equals(AreasDeConhecimento.LINGUA_INGLESA)) return "Língua Inglesa";
+		else if (disiplina.equals(AreasDeConhecimento.LINGUA_ALEMA)) return "Língua Alemã";
+		else if (disiplina.equals(AreasDeConhecimento.LINGUA_FRANCESA)) return "Língua Francesa";
+		else return null;
+		
+	}
+	
+	static public AreasDeConhecimento StringParaAreaConhecimento(String areConhe) {
+		if (areConhe == null) throw new NullPointerException("String Area de Conhecimento nula.");
+		
+		if ("geografia".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.GEOGRAFIA;
+		else if ("artes".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.ARTES;
+		else if ("biologia".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.BIOLOGIA;
+		else if ("educação física".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.EDUCACAO_FISICA;
+		else if ("filosofia".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.FILOSOFIA;
+		else if ("história".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.HISTORIA;
+		else if ("matemática".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.MATEMATICA;
+		else if ("física".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.FISICA;
+		else if ("química".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.QUIMICA;
+		else if ("sociologia".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.SOCIOLOGIA;
+		else if ("língua portuguesa".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.LINGUA_PORTUGUESA;
+		else if ("literatura".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.LITERATURA;
+		else if ("língua inglesa".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.LINGUA_INGLESA;
+		else if ("língua alemã".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.LINGUA_ALEMA;
+		else if ("língua francesa".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.LINGUA_FRANCESA;
+		else {
+			return null;
+		}
+	}
+	
+	static public NivelEscolar StringParaNivelEscolar (String nvEsc) {
+		if (nvEsc == null) throw new NullPointerException("String Nivel Escolar nula.");
+		if ("fundamental".equalsIgnoreCase(nvEsc)) {
+			return NivelEscolar.FUNDAMENTAL;
+		} else if ("ensino medio".equalsIgnoreCase(nvEsc)) {
+			return NivelEscolar.ENSINO_MEDIO;
+		} else {
+			throw new IllegalArgumentException("Disciplina invalida.");
+		}
+	}
 }
