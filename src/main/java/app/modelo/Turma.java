@@ -1,18 +1,30 @@
 package app.modelo;
 
-import java.util.Arrays;
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "turmas")
 public class Turma {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@Column(nullable = false, unique = true)
 	private String codigo;
 	
-	private NivelEscolar tipoEnsino;
+	@Column(nullable = false, length = 25)
+	private String tipoEnsino;
 	
+	@Column(nullable = false, length = 1)
 	private String letraTurma;
 	
+	@Column(nullable = false, length = 80)
 	private String sala;
 
 	public Turma() {
@@ -43,9 +55,9 @@ public class Turma {
 		Funcionalidades.testarObjetoNulo.apply(letraTurma);
 		
 		String primeiraParte = "";
-		if (tipoEnsino.equals(NivelEscolar.ENSINO_MEDIO)) {
+		if (NivelEscolar.ENSINO_MEDIO.equals(Funcionalidades.StringParaNivelEscolar(tipoEnsino))) {
 			primeiraParte = "EM";
-		} else if (tipoEnsino.equals(NivelEscolar.FUNDAMENTAL)) {
+		} else if (NivelEscolar.FUNDAMENTAL.equals(Funcionalidades.StringParaNivelEscolar(tipoEnsino))) {
 			primeiraParte = "EF";
 		}
 		
@@ -53,13 +65,13 @@ public class Turma {
 		
 	}
 
-	public NivelEscolar getTipoEnsino() {
+	public String getTipoEnsino() {
 		return tipoEnsino;
 	}
 
 	public void setTipoEnsino(NivelEscolar tipoEnsino) {
 		Funcionalidades.testarObjetoNulo.apply(tipoEnsino);
-		this.tipoEnsino = tipoEnsino;
+		this.tipoEnsino = Funcionalidades.nivelEscolarParaString(tipoEnsino);
 		if (letraTurma != null) {
 			setCodigo();			
 		}

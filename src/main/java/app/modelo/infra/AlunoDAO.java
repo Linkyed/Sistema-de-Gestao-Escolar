@@ -58,12 +58,8 @@ public class AlunoDAO extends DAO<Aluno> {
 	
 	public Aluno removerAluno(String CPF) {
 		Aluno a = getAlunoPorCPF(CPF);
-		if (a != null) {
-			removerEntidade(a);
-			return a;			
-		} else {
-			return null;
-		}
+		removerEntidade(a);
+		return a;			
 	}
 	
 	public Aluno Atualizar(String CPF, AtributosAluno escolhaAlteracao, String alteracao){

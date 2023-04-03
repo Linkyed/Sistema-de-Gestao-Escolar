@@ -7,13 +7,16 @@ import app.modelo.AreasDeConhecimento;
 import app.modelo.AtributosAluno;
 import app.modelo.AtributosDisciplina;
 import app.modelo.AtributosProfessor;
+import app.modelo.AtributosTurma;
 import app.modelo.Disciplina;
 import app.modelo.Funcionalidades;
 import app.modelo.NivelEscolar;
 import app.modelo.Professor;
+import app.modelo.Turma;
 import app.modelo.infra.AlunoDAO;
 import app.modelo.infra.DisciplinaDAO;
 import app.modelo.infra.ProfessorDAO;
+import app.modelo.infra.TurmaDAO;
 
 public class Aplicacao {
 	public static void main(String[] args) {
@@ -25,10 +28,12 @@ public class Aplicacao {
 		Professor p = new Professor("Estefani Grilo Aguiar", "93774484090", "Masculino", "estefani@gmail.com", AreasDeConhecimento.GEOGRAFIA, 4550.0, sqlDate);
 		Aluno a = new Aluno("teste", "24581919088", "Feminino", "teste@gmail.com", sqlDate);
 		Disciplina d = new Disciplina(AreasDeConhecimento.GEOGRAFIA, 120, NivelEscolar.ENSINO_MEDIO);
+		Turma t = new Turma(NivelEscolar.ENSINO_MEDIO, "A", "MP65");
 		
 		ProfessorDAO profDAO = new ProfessorDAO();
 		AlunoDAO alunDAO = new AlunoDAO();
 		DisciplinaDAO discDAO = new DisciplinaDAO();
+		TurmaDAO turmDAO = new TurmaDAO();
 		
 		//alunDAO.criarAluno(a);
 		//profDAO.criarProfessor(p);

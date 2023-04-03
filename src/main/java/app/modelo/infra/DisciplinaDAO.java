@@ -49,12 +49,8 @@ public class DisciplinaDAO extends DAO<Disciplina> {
 	
 	public Disciplina removerDisciplina(String codigo) {
 		Disciplina d = getDisciplinaPorCodigo(codigo);
-		if (d != null) {
-			removerEntidade(d);
-			return d;			
-		} else {
-			return null;
-		}
+		removerEntidade(d);
+		return d;			
 	}
 	
 	public Disciplina Atualizar(String codigo, AtributosDisciplina escolhaAlteracao, String alteracao){

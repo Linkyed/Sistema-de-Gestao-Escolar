@@ -22,13 +22,13 @@ public class TurmaTeste {
 	@Test
 	void alterarNivelEscolar1() {
 		turm.setTipoEnsino(NivelEscolar.FUNDAMENTAL);
-		assertTrue(NivelEscolar.FUNDAMENTAL.equals(turm.getTipoEnsino()));
+		assertTrue("Fundamental".equals(turm.getTipoEnsino()));
 	}
 	
 	@Test
 	void alterarNivelEscolar2() {
 		turm.setTipoEnsino(NivelEscolar.ENSINO_MEDIO);
-		assertTrue(NivelEscolar.ENSINO_MEDIO.equals(turm.getTipoEnsino()));
+		assertTrue("Ensino Medio".equals(turm.getTipoEnsino()));
 	}
 	
 	@Test

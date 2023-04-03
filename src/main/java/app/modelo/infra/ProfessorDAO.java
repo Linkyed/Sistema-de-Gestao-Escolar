@@ -49,12 +49,8 @@ public class ProfessorDAO extends DAO<Professor>{
 	
 	public Professor removerProfessor(String CPF) {
 		Professor p = getProfessorPorCPF(CPF);
-		if (p != null) {
-			removerEntidade(p);
-			return p;			
-		} else {
-			return null;
-		}
+		removerEntidade(p);
+		return p;			
 	}
 	
 	public Professor Atualizar(String CPF, AtributosProfessor escolhaAlteracao, String alteracao){
