@@ -13,8 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "professores")
-public class Professor {
-	
+public class Professor{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -67,7 +66,9 @@ public class Professor {
 	}
 
 	public void setNome(String nome) {
+	
 		this.nome = Funcionalidades.primeiraLetraMaiuscula(nome);
+		
 	}
 	
 	public String getCPF() {
@@ -84,6 +85,7 @@ public class Professor {
 
 	public void setSexo(String sexo) {
 		sexo = Funcionalidades.primeiraLetraMaiuscula(sexo);
+		
 		if ("feminino".equalsIgnoreCase(sexo) || "masculino".equalsIgnoreCase(sexo) || "outro".equalsIgnoreCase(sexo)) {
 			this.sexo = sexo;			
 		} else {
@@ -96,9 +98,7 @@ public class Professor {
 	}
 
 	public void setEmail(String email) {
-		email = Funcionalidades.verificarStringVazia(email);
-		if (!Funcionalidades.verificarEmail(email)) throw new IllegalArgumentException("Email invalido.");
-		this.email = email.toLowerCase();
+		this.email = Funcionalidades.verificarEmail(email);
 	}
 
 	public String getAreaDeFormacao() {
@@ -130,6 +130,7 @@ public class Professor {
 	}
 
 	public void setSalario(Double salario) {
+		salario = (Double) Funcionalidades.testarObjetoNulo.apply(salario);
 		if (salario > 999999999.99 ) {
 			throw new IllegalArgumentException("Salario ultrapassou o limite.");
 		} else if(salario < 0) {
@@ -143,7 +144,7 @@ public class Professor {
 	}
 
 	public void setInicioContrato(Date inicioContrato) {
-		this.inicioContrato = inicioContrato;
+		this.inicioContrato = (Date) Funcionalidades.testarObjetoNulo.apply(inicioContrato);
 	}
 
 	@Override
@@ -163,27 +164,5 @@ public class Professor {
 		return Objects.equals(CPF, other.CPF);
 	}
 	
-	static public AreasDeConhecimento formacaoString(String areConhe) {
-		if (areConhe == null) throw new NullPointerException("Area de Formação nula.");
-		
-		if ("geografia".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.GEOGRAFIA;
-		else if ("artes".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.ARTES;
-		else if ("biologia".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.BIOLOGIA;
-		else if ("educação física".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.EDUCACAO_FISICA;
-		else if ("filosofia".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.FILOSOFIA;
-		else if ("história".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.HISTORIA;
-		else if ("matemática".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.MATEMATICA;
-		else if ("física".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.FISICA;
-		else if ("química".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.QUIMICA;
-		else if ("sociologia".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.SOCIOLOGIA;
-		else if ("língua portuguesa".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.LINGUA_PORTUGUESA;
-		else if ("literatura".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.LITERATURA;
-		else if ("língua inglesa".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.LINGUA_INGLESA;
-		else if ("língua alemã".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.LINGUA_ALEMA;
-		else if ("língua francesa".equalsIgnoreCase(areConhe)) return AreasDeConhecimento.LINGUA_FRANCESA;
-		else {
-			return null;
-		}
-	}
 	
 }

@@ -61,19 +61,19 @@ public class DisciplinaDAO extends DAO<Disciplina> {
 		else if (alteracao.isEmpty()) throw new IllegalArgumentException("Objeto String alteracao vazio");
 		Disciplina d = getDisciplinaPorCodigo(codigo);
 		if (escolhaAlteracao.equals(AtributosDisciplina.NOME)) {
-			Disciplina teste = new Disciplina(Disciplina.StringParaAreaConhecimento(alteracao), d.getCargaHoraria(), Disciplina.StringParaNivelEscolar(d.getNivelDaDisciplina()));
+			Disciplina teste = new Disciplina(Funcionalidades.stringParaAreaConhecimento(alteracao), d.getCargaHoraria(), Funcionalidades.StringParaNivelEscolar(d.getNivelDaDisciplina()));
 			try {
 				if (getDisciplinaPorCodigo(teste.getCodigo()) != null) throw new RegistroDuplicadoException("A Disciplina já existe.");
 			} catch (ConsultaNulaException e) {
-				d.setNome(Disciplina.StringParaAreaConhecimento(alteracao));
+				d.setNome(Funcionalidades.stringParaAreaConhecimento(alteracao));
 			}			
 		}
 		else if (escolhaAlteracao.equals(AtributosDisciplina.NIVEL_DISCIPLINA)) {
-			Disciplina teste = new Disciplina(Disciplina.StringParaAreaConhecimento(d.getNome()), d.getCargaHoraria(), Disciplina.StringParaNivelEscolar(alteracao));
+			Disciplina teste = new Disciplina(Funcionalidades.stringParaAreaConhecimento(d.getNome()), d.getCargaHoraria(), Funcionalidades.StringParaNivelEscolar(alteracao));
 			try {
 				if (getDisciplinaPorCodigo(teste.getCodigo()) != null) throw new RegistroDuplicadoException("A Disciplina já existe.");
 			} catch (ConsultaNulaException e) {
-				d.setNivelDaDisciplina(Disciplina.StringParaNivelEscolar(alteracao));
+				d.setNivelDaDisciplina(Funcionalidades.StringParaNivelEscolar(alteracao));
 			}
 		}
 		else if (escolhaAlteracao.equals(AtributosDisciplina.CARGA_HORARIA)) 

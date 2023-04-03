@@ -70,8 +70,7 @@ public class Aluno {
 	}
 
 	public void setNome(String nome) {
-		nome = Funcionalidades.verificarStringVazia(nome);
-		this.nome = Funcionalidades.primeiraLetraMaiuscula(nome.trim());
+		this.nome = Funcionalidades.primeiraLetraMaiuscula(nome);
 	}
 
 	public String getCPF() {
@@ -90,7 +89,7 @@ public class Aluno {
 	}
 
 	public void setSexo(String sexo) {
-		sexo = Funcionalidades.verificarStringVazia(sexo);
+		sexo = Funcionalidades.primeiraLetraMaiuscula(sexo);
 		if ("feminino".equalsIgnoreCase(sexo) || "masculino".equalsIgnoreCase(sexo) || "outro".equalsIgnoreCase(sexo)) {
 			this.sexo = Funcionalidades.primeiraLetraMaiuscula(sexo);			
 		} else {
@@ -103,9 +102,7 @@ public class Aluno {
 	}
 
 	public void setEmail(String email) {
-		email = Funcionalidades.verificarStringVazia(email);
-		if (!Funcionalidades.verificarEmail(email)) throw new IllegalArgumentException("Email invalido.");
-		this.emailDoResponsavel = email.toLowerCase();
+		this.emailDoResponsavel = Funcionalidades.verificarEmail(email);
 	}
 
 	public Date getDataNascimento() {
@@ -113,7 +110,7 @@ public class Aluno {
 	}
 
 	public void setDataNascimento(Date dataNacimento) {
-		this.dataNascimento = dataNacimento;
+		this.dataNascimento = (Date) Funcionalidades.testarObjetoNulo.apply(dataNacimento);
 		if (this.CPF != null && this.dataNascimento != null) {			
 			setMatricula();
 		}

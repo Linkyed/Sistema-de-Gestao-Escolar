@@ -16,10 +16,7 @@ public class ProfessorDAO extends DAO<Professor>{
 	}
 	
 	public Professor getProfessorPorEmail(String email) {
-		if (email == null) throw new NullPointerException("Objeto String Email nulo.");
-		if (!Funcionalidades.verificarEmail(email)) {
-			throw new IllegalArgumentException("Email invalido.");
-		}
+		email = Funcionalidades.verificarEmail(email);
 		String jpql = "select e from " + classe.getName() + " e where email = '" + email + "'";
 		try {
 			Professor p = em.createQuery(jpql, classe).getSingleResult();	
@@ -88,7 +85,7 @@ public class ProfessorDAO extends DAO<Professor>{
 			}
 		}
 		else if (escolhaAlteracao.equals(AtributosProfessor.FORMACAO)) 
-			p.setAreaDeFormacao(Professor.formacaoString(alteracao));
+			p.setAreaDeFormacao(Funcionalidades.stringParaAreaConhecimento(alteracao));
 		else if (escolhaAlteracao.equals(AtributosProfessor.SALARIO)) 
 			p.setSalario(Funcionalidades.converterStringPraDouble(alteracao));
 		else if (escolhaAlteracao.equals(AtributosProfessor.INICIO_CONTRATO)) 
