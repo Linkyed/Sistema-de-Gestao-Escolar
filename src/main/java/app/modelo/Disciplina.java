@@ -1,12 +1,16 @@
 package app.modelo;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -29,6 +33,9 @@ public class Disciplina {
 	@Column(nullable = false, length = 20)
 	private String nivelDaDisciplina;
 
+	@ManyToMany(mappedBy = "disciplinas")
+	private List<Professor> professores;
+	
 	public Disciplina() {
 	}
 	
@@ -132,7 +139,11 @@ public class Disciplina {
 			setCodigo();
 		}
 	}
-	
+
+	public List<Professor> getProfessores() {
+		if (professores == null) professores = new ArrayList<>();
+		return professores;
+	}
 
 	@Override
 	public int hashCode() {

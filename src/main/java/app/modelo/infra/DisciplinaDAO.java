@@ -8,8 +8,10 @@ import app.excecao.RegistroDuplicadoException;
 import app.modelo.Aluno;
 import app.modelo.AtributosAluno;
 import app.modelo.AtributosDisciplina;
+import app.modelo.AtributosProfessor;
 import app.modelo.Disciplina;
 import app.modelo.Funcionalidades;
+import app.modelo.Professor;
 
 public class DisciplinaDAO extends DAO<Disciplina> {
 	
@@ -49,6 +51,8 @@ public class DisciplinaDAO extends DAO<Disciplina> {
 	
 	public Disciplina removerDisciplina(String codigo) {
 		Disciplina d = getDisciplinaPorCodigo(codigo);
+		d.getProfessores().stream().forEach(p -> new ProfessorDAO().Atualizar(p.getCPF(),
+				AtributosProfessor.DISCIPLINAS_REMOVER, codigo));
 		removerEntidade(d);
 		return d;			
 	}

@@ -2,13 +2,19 @@ package app.modelo;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -38,6 +44,12 @@ public class Professor{
 	
 	@Column(nullable = false)
 	private Date inicioContrato;
+	
+	@ManyToMany
+	@JoinTable(name = "professores_disciplinas",
+	joinColumns = @JoinColumn(name = "professor_id", referencedColumnName = "id"),
+	inverseJoinColumns = @JoinColumn(name = "disciplina_id", referencedColumnName = "id"))
+	private List<Disciplina> disciplinas;
 	
 	public Professor() {
 		
@@ -145,6 +157,20 @@ public class Professor{
 
 	public void setInicioContrato(Date inicioContrato) {
 		this.inicioContrato = (Date) Funcionalidades.testarObjetoNulo.apply(inicioContrato);
+	}
+
+	public List<Disciplina> getDisciplinas() {
+		if (disciplinas == null) disciplinas = new ArrayList<>();
+		return disciplinas;
+	}
+
+	public void adicionarDisciplinas(Disciplina d) {
+		if (d != null && !getDisciplinas().contains(d)) {
+			getDisciplinas().add(d);
+			if (!d.getProfessores().contains(this)) {
+				d.getProfessores().add(this);				
+			}
+		}
 	}
 
 	@Override

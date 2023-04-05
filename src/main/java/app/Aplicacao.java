@@ -25,16 +25,30 @@ public class Aplicacao {
 				
 		
 		//Iniciando Tabelas
-		Professor p = new Professor("Estefani Grilo Aguiar", "93774484090", "Masculino", "estefani@gmail.com", AreasDeConhecimento.GEOGRAFIA, 4550.0, sqlDate);
+		Professor p1 = new Professor("Estefani Grilo Aguiar", "93774484090", "Masculino", "estefani@gmail.com", AreasDeConhecimento.LITERATURA, 4550.0, sqlDate);
+		Professor p2 = new Professor("Rafael Tosta", "24581919088", "Masculino", "rafael@gmail.com", AreasDeConhecimento.LINGUA_PORTUGUESA, 4550.0, sqlDate);
+		
 		Aluno a = new Aluno("teste", "24581919088", "Feminino", "teste@gmail.com", sqlDate);
-		Disciplina d = new Disciplina(AreasDeConhecimento.GEOGRAFIA, 120, NivelEscolar.ENSINO_MEDIO);
+		Disciplina d1 = new Disciplina(AreasDeConhecimento.LITERATURA, 120, NivelEscolar.FUNDAMENTAL);
+		Disciplina d2 = new Disciplina(AreasDeConhecimento.LITERATURA, 180, NivelEscolar.ENSINO_MEDIO);
 		Turma t = new Turma(NivelEscolar.ENSINO_MEDIO, "A", "MP65");
+		
+		//p2.adicionarDisciplinas(d2);
 		
 		ProfessorDAO profDAO = new ProfessorDAO();
 		AlunoDAO alunDAO = new AlunoDAO();
 		DisciplinaDAO discDAO = new DisciplinaDAO();
 		TurmaDAO turmDAO = new TurmaDAO();
 		
+		//discDAO.criarDisciplina(d1);
+		//discDAO.criarDisciplina(d2);
+		//profDAO.Atualizar("93774484090", AtributosProfessor.DISCIPLINAS, "LIT01");
+		//profDAO.getProfessorPorCPF("93774484090").adicionarDisciplinas(discDAO.getDisciplinaPorCodigo("LIT01"));
+		discDAO.removerDisciplina("LIT01");
+		//p1.adicionarDisciplinas(discDAO.obterPrimeiro());
+		//p1.adicionarDisciplinas(discDAO.obterUltimo());
+		//profDAO.removerProfessor("93774484090");
+		//profDAO.criarProfessor(p1);
 		//alunDAO.criarAluno(a);
 		//profDAO.criarProfessor(p);
 		//System.out.println(alunDAO.getAlunoPorMatricula("664320230228").getNome());

@@ -5,6 +5,7 @@ import javax.persistence.NoResultException;
 import app.excecao.ConsultaNulaException;
 import app.excecao.RegistroDuplicadoException;
 import app.modelo.AtributosProfessor;
+import app.modelo.Disciplina;
 import app.modelo.Funcionalidades;
 import app.modelo.Professor;
 
@@ -83,6 +84,10 @@ public class ProfessorDAO extends DAO<Professor>{
 			p.setSalario(Funcionalidades.converterStringPraDouble(alteracao));
 		else if (escolhaAlteracao.equals(AtributosProfessor.INICIO_CONTRATO)) 
 			p.setInicioContrato(Funcionalidades.cirarDataSQL(alteracao));
+		else if (escolhaAlteracao.equals(AtributosProfessor.DISCIPLINAS_ADICIONAR)) 
+			p.adicionarDisciplinas(new DisciplinaDAO().getDisciplinaPorCodigo(alteracao));
+		else if (escolhaAlteracao.equals(AtributosProfessor.DISCIPLINAS_REMOVER)) 
+			p.getDisciplinas().remove(new DisciplinaDAO().getDisciplinaPorCodigo(alteracao));
 		
 		mergeAtomico(p);
 		return p;
