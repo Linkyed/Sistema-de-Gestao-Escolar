@@ -7,8 +7,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.text.ParseException;
 import java.sql.Date;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import app.modelo.AreasDeConhecimento;
 import app.modelo.Funcionalidades;
@@ -17,6 +20,14 @@ import app.modelo.Professor;
 public class ProfessorTeste {
 
 	Professor prof;
+	static Disciplina d;
+	static Turma t;
+	
+	@BeforeAll
+	static void iniciarSecundarios() {
+		d = new Disciplina(AreasDeConhecimento.ARTES, 120, NivelEscolar.ENSINO_MEDIO);
+		t = new Turma(NivelEscolar.ENSINO_MEDIO, "A", "MP65");
+	}
 	
 	@BeforeEach
 	void iniciarProfessor() throws ParseException {

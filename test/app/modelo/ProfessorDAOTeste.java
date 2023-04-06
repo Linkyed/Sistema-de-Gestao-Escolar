@@ -5,27 +5,34 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.sql.Date;
-import java.sql.SQLIntegrityConstraintViolationException;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import app.excecao.ConsultaNulaException;
 import app.excecao.RegistroDuplicadoException;
-import app.modelo.AreasDeConhecimento;
-import app.modelo.AtributosProfessor;
-import app.modelo.Funcionalidades;
-import app.modelo.Professor;
-import app.modelo.infra.DAO;
+import app.modelo.infra.DisciplinaDAO;
 import app.modelo.infra.ProfessorDAO;
+import app.modelo.infra.TurmaDAO;
 
 public class ProfessorDAOTeste {
 
 	ProfessorDAO dao;
 	Professor prof1;
 	Professor prof2;
+	
+	@BeforeAll
+	static void iniciarSecundarios() {
+		DisciplinaDAO dDAO = new DisciplinaDAO();
+		TurmaDAO tDAO = new TurmaDAO();
+		dDAO.criarDisciplina(new Disciplina(AreasDeConhecimento.ARTES, 120, NivelEscolar.FUNDAMENTAL));
+		tDAO.criarTurma(new Turma(NivelEscolar.ENSINO_MEDIO, "Z", "MP65"));
+		dDAO.fechar();
+		tDAO.fechar();
+	}
 	
 	@BeforeEach
 	void inicializarDAOeProfessor() {
@@ -35,6 +42,16 @@ public class ProfessorDAOTeste {
 		prof1 = new Professor("Josias", "30282548670", "Masculino", "josias@gmail.com", AreasDeConhecimento.GEOGRAFIA, 5050.50, sqlDate);
 		dao.criarProfessor(prof2);
 		dao.criarProfessor(prof1);
+	}
+	
+	@AfterAll
+	static void removerSecundarios() {
+		DisciplinaDAO dDAO = new DisciplinaDAO();
+		TurmaDAO tDAO = new TurmaDAO();
+		dDAO.removerDisciplina("ART01");
+		tDAO.removerTurma("EMZ");
+		dDAO.fechar();
+		tDAO.fechar();
 	}
 	
 	@AfterEach
@@ -77,13 +94,24 @@ public class ProfessorDAOTeste {
 	
 	@Test
 	void testarRemocao2() {
+		dao.Atualizar("30282548670", AtributosProfessor.DISCIPLINAS_ADICIONAR, "ART01");
+		dao.Atualizar("30282548670", AtributosProfessor.TURMAS_ADICIONAR, "EMZ");
+		Professor p = dao.removerProfessor("30282548670");
+		Date sqlDate = Funcionalidades.cirarDataSQL("28-02-2023");
+		boolean verificar = p.equals(prof1);
+		dao.criarProfessor(new Professor("Josias", "30282548670", "Masculino", "josias@gmail.com", AreasDeConhecimento.GEOGRAFIA, 5050.50, sqlDate));
+		assertTrue(verificar);
+	}
+	
+	@Test
+	void testarRemocao3() {
 		assertThrows(ConsultaNulaException.class, () -> {
 			dao.removerProfessor("99999999999");
 		});
 	}
 	
 	@Test
-	void testarRemocao3() {
+	void testarRemocao4() {
 		assertThrows(NullPointerException.class, () -> {
 			dao.removerProfessor(null);
 		});
@@ -215,6 +243,22 @@ public class ProfessorDAOTeste {
 		assertThrows(IllegalArgumentException.class, () -> {
 			dao.Atualizar("30282548670", AtributosProfessor.INICIO_CONTRATO, "asd");			
 		});
+	}
+	
+	@Test
+	void alteracaoDisciplinas() {
+		dao.Atualizar("30282548670", AtributosProfessor.DISCIPLINAS_ADICIONAR, "ART01");
+		assertTrue(dao.getProfessorPorCPF("30282548670").getDisciplinas().get(0).getCodigo().equals("ART01"));
+		dao.Atualizar("30282548670", AtributosProfessor.DISCIPLINAS_REMOVER, "ART01");
+		assertEquals(dao.getProfessorPorCPF("30282548670").getDisciplinas().size(), 0);
+	}
+	
+	@Test
+	void alteracaoTurmas() {
+		dao.Atualizar("30282548670", AtributosProfessor.TURMAS_ADICIONAR, "EMZ");
+		assertTrue(dao.getProfessorPorCPF("30282548670").getTurmas().get(0).getCodigo().equals("EMZ"));
+		dao.Atualizar("30282548670", AtributosProfessor.TURMAS_REMOVER, "EMZ");
+		assertEquals(dao.getProfessorPorCPF("30282548670").getTurmas().size(), 0);
 	}
 	
 }
