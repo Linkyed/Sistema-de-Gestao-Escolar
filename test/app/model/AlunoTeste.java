@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import app.modelo.Aluno;
 import app.modelo.Funcionalidades;
+import app.modelo.NivelEscolar;
+import app.modelo.Turma;
 
 public class AlunoTeste {
 	Aluno alun;
@@ -17,7 +19,8 @@ public class AlunoTeste {
 	@BeforeEach
 	void iniciarAluno(){
 		Date sqlDate = Funcionalidades.cirarDataSQL("10-03-2023");
-		alun = new Aluno("Thales ViTOr Costa", "05959533014", "Masculino", "thales@gmail.com", sqlDate);
+		Turma t = new Turma(NivelEscolar.ENSINO_MEDIO, "A", "MP65");
+		alun = new Aluno("Thales ViTOr Costa", "05959533014", "Masculino", "thales@gmail.com", sqlDate, t);
 	}
 	
 	@Test

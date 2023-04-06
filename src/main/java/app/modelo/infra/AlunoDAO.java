@@ -64,9 +64,6 @@ public class AlunoDAO extends DAO<Aluno> {
 	
 	public Aluno Atualizar(String CPF, AtributosAluno escolhaAlteracao, String alteracao){
 		Aluno a = getAlunoPorCPF(CPF);
-		Funcionalidades.testarObjetoNulo.apply(escolhaAlteracao);
-		alteracao = Funcionalidades.testarStringNula
-				.andThen(Funcionalidades.testarStringVazia).apply(alteracao);
 		
 		if (escolhaAlteracao.equals(AtributosAluno.CPF)) {
 			try {
@@ -83,6 +80,12 @@ public class AlunoDAO extends DAO<Aluno> {
 			a.setEmail(alteracao);
 		else if (escolhaAlteracao.equals(AtributosAluno.DATA_NASCIMENTO)) 
 			a.setDataNascimento(Funcionalidades.cirarDataSQL(alteracao));
+		else if (escolhaAlteracao.equals(AtributosAluno.TURMA)) 
+			if (alteracao == null) {
+				a.setTurma(null);
+			} else {
+				a.setTurma(new TurmaDAO().getTurmaPorCodigo(alteracao));;				
+			}
 		
 		mergeAtomico(a);
 		return a;

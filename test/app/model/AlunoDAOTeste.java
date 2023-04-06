@@ -14,6 +14,8 @@ import app.excecao.RegistroDuplicadoException;
 import app.modelo.Aluno;
 import app.modelo.AtributosAluno;
 import app.modelo.Funcionalidades;
+import app.modelo.NivelEscolar;
+import app.modelo.Turma;
 import app.modelo.infra.AlunoDAO;
 
 public class AlunoDAOTeste {
@@ -25,8 +27,9 @@ public class AlunoDAOTeste {
 	void inicializarDAOeAluno() {
 		dao = new AlunoDAO();
 		Date sqlDate = Funcionalidades.cirarDataSQL("28-02-2023");
-		alun2 = new Aluno("Josias", "95383664173", "Masculino", "josiasmalafaia@gmail.com", sqlDate);
-		alun1 = new Aluno("Josias", "30282548670", "Masculino", "josias@gmail.com", sqlDate);
+		Turma t = new Turma(NivelEscolar.ENSINO_MEDIO, "A", "MP65");
+		alun2 = new Aluno("Josias", "95383664173", "Masculino", "josiasmalafaia@gmail.com", sqlDate, t);
+		alun1 = new Aluno("Josias", "30282548670", "Masculino", "josias@gmail.com", sqlDate, t);
 		dao.criarAluno(alun2);
 		dao.criarAluno(alun1);
 	}
@@ -65,7 +68,8 @@ public class AlunoDAOTeste {
 		Aluno a = dao.removerAluno("30282548670");
 		Date sqlDate = Funcionalidades.cirarDataSQL("28-02-2023");
 		boolean verificar = a.equals(alun1);
-		dao.criarAluno(new Aluno("Josias", "30282548670", "Masculino", "josias@gmail.com", sqlDate));
+		Turma t = new Turma(NivelEscolar.ENSINO_MEDIO, "A", "MP65");
+		dao.criarAluno(new Aluno("Josias", "30282548670", "Masculino", "josias@gmail.com", sqlDate, t));
 		assertTrue(verificar);
 	}
 	

@@ -5,6 +5,7 @@ import javax.persistence.TypedQuery;
 
 import app.excecao.ConsultaNulaException;
 import app.excecao.RegistroDuplicadoException;
+import app.modelo.AtributosAluno;
 import app.modelo.AtributosTurma;
 import app.modelo.Funcionalidades;
 import app.modelo.Turma;
@@ -47,6 +48,7 @@ public class TurmaDAO extends DAO<Turma>{
 	
 	public Turma removerTurma(String codigo) {
 		Turma t = getTurmaPorCodigo(codigo);
+		t.getAlunos().forEach(a -> a.setTurma(null));
 		removerEntidade(t);
 		return t;
 	}
@@ -81,6 +83,17 @@ public class TurmaDAO extends DAO<Turma>{
 		}
 		else if (escolhaAlteracao.equals(AtributosTurma.SALA)) 
 			t.setSala(alteracao);
+		else if (escolhaAlteracao.equals(AtributosTurma.ALUNOS_ADICIONAR)) {
+			AlunoDAO alunoDAO = new AlunoDAO();
+			t.adicionarAluno(alunoDAO.getAlunoPorCPF(alteracao));
+			alunoDAO.fechar();	
+		}
+		else if (escolhaAlteracao.equals(AtributosTurma.ALUNOS_REMOVER)) {
+			AlunoDAO alunoDAO = new AlunoDAO();
+			t.removerAluno(alunoDAO.getAlunoPorCPF(alteracao));
+			alunoDAO.Atualizar(alteracao, AtributosAluno.TURMA, null);
+			alunoDAO.fechar();	
+		}
 		
 		mergeAtomico(t);
 		return t;

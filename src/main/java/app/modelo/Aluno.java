@@ -3,11 +3,14 @@ package app.modelo;
 import java.sql.Date;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -35,16 +38,20 @@ public class Aluno {
 	@Column(nullable = false)
 	private Date dataNascimento;
 
+	@ManyToOne(cascade = CascadeType.MERGE)
+	private Turma turma;
+	
 	public Aluno() {
 		
 	}
 	
-	public Aluno(String nome, String CPF, String sexo, String email, Date dataNacimento) {
+	public Aluno(String nome, String CPF, String sexo, String email, Date dataNacimento, Turma turma) {
 		setNome(nome);
 		setCPF(CPF);
 		setSexo(sexo);
 		setEmail(email);
 		setDataNascimento(dataNacimento);
+		setTurma(turma);
 		setMatricula();
 	}
 
@@ -143,6 +150,15 @@ public class Aluno {
 		Aluno other = (Aluno) obj;
 		return Objects.equals(CPF, other.CPF) && Objects.equals(matricula, other.matricula);
 	}
+
+	public Turma getTurma() {
+		return turma;
+	}
+
+	public void setTurma(Turma turma) {
+		this.turma = turma;
+	}
+	
 	
 	
 }
