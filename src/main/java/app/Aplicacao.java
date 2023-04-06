@@ -43,27 +43,6 @@ public class Aplicacao {
 		//profDAO.Atualizar("24581919088", AtributosProfessor.TURMAS_ADICIONAR, "EMA");
 		//discDAO.removerDisciplina("LIT02");
 		turmDAO.removerTurma("EMA");
-		//alunDAO.Atualizar("24581919088", AtributosAluno.TURMA, "EMB");
-		//turmDAO.Atualizar("EMB", AtributosTurma.ALUNOS_REMOVER, "24581919088");
-		//turmDAO.criarTurma(t);
-		//alunDAO.criarAluno(a);
-		//turmDAO.removerTurma("EMB");
-		//discDAO.criarDisciplina(d1);
-		//discDAO.criarDisciplina(d2);
-		//profDAO.Atualizar("93774484090", AtributosProfessor.DISCIPLINAS, "LIT01");
-		//profDAO.getProfessorPorCPF("93774484090").adicionarDisciplinas(discDAO.getDisciplinaPorCodigo("LIT01"));
-		//discDAO.removerDisciplina("LIT01");
-		//p1.adicionarDisciplinas(discDAO.obterPrimeiro());
-		//p1.adicionarDisciplinas(discDAO.	obterUltimo());
-		//profDAO.removerProfessor("93774484090");
-		//profDAO.criarProfessor(p1);
-		//alunDAO.criarAluno(a);
-		//profDAO.criarProfessor(p);
-		//System.out.println(alunDAO.getAlunoPorMatricula("664320230228").getNome());
-		//System.out.println(profDAO.getProfessorPorEmail("estefani@gmail.com").getNome());
-		//discDAO.incluirAtomico(d);
-		//profDAO.removerEntidade(p);
-		//System.out.println(profDAO.removerProfessor("93774484090"));
 		
 		discDAO.fechar();
 		alunDAO.fechar();

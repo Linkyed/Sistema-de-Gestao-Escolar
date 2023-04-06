@@ -1,5 +1,6 @@
-package app.model;
+package app.modelo;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -254,6 +255,100 @@ public class ProfessorTeste {
 	void alterarAreaDeFormacao16() {
 		assertThrows(NullPointerException.class, () -> {
 			prof.setAreaDeFormacao(null);
+		});
+	}
+	
+	@Test
+	void adicionarDisciplina1() {
+		Disciplina d = new Disciplina(AreasDeConhecimento.ARTES, 120, NivelEscolar.ENSINO_MEDIO);
+		prof.adicionarDisciplina(d);
+		assertTrue(d.equals(prof.getDisciplinas().get(0)) && d.getProfessores().get(0).equals(prof));
+	}
+	
+	@Test
+	void adicionarDisciplina2() {
+		Disciplina d = new Disciplina(AreasDeConhecimento.ARTES, 120, NivelEscolar.ENSINO_MEDIO);
+		prof.adicionarDisciplina(d);
+		assertThrows(IllegalArgumentException.class, () -> {
+			prof.adicionarDisciplina(d);
+		});
+	}
+	
+	@Test
+	void adicionarDisciplina3() {
+		assertThrows(NullPointerException.class, () -> {
+			prof.adicionarDisciplina(null);
+		});
+	}
+	
+	@Test
+	void removerDisciplina1() {
+		Disciplina d = new Disciplina(AreasDeConhecimento.ARTES, 120, NivelEscolar.ENSINO_MEDIO);
+		prof.adicionarDisciplina(d);
+		prof.removerDisciplina(d);
+		assertEquals(d.getProfessores().size(), 0);
+		assertEquals(prof.getDisciplinas().size(), 0);
+	}
+	
+	@Test
+	void removerDisciplina2() {
+		Disciplina d = new Disciplina(AreasDeConhecimento.ARTES, 120, NivelEscolar.ENSINO_MEDIO);
+		assertThrows(IllegalArgumentException.class, () -> {
+			prof.removerDisciplina(d);
+		});
+	}
+	
+	@Test
+	void removerDisciplina3() {
+		assertThrows(NullPointerException.class, () -> {
+			prof.removerDisciplina(null);
+		});
+	}
+	
+	@Test
+	void adicionarTurma1() {
+		Turma t = new Turma(NivelEscolar.ENSINO_MEDIO, "A", "MP65");
+		prof.adicionarTurma(t);
+		assertTrue(t.equals(prof.getTurmas().get(0)) && t.getProfessores().get(0).equals(prof));
+	}
+	
+	@Test
+	void adicionarTurma2() {
+		Turma t = new Turma(NivelEscolar.ENSINO_MEDIO, "A", "MP65");
+		prof.adicionarTurma(t);
+		assertThrows(IllegalArgumentException.class, () -> {
+			prof.adicionarTurma(t);
+		});
+	}
+	
+	@Test
+	void adicionarTurma3() {
+		assertThrows(NullPointerException.class, () -> {
+			prof.adicionarTurma(null);
+		});
+	}
+	
+	@Test
+	void removerTurma1() {
+		Turma t = new Turma(NivelEscolar.ENSINO_MEDIO, "A", "MP65");
+		prof.adicionarTurma(t);
+		prof.removerTurma(t);
+		assertEquals(t.getProfessores().size(), 0);
+		assertEquals(prof.getTurmas().size(), 0);
+	}
+	
+	@Test
+	void removerTurma2() {
+		Turma t = new Turma(NivelEscolar.ENSINO_MEDIO, "A", "MP65");
+		assertThrows(IllegalArgumentException.class, () -> {
+			prof.removerTurma(t);
+		});
+	}
+	
+	@Test
+	void removerTurma3() {
+		assertThrows(NullPointerException.class, () -> {
+			prof.removerTurma(null);
 		});
 	}
 	

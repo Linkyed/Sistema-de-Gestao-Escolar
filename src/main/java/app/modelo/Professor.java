@@ -175,7 +175,12 @@ public class Professor{
 			if (!d.getProfessores().contains(this)) {
 				d.getProfessores().add(this);				
 			}
-		}
+		} 
+		else if (d == null) 
+			throw new NullPointerException("Disciplina nula.");
+		else if (getDisciplinas().contains(d)) 
+			throw new IllegalArgumentException("Disciplina já resigtrada no professor.");
+		
 	}
 	
 	public void removerDisciplina(Disciplina d) {
@@ -185,6 +190,10 @@ public class Professor{
 				d.getProfessores().remove(this);				
 			}
 		}
+		else if (d == null) 
+			throw new NullPointerException("Disciplina nula.");
+		else if (!getDisciplinas().contains(d)) 
+			throw new IllegalArgumentException("Disciplina não esta resigtrada no professor.");
 	}
 	
 	public List<Turma> getTurmas() {
@@ -199,6 +208,10 @@ public class Professor{
 				t.getProfessores().add(this);				
 			}
 		}
+		else if (t == null) 
+			throw new NullPointerException("Turma nula.");
+		else if (getTurmas().contains(t)) 
+			throw new IllegalArgumentException("Turma já resigtrada no professor.");
 	}
 	
 	public void removerTurma(Turma t) {
@@ -208,6 +221,10 @@ public class Professor{
 				t.getProfessores().remove(this);				
 			}
 		}
+		else if (t == null) 
+			throw new NullPointerException("Turma nula.");
+		else if (!getTurmas().contains(t)) 
+			throw new IllegalArgumentException("Turma não esta resigtrada no professor.");
 	}
 
 	@Override

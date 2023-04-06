@@ -121,7 +121,7 @@ public class Turma {
 	}
 
 	public List<Professor> getProfessores() {
-		if (professores == null) alunos = new ArrayList<>();
+		if (professores == null) professores = new ArrayList<>();
 		return professores;
 	}
 
