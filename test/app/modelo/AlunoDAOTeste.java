@@ -5,33 +5,46 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.sql.Date;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import app.excecao.ConsultaNulaException;
 import app.excecao.RegistroDuplicadoException;
-import app.modelo.Aluno;
-import app.modelo.AtributosAluno;
-import app.modelo.Funcionalidades;
-import app.modelo.NivelEscolar;
-import app.modelo.Turma;
 import app.modelo.infra.AlunoDAO;
+import app.modelo.infra.TurmaDAO;
 
 public class AlunoDAOTeste {
 	AlunoDAO dao;
 	Aluno alun1;
 	Aluno alun2;
+	static Turma t1;
+	static Turma t2;
+	
+	@BeforeAll
+	static void inicilizarSecundarios() {
+		TurmaDAO turmDAO = new TurmaDAO();
+		t1 = turmDAO.criarTurma(new Turma(NivelEscolar.ENSINO_MEDIO, "Z", "MP65"));
+		t2 = turmDAO.criarTurma(new Turma(NivelEscolar.FUNDAMENTAL, "Z", "MP65"));
+	}
 	
 	@BeforeEach
 	void inicializarDAOeAluno() {
 		dao = new AlunoDAO();
 		Date sqlDate = Funcionalidades.cirarDataSQL("28-02-2023");
-		Turma t = new Turma(NivelEscolar.ENSINO_MEDIO, "A", "MP65");
-		alun2 = new Aluno("Josias", "95383664173", "Masculino", "josiasmalafaia@gmail.com", sqlDate, t);
-		alun1 = new Aluno("Josias", "30282548670", "Masculino", "josias@gmail.com", sqlDate, t);
+		alun2 = new Aluno("Josias", "95383664173", "Masculino", "josiasmalafaia@gmail.com", sqlDate, t1);
+		alun1 = new Aluno("Josias", "30282548670", "Masculino", "josias@gmail.com", sqlDate, t1);
 		dao.criarAluno(alun2);
 		dao.criarAluno(alun1);
+	}
+	
+	@AfterAll
+	static void removerSecundarios() {
+		TurmaDAO turmDAO = new TurmaDAO();
+		turmDAO.removerTurma("EMZ");
+		turmDAO.removerTurma("EFZ");
 	}
 	
 	@AfterEach
@@ -68,8 +81,7 @@ public class AlunoDAOTeste {
 		Aluno a = dao.removerAluno("30282548670");
 		Date sqlDate = Funcionalidades.cirarDataSQL("28-02-2023");
 		boolean verificar = a.equals(alun1);
-		Turma t = new Turma(NivelEscolar.ENSINO_MEDIO, "A", "MP65");
-		dao.criarAluno(new Aluno("Josias", "30282548670", "Masculino", "josias@gmail.com", sqlDate, t));
+		dao.criarAluno(new Aluno("Josias", "30282548670", "Masculino", "josias@gmail.com", sqlDate, t1));
 		assertTrue(verificar);
 	}
 	
@@ -180,6 +192,18 @@ public class AlunoDAOTeste {
 		assertThrows(IllegalArgumentException.class, () -> {
 			dao.Atualizar("30282548670", AtributosAluno.DATA_NASCIMENTO, "asd");			
 		});
+	}
+	
+	@Test
+	void alteracaoTurma1() {
+		dao.Atualizar("30282548670", AtributosAluno.TURMA, "EFZ");
+		assertTrue(dao.getAlunoPorCPF("30282548670").getTurma().equals(t2));
+	}
+	
+	@Test
+	void alteracaoTurma2() {
+		dao.Atualizar("30282548670", AtributosAluno.TURMA, null);
+		assertTrue(dao.getAlunoPorCPF("30282548670").getTurma() == null);
 	}
 	
 	@Test

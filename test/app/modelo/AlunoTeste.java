@@ -1,5 +1,6 @@
 package app.modelo;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -15,11 +16,12 @@ import app.modelo.Turma;
 
 public class AlunoTeste {
 	Aluno alun;
+	Turma t;
 	
 	@BeforeEach
 	void iniciarAluno(){
 		Date sqlDate = Funcionalidades.cirarDataSQL("10-03-2023");
-		Turma t = new Turma(NivelEscolar.ENSINO_MEDIO, "A", "MP65");
+		t = new Turma(NivelEscolar.ENSINO_MEDIO, "A", "MP65");
 		alun = new Aluno("Thales ViTOr Costa", "05959533014", "Masculino", "thales@gmail.com", sqlDate, t);
 	}
 	
@@ -137,6 +139,19 @@ public class AlunoTeste {
 		Date sqlDate = Funcionalidades.cirarDataSQL("31-03-2023");
 		alun.setDataNascimento(sqlDate);
 		assertEquals(alun.getDataNascimento(), sqlDate);
+	}
+	
+	@Test
+	void alterarTurma1() {
+		Turma t1 = new Turma(NivelEscolar.ENSINO_MEDIO, "A", "MP65");
+		alun.setTurma(t1);
+		assertTrue(alun.getTurma().equals(t1));
+	}
+	
+	@Test
+	void alterarTurma2() {
+		alun.setTurma(null);
+		assertTrue(alun.getTurma() == (null));
 	}
 	
 	@Test
