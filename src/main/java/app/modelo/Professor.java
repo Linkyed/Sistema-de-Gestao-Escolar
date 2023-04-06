@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -48,6 +49,12 @@ public class Professor{
 	joinColumns = @JoinColumn(name = "professor_id", referencedColumnName = "id"),
 	inverseJoinColumns = @JoinColumn(name = "disciplina_id", referencedColumnName = "id"))
 	private List<Disciplina> disciplinas;
+	
+	@ManyToMany
+	@JoinTable(name = "professores_turmas",
+	joinColumns = @JoinColumn(name = "professor_id", referencedColumnName = "id"),
+	inverseJoinColumns = @JoinColumn(name = "turma_id", referencedColumnName = "id"))
+	private List<Turma> turmas;
 	
 	public Professor() {
 		
@@ -162,11 +169,43 @@ public class Professor{
 		return disciplinas;
 	}
 
-	public void adicionarDisciplinas(Disciplina d) {
+	public void adicionarDisciplina(Disciplina d) {
 		if (d != null && !getDisciplinas().contains(d)) {
 			getDisciplinas().add(d);
 			if (!d.getProfessores().contains(this)) {
 				d.getProfessores().add(this);				
+			}
+		}
+	}
+	
+	public void removerDisciplina(Disciplina d) {
+		if (d != null && getDisciplinas().contains(d)) {
+			getDisciplinas().remove(d);
+			if (d.getProfessores().contains(this)) {
+				d.getProfessores().remove(this);				
+			}
+		}
+	}
+	
+	public List<Turma> getTurmas() {
+		if (turmas == null) turmas = new ArrayList<>();
+		return turmas;
+	}
+
+	public void adicionarTurma(Turma t) {
+		if (t != null && !getTurmas().contains(t)) {
+			getTurmas().add(t);
+			if (!t.getProfessores().contains(this)) {
+				t.getProfessores().add(this);				
+			}
+		}
+	}
+	
+	public void removerTurma(Turma t) {
+		if (t != null && getTurmas().contains(t)) {
+			getTurmas().remove(t);
+			if (t.getProfessores().contains(this)) {
+				t.getProfessores().remove(this);				
 			}
 		}
 	}

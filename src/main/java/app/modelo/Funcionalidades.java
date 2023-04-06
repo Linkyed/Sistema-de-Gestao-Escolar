@@ -86,7 +86,7 @@ public class Funcionalidades {
 	static public Date cirarDataSQL(String date) {
 		Integer[] dataSeparada = converterStringPraData(date);
 		verificarData(dataSeparada[0], dataSeparada[1], dataSeparada[2]);
-		Calendar calendario = Calendar.getInstance();
+     		Calendar calendario = Calendar.getInstance();
 		calendario.set(dataSeparada[2], dataSeparada[1] - 1, dataSeparada[0]);
 		java.util.Date data = calendario.getTime();
 		Date sqlData = new java.sql.Date(data.getTime());

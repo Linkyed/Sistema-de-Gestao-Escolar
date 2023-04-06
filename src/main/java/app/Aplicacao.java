@@ -30,7 +30,7 @@ public class Aplicacao {
 		
 		Disciplina d1 = new Disciplina(AreasDeConhecimento.LITERATURA, 120, NivelEscolar.FUNDAMENTAL);
 		Disciplina d2 = new Disciplina(AreasDeConhecimento.LITERATURA, 180, NivelEscolar.ENSINO_MEDIO);
-		Turma t = new Turma(NivelEscolar.ENSINO_MEDIO, "B", "MP65");
+		Turma t = new Turma(NivelEscolar.ENSINO_MEDIO, "A", "MP65");
 		Aluno a = new Aluno("teste", "24581919088", "Feminino", "teste@gmail.com", sqlDate, t);
 		
 		//p2.adicionarDisciplinas(d2);
@@ -40,8 +40,11 @@ public class Aplicacao {
 		DisciplinaDAO discDAO = new DisciplinaDAO();
 		TurmaDAO turmDAO = new TurmaDAO();
 		
-		//alunDAO.Atualizar("24581919088", AtributosAluno.TURMA, "EMA");
-		turmDAO.Atualizar("EMB", AtributosTurma.ALUNOS_REMOVER, "24581919088");
+		//profDAO.Atualizar("24581919088", AtributosProfessor.TURMAS_ADICIONAR, "EMA");
+		//discDAO.removerDisciplina("LIT02");
+		turmDAO.removerTurma("EMA");
+		//alunDAO.Atualizar("24581919088", AtributosAluno.TURMA, "EMB");
+		//turmDAO.Atualizar("EMB", AtributosTurma.ALUNOS_REMOVER, "24581919088");
 		//turmDAO.criarTurma(t);
 		//alunDAO.criarAluno(a);
 		//turmDAO.removerTurma("EMB");

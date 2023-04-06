@@ -64,6 +64,7 @@ public class AlunoDAO extends DAO<Aluno> {
 	
 	public Aluno Atualizar(String CPF, AtributosAluno escolhaAlteracao, String alteracao){
 		Aluno a = getAlunoPorCPF(CPF);
+		Funcionalidades.testarObjetoNulo.apply(escolhaAlteracao);
 		
 		if (escolhaAlteracao.equals(AtributosAluno.CPF)) {
 			try {
@@ -84,7 +85,8 @@ public class AlunoDAO extends DAO<Aluno> {
 			if (alteracao == null) {
 				a.setTurma(null);
 			} else {
-				a.setTurma(new TurmaDAO().getTurmaPorCodigo(alteracao));;				
+				TurmaDAO dao = new TurmaDAO();
+				a.setTurma(dao.getTurmaPorCodigo(alteracao));;				
 			}
 		
 		mergeAtomico(a);

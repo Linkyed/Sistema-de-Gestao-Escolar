@@ -57,8 +57,6 @@ public class ProfessorDAO extends DAO<Professor>{
 	public Professor Atualizar(String CPF, AtributosProfessor escolhaAlteracao, String alteracao){
 		Professor p = getProfessorPorCPF(CPF);
 		Funcionalidades.testarObjetoNulo.apply(escolhaAlteracao);
-		alteracao = Funcionalidades.testarStringNula
-				.andThen(Funcionalidades.testarStringVazia).apply(alteracao);
 		
 		if (escolhaAlteracao.equals(AtributosProfessor.NOME)) 
 			p.setNome(alteracao);
@@ -84,10 +82,26 @@ public class ProfessorDAO extends DAO<Professor>{
 			p.setSalario(Funcionalidades.converterStringPraDouble(alteracao));
 		else if (escolhaAlteracao.equals(AtributosProfessor.INICIO_CONTRATO)) 
 			p.setInicioContrato(Funcionalidades.cirarDataSQL(alteracao));
-		else if (escolhaAlteracao.equals(AtributosProfessor.DISCIPLINAS_ADICIONAR)) 
-			p.adicionarDisciplinas(new DisciplinaDAO().getDisciplinaPorCodigo(alteracao));
-		else if (escolhaAlteracao.equals(AtributosProfessor.DISCIPLINAS_REMOVER)) 
-			p.getDisciplinas().remove(new DisciplinaDAO().getDisciplinaPorCodigo(alteracao));
+		else if (escolhaAlteracao.equals(AtributosProfessor.DISCIPLINAS_ADICIONAR)) {
+			DisciplinaDAO dao = new DisciplinaDAO();			
+			p.adicionarDisciplina(dao.getDisciplinaPorCodigo(alteracao));
+			dao.fechar();
+		}
+		else if (escolhaAlteracao.equals(AtributosProfessor.DISCIPLINAS_REMOVER)) {
+			DisciplinaDAO dao = new DisciplinaDAO();
+			p.removerDisciplina(dao.getDisciplinaPorCodigo(alteracao));
+			dao.fechar();
+		}
+		else if (escolhaAlteracao.equals(AtributosProfessor.TURMAS_ADICIONAR)) {
+			TurmaDAO dao = new TurmaDAO();
+			p.adicionarTurma(dao.getTurmaPorCodigo(alteracao));
+			dao.fechar();
+		}
+		else if (escolhaAlteracao.equals(AtributosProfessor.TURMAS_REMOVER)) {
+			TurmaDAO dao = new TurmaDAO();
+			p.removerTurma(dao.getTurmaPorCodigo(alteracao));
+			dao.fechar();
+		}
 		
 		mergeAtomico(p);
 		return p;

@@ -60,8 +60,6 @@ public class DisciplinaDAO extends DAO<Disciplina> {
 	public Disciplina Atualizar(String codigo, AtributosDisciplina escolhaAlteracao, String alteracao){
 		Disciplina d = getDisciplinaPorCodigo(codigo);
 		Funcionalidades.testarObjetoNulo.apply(escolhaAlteracao);
-		alteracao = Funcionalidades.testarStringNula
-				.andThen(Funcionalidades.testarStringVazia).apply(alteracao);
 		
 		if (escolhaAlteracao.equals(AtributosDisciplina.NOME)) {
 			Disciplina teste = new Disciplina(Funcionalidades.stringParaAreaConhecimento(alteracao), d.getCargaHoraria(), Funcionalidades.StringParaNivelEscolar(d.getNivelDaDisciplina()));

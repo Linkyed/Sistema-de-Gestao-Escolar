@@ -1,13 +1,17 @@
 package app.modelo.infra;
 
+import java.util.Iterator;
+
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import app.excecao.ConsultaNulaException;
 import app.excecao.RegistroDuplicadoException;
 import app.modelo.AtributosAluno;
+import app.modelo.AtributosProfessor;
 import app.modelo.AtributosTurma;
 import app.modelo.Funcionalidades;
+import app.modelo.Professor;
 import app.modelo.Turma;
 
 public class TurmaDAO extends DAO<Turma>{
@@ -48,7 +52,13 @@ public class TurmaDAO extends DAO<Turma>{
 	
 	public Turma removerTurma(String codigo) {
 		Turma t = getTurmaPorCodigo(codigo);
+		ProfessorDAO dao = new ProfessorDAO();
+		
 		t.getAlunos().forEach(a -> a.setTurma(null));
+		t.getProfessores().stream().forEach(p -> dao.Atualizar(p.getCPF(),
+				AtributosProfessor.TURMAS_REMOVER, codigo));
+		
+		dao.fechar();
 		removerEntidade(t);
 		return t;
 	}
@@ -56,10 +66,7 @@ public class TurmaDAO extends DAO<Turma>{
 	public Turma Atualizar(String codigo, AtributosTurma escolhaAlteracao, String alteracao){
 		Turma t = getTurmaPorCodigo(codigo);
 		Funcionalidades.testarObjetoNulo.apply(escolhaAlteracao);
-		alteracao = Funcionalidades.testarStringNula
-				.andThen(Funcionalidades.testarStringVazia).apply(alteracao);
 		
-
 		if (escolhaAlteracao.equals(AtributosTurma.NIVEL_TURMA)) {
 			Turma teste = new Turma(Funcionalidades.StringParaNivelEscolar(alteracao), t.getLetraTurma(), t.getSala());
 			try {
@@ -83,17 +90,6 @@ public class TurmaDAO extends DAO<Turma>{
 		}
 		else if (escolhaAlteracao.equals(AtributosTurma.SALA)) 
 			t.setSala(alteracao);
-		else if (escolhaAlteracao.equals(AtributosTurma.ALUNOS_ADICIONAR)) {
-			AlunoDAO alunoDAO = new AlunoDAO();
-			t.adicionarAluno(alunoDAO.getAlunoPorCPF(alteracao));
-			alunoDAO.fechar();	
-		}
-		else if (escolhaAlteracao.equals(AtributosTurma.ALUNOS_REMOVER)) {
-			AlunoDAO alunoDAO = new AlunoDAO();
-			t.removerAluno(alunoDAO.getAlunoPorCPF(alteracao));
-			alunoDAO.Atualizar(alteracao, AtributosAluno.TURMA, null);
-			alunoDAO.fechar();	
-		}
 		
 		mergeAtomico(t);
 		return t;

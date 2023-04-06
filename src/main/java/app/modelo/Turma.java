@@ -2,6 +2,7 @@ package app.modelo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -34,6 +36,9 @@ public class Turma {
 	
 	@OneToMany(mappedBy = "turma", cascade = CascadeType.MERGE)
 	private List<Aluno> alunos;
+	
+	@ManyToMany(mappedBy = "turmas", cascade = CascadeType.MERGE)
+	private List<Professor> professores;
 
 	public Turma() {
 		
@@ -115,19 +120,26 @@ public class Turma {
 		return alunos;
 	}
 
-	public void adicionarAluno(Aluno aluno) {
-		if (aluno != null && !alunos.contains(aluno)) {
-			getAlunos().add(aluno);
-			aluno.setTurma(this);
-			
-		}
+	public List<Professor> getProfessores() {
+		if (professores == null) alunos = new ArrayList<>();
+		return professores;
 	}
-	
-	public void removerAluno(Aluno aluno) {
-		if (aluno != null && alunos.contains(aluno)) {
-			aluno.setTurma(null);
-			getAlunos().remove(aluno);
-		}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(codigo);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Turma other = (Turma) obj;
+		return Objects.equals(codigo, other.codigo);
 	}
 	
 	
