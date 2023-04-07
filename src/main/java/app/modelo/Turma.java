@@ -34,7 +34,7 @@ public class Turma {
 	@Column(nullable = false, length = 80)
 	private String sala;
 	
-	@OneToMany(mappedBy = "turma", cascade = CascadeType.MERGE)
+	@OneToMany(mappedBy = "turma")
 	private List<Aluno> alunos;
 	
 	@ManyToMany(mappedBy = "turmas", cascade = CascadeType.MERGE)

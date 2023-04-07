@@ -27,21 +27,19 @@ public class Aplicacao {
 		
 		//Iniciando Tabelas
 		Professor p1 = new Professor("Estefani Grilo Aguiar", "93774484090", "Masculino", "estefani@gmail.com", AreasDeConhecimento.LITERATURA, 4550.0, sqlDate);
-		Professor p2 = new Professor("Rafael Tosta", "24581919088", "Masculino", "rafael@gmail.com", AreasDeConhecimento.LINGUA_PORTUGUESA, 4550.0, sqlDate);
+		Professor p2 = new Professor("Rafael Tosta", "66481727030", "Masculino", "rafael@gmail.com", AreasDeConhecimento.LINGUA_PORTUGUESA, 4550.0, sqlDate);
 		
 		Disciplina d1 = new Disciplina(AreasDeConhecimento.LITERATURA, 120, NivelEscolar.FUNDAMENTAL);
 		Disciplina d2 = new Disciplina(AreasDeConhecimento.LITERATURA, 180, NivelEscolar.ENSINO_MEDIO);
 		Turma t = new Turma(NivelEscolar.ENSINO_MEDIO, "A", "MP65");
-		Aluno a = new Aluno("teste", "24581919088", "Feminino", "teste@gmail.com", sqlDate, t);
+		Aluno a = new Aluno("teste", "24581919088", "Feminino", "teste@gmail.com", sqlDate, null);
 		
 		//p2.adicionarDisciplinas(d2);
-
-		
-		DAOs.profDAO.criarProfessor(p2);
-		DAOs.discDAO.criarDisciplina(d1);
-		DAOs.discDAO.criarDisciplina(d2);
-		DAOs.profDAO.Atualizar("24581919088", AtributosProfessor.DISCIPLINAS_ADICIONAR, "LIT01");
-		DAOs.discDAO.removerDisciplina("LIT01");
+		DAOs.turmDAO.criarTurma(t);
+		DAOs.alunDAO.criarAluno(a);
+		DAOs.alunDAO.Atualizar("24581919088", AtributosAluno.TURMA, "EMA");
+		DAOs.alunDAO.Atualizar("24581919088", AtributosAluno.TURMA, null);
+		DAOs.turmDAO.removerTurma("EMA");
 	
 		
 		DAOs.discDAO.fechar();

@@ -2,8 +2,12 @@ package app.modelo;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.sql.Date;
+
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,6 +17,15 @@ import app.modelo.Turma;
 public class TurmaTeste {
 	
 	Turma turm;
+	static Professor p;
+	static Aluno a;
+	
+	@BeforeAll
+	static void inicializarSecundarios() {
+		Date sqlDate = Funcionalidades.cirarDataSQL("28-02-2023");
+		p = new Professor("Estefani Grilo Aguiar", "93774484090", "Masculino", "estefani@gmail.com", AreasDeConhecimento.LITERATURA, 4550.0, sqlDate);
+		a = new Aluno("teste", "24581919088", "Feminino", "teste@gmail.com", sqlDate, null);
+	}
 	
 	@BeforeEach
 	void inicializarTurma() {
@@ -96,6 +109,22 @@ public class TurmaTeste {
 		assertThrows(NullPointerException.class, () -> {
 			turm.setSala(null);
 		});
+	}
+	
+	@Test
+	void testarAlunoNaTurma() {
+		a.setTurma(turm);
+		assertTrue(turm.equals(a.getTurma()));
+		a.setTurma(null);
+		assertEquals(0, turm.getAlunos().size());
+	}
+	
+	@Test
+	void testarProfessorNaTurma() {
+		p.adicionarTurma(turm);
+		assertTrue(turm.equals(p.getTurmas().get(0)));
+		p.removerTurma(turm);
+		assertEquals(0, p.getTurmas().size());
 	}
 
 	@Test

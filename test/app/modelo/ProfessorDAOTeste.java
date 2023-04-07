@@ -30,8 +30,6 @@ public class ProfessorDAOTeste {
 		TurmaDAO tDAO = new TurmaDAO();
 		dDAO.criarDisciplina(new Disciplina(AreasDeConhecimento.ARTES, 120, NivelEscolar.FUNDAMENTAL));
 		tDAO.criarTurma(new Turma(NivelEscolar.ENSINO_MEDIO, "Z", "MP65"));
-		dDAO.fechar();
-		tDAO.fechar();
 	}
 	
 	@BeforeEach

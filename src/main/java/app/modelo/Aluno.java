@@ -38,7 +38,7 @@ public class Aluno {
 	@Column(nullable = false)
 	private Date dataNascimento;
 
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@ManyToOne
 	private Turma turma;
 	
 	public Aluno() {
@@ -156,6 +156,15 @@ public class Aluno {
 	}
 
 	public void setTurma(Turma turma) {
+		if (turma == null && this.turma != null) this.turma.getAlunos().remove(this);
+		else if (turma != null && this.turma == null) turma.getAlunos().add(this); 
+		else if (turma != null && this.turma != null) {
+			if (!this.turma.equals(turma)) {
+				this.turma.getAlunos().remove(this);
+				turma.getAlunos().add(this);
+			} 		
+		}
+		
 		this.turma = turma;
 	}
 	
