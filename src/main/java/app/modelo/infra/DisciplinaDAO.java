@@ -51,8 +51,9 @@ public class DisciplinaDAO extends DAO<Disciplina> {
 	
 	public Disciplina removerDisciplina(String codigo) {
 		Disciplina d = getDisciplinaPorCodigo(codigo);
-		d.getProfessores().stream().forEach(p -> new ProfessorDAO().Atualizar(p.getCPF(),
-				AtributosProfessor.DISCIPLINAS_REMOVER, codigo));
+		for (int i = 0; i < d.getProfessores().size(); i ++) {
+			DAOs.profDAO.Atualizar(d.getProfessores().get(i).getCPF(), AtributosProfessor.DISCIPLINAS_REMOVER, codigo);
+		}
 		removerEntidade(d);
 		return d;			
 	}

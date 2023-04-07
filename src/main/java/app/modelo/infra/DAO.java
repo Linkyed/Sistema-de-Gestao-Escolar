@@ -58,12 +58,12 @@ public class DAO<E> {
 	}
 	
 	DAO<E> removerEntidade(E entidade) {
-		this.abrirTransacao().remove(entidade).fecharTransacao();	
+		abrirTransacao().remove(entidade).fecharTransacao();	
 		return this;
 	}
 	
 	public DAO<E> incluirAtomico(E entidade) {
-		return this.abrirTransacao().incluir(entidade).fecharTransacao();
+		return abrirTransacao().incluir(entidade).fecharTransacao();
 	}
 	
 	public List<E> obterTodos(int quantidade, int deslocamento){

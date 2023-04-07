@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,7 +33,7 @@ public class Disciplina {
 	@Column(nullable = false, length = 20)
 	private String nivelDaDisciplina;
 
-	@ManyToMany(mappedBy = "disciplinas")
+	@ManyToMany(mappedBy = "disciplinas", cascade = {CascadeType.MERGE})
 	private List<Professor> professores;
 	
 	public Disciplina() {

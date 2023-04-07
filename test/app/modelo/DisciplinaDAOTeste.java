@@ -20,31 +20,31 @@ import app.modelo.Disciplina;
 import app.modelo.Funcionalidades;
 import app.modelo.NivelEscolar;
 import app.modelo.infra.AlunoDAO;
+import app.modelo.infra.DAOs;
 import app.modelo.infra.DisciplinaDAO;
+import app.modelo.infra.ProfessorDAO;
 
 public class DisciplinaDAOTeste {
-	DisciplinaDAO dao;
 	Disciplina disc1;
 	Disciplina disc2;
 	Disciplina disc3;
 	
 	@BeforeEach
-	void inicializarDAOeAluno() {
-		dao = new DisciplinaDAO();
+	void inicializarDAOeDisciplina() {
 		disc3 = new Disciplina(AreasDeConhecimento.ARTES, 120, NivelEscolar.FUNDAMENTAL);
 		disc2 = new Disciplina(AreasDeConhecimento.ARTES, 120, NivelEscolar.ENSINO_MEDIO);
 		disc1 = new Disciplina(AreasDeConhecimento.GEOGRAFIA, 120, NivelEscolar.ENSINO_MEDIO);
-		dao.criarDisciplina(disc3);
-		dao.criarDisciplina(disc2);
-		dao.criarDisciplina(disc1);
+		DAOs.discDAO.criarDisciplina(disc3);
+		DAOs.discDAO.criarDisciplina(disc2);
+		DAOs.discDAO.criarDisciplina(disc1);
 	}
 	
 	@AfterEach
-	void removerAluno() {
+	void removerDisciplina() {
 		try {
-			dao.removerDisciplina("ART01");
-			dao.removerDisciplina("ART02");
-			dao.removerDisciplina("GEO02");
+			DAOs.discDAO.removerDisciplina("ART01");
+			DAOs.discDAO.removerDisciplina("ART02");
+			DAOs.discDAO.removerDisciplina("GEO02");
 		} catch (Exception e) {
 			
 		}
@@ -52,128 +52,142 @@ public class DisciplinaDAOTeste {
 	
 	@Test
 	void testarCriacao1() {			
-		assertTrue(disc1.equals(dao.obterUltimo()));		
+		assertTrue(disc1.equals(DAOs.discDAO.obterUltimo()));		
 	}
 	
 	@Test
 	void testarCriacao2() {
 		assertThrows(RegistroDuplicadoException.class, () -> {
-			dao.criarDisciplina(disc1);				
+			DAOs.discDAO.criarDisciplina(disc1);				
 		});
 	}
 	
 	@Test
 	void testarCriacao3() {
 		assertThrows(NullPointerException.class, () -> {
-			dao.criarDisciplina(null);				
+			DAOs.discDAO.criarDisciplina(null);				
 		});
 	}
 	
 	@Test
 	void testarRemocao1() {
-		Disciplina d = dao.removerDisciplina("GEO02");
+		Disciplina d = DAOs.discDAO.removerDisciplina("GEO02");
 		boolean verificar = d.equals(disc1);
-		dao.criarDisciplina(new Disciplina(AreasDeConhecimento.GEOGRAFIA, 120, NivelEscolar.ENSINO_MEDIO));
+		DAOs.discDAO.criarDisciplina(new Disciplina(AreasDeConhecimento.GEOGRAFIA, 120, NivelEscolar.ENSINO_MEDIO));
 		assertTrue(verificar);
 	}
+	
 	
 	@Test
 	void testarRemocao2() {
 		assertThrows(ConsultaNulaException.class, () -> {
-			dao.removerDisciplina("DDDDD");
+			DAOs.discDAO.removerDisciplina("DDDDD");
 		});
 	}
 	
 	@Test
 	void testarRemocao3() {
 		assertThrows(NullPointerException.class, () -> {
-			dao.removerDisciplina(null);
+			DAOs.discDAO.removerDisciplina(null);
 		});
+	}
+	
+	@Test
+	void testarRemocaoComProfessor() {
+		DAOs.profDAO.criarProfessor(new Professor("Estefani Grilo Aguiar", "81544136048", "Masculino", "estefanitestezada@gmail.com",
+				AreasDeConhecimento.LITERATURA, 4550.0, Funcionalidades.cirarDataSQL("12-10-2002")));
+		DAOs.profDAO.Atualizar("81544136048", AtributosProfessor.DISCIPLINAS_ADICIONAR, "GEO02");
+		Disciplina d = DAOs.discDAO.removerDisciplina("GEO02");
+		boolean verificar = d.equals(disc1);
+		DAOs.discDAO.criarDisciplina(new Disciplina(AreasDeConhecimento.GEOGRAFIA, 120, NivelEscolar.ENSINO_MEDIO));
+		assertEquals(0, DAOs.profDAO.getProfessorPorCPF("81544136048").getDisciplinas().size());
+		assertTrue(verificar);
+		DAOs.profDAO.removerProfessor("81544136048");
 	}
 	
 	@Test
 	void alteracaoNula1() {
 		assertThrows(NullPointerException.class, () -> {
-			dao.Atualizar(null, AtributosDisciplina.NOME, "filosofia");
+			DAOs.discDAO.Atualizar(null, AtributosDisciplina.NOME, "filosofia");
 		});
 	}
 	
 	@Test
 	void alteracaoNula2() {
 		assertThrows(NullPointerException.class, () -> {
-			dao.Atualizar("ART01", null, "josevaldo ferreira");
+			DAOs.discDAO.Atualizar("ART01", null, "josevaldo ferreira");
 		});
 	}
 	
 	@Test
 	void alteracaoNula3() {
 		assertThrows(NullPointerException.class, () -> {
-			dao.Atualizar("ART01", AtributosDisciplina.NOME, null);
+			DAOs.discDAO.Atualizar("ART01", AtributosDisciplina.NOME, null);
 		});
 	}
 	
 	@Test
 	void alteracaoVazia4() {
 		assertThrows(IllegalArgumentException.class, () -> {
-			dao.Atualizar("ART01", AtributosDisciplina.NOME, "");
+			DAOs.discDAO.Atualizar("ART01", AtributosDisciplina.NOME, "");
 		});
 	}
 	
 	@Test
 	void alteracaoCodigoInvalido() {
 		assertThrows(ConsultaNulaException.class, () -> {
-			dao.Atualizar("FFFFF", AtributosDisciplina.NOME, "geografia");
+			DAOs.discDAO.Atualizar("FFFFF", AtributosDisciplina.NOME, "geografia");
 		});
 	}
 	
 	@Test
 	void alteracaoNome1() {
-		dao.Atualizar("GEO02", AtributosDisciplina.NOME, "filosofia");
-		boolean verificacao = "Filosofia".equals(dao.obterUltimo().getNome());
-		dao.Atualizar("FIL02", AtributosDisciplina.NOME, "geografia");
+		DAOs.discDAO.Atualizar("GEO02", AtributosDisciplina.NOME, "filosofia");
+		boolean verificacao = "Filosofia".equals(DAOs.discDAO.obterUltimo().getNome());
+		DAOs.discDAO.Atualizar("FIL02", AtributosDisciplina.NOME, "geografia");
 		assertTrue(verificacao);
 	}
 	
 	@Test
 	void alteracaoNome2() {
 		assertThrows(RegistroDuplicadoException.class, () -> {
-			dao.Atualizar("GEO02", AtributosDisciplina.NOME, "artes");
+			DAOs.discDAO.Atualizar("GEO02", AtributosDisciplina.NOME, "artes");
 			
 		});
 	}
 	
 	@Test
 	void alterarCargaHoraria1() {
-		dao.Atualizar("GEO02", AtributosDisciplina.CARGA_HORARIA, "200");
-		assertEquals(200, dao.obterUltimo().getCargaHoraria());
+		DAOs.discDAO.Atualizar("GEO02", AtributosDisciplina.CARGA_HORARIA, "200");
+		assertEquals(200, DAOs.discDAO.obterUltimo().getCargaHoraria());
 	}
 	
 	@Test
 	void alterarCargaHoraria2() {
-		assertThrows(NumberFormatException.class, () -> {
-			dao.Atualizar("GEO02", AtributosDisciplina.CARGA_HORARIA, "asd");			
+		assertThrows(IllegalArgumentException.class, () -> {
+			DAOs.discDAO.Atualizar("GEO02", AtributosDisciplina.CARGA_HORARIA, "asd");			
 		});
 	}
 	
 	@Test
 	void alterarNivelDisciplina1() {
-		dao.Atualizar("GEO02", AtributosDisciplina.NIVEL_DISCIPLINA, "fundamental");
-		boolean verificacao = "Fundamental".equalsIgnoreCase(dao.obterUltimo().getNivelDaDisciplina());
-		dao.Atualizar("GEO01", AtributosDisciplina.NIVEL_DISCIPLINA, "ensino medio");
+		DAOs.discDAO.Atualizar("GEO02", AtributosDisciplina.NIVEL_DISCIPLINA, "fundamental");
+		boolean verificacao = "Fundamental".equalsIgnoreCase(DAOs.discDAO.obterUltimo().getNivelDaDisciplina());
+		DAOs.discDAO.Atualizar("GEO01", AtributosDisciplina.NIVEL_DISCIPLINA, "ensino medio");
 		assertTrue(verificacao);
 	}
 	
 	@Test
 	void alterarNivelDisciplina2() {
 		assertThrows(RegistroDuplicadoException.class, () -> {
-			dao.Atualizar("ART02", AtributosDisciplina.NIVEL_DISCIPLINA, "fundamental");			
+			DAOs.discDAO.Atualizar("ART02", AtributosDisciplina.NIVEL_DISCIPLINA, "fundamental");			
 		});
 	}
 	
 	@Test
 	void alterarNivelDisciplina3() {
 		assertThrows(RegistroDuplicadoException.class, () -> {
-			dao.Atualizar("ART01", AtributosDisciplina.NIVEL_DISCIPLINA, "ensino medio");			
+			DAOs.discDAO.Atualizar("ART01", AtributosDisciplina.NIVEL_DISCIPLINA, "ensino medio");			
 		});
 	}
 }

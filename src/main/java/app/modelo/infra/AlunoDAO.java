@@ -85,8 +85,7 @@ public class AlunoDAO extends DAO<Aluno> {
 			if (alteracao == null) {
 				a.setTurma(null);
 			} else {
-				TurmaDAO dao = new TurmaDAO();
-				a.setTurma(dao.getTurmaPorCodigo(alteracao));;				
+				a.setTurma(DAOs.turmDAO.getTurmaPorCodigo(alteracao));;				
 			}
 		
 		mergeAtomico(a);

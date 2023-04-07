@@ -82,25 +82,18 @@ public class ProfessorDAO extends DAO<Professor>{
 			p.setSalario(Funcionalidades.converterStringPraDouble(alteracao));
 		else if (escolhaAlteracao.equals(AtributosProfessor.INICIO_CONTRATO)) 
 			p.setInicioContrato(Funcionalidades.cirarDataSQL(alteracao));
-		else if (escolhaAlteracao.equals(AtributosProfessor.DISCIPLINAS_ADICIONAR)) {
-			DisciplinaDAO dao = new DisciplinaDAO();			
-			p.adicionarDisciplina(dao.getDisciplinaPorCodigo(alteracao));
-			dao.fechar();
+		else if (escolhaAlteracao.equals(AtributosProfessor.DISCIPLINAS_ADICIONAR)) {	
+			p.adicionarDisciplina(DAOs.discDAO.getDisciplinaPorCodigo(alteracao));
 		}
 		else if (escolhaAlteracao.equals(AtributosProfessor.DISCIPLINAS_REMOVER)) {
-			DisciplinaDAO dao = new DisciplinaDAO();
-			p.removerDisciplina(dao.getDisciplinaPorCodigo(alteracao));
-			dao.fechar();
+			p.removerDisciplina(DAOs.discDAO.getDisciplinaPorCodigo(alteracao));
 		}
 		else if (escolhaAlteracao.equals(AtributosProfessor.TURMAS_ADICIONAR)) {
-			TurmaDAO dao = new TurmaDAO();
-			p.adicionarTurma(dao.getTurmaPorCodigo(alteracao));
-			dao.fechar();
+			p.adicionarTurma(DAOs.turmDAO.getTurmaPorCodigo(alteracao));
+
 		}
 		else if (escolhaAlteracao.equals(AtributosProfessor.TURMAS_REMOVER)) {
-			TurmaDAO dao = new TurmaDAO();
-			p.removerTurma(dao.getTurmaPorCodigo(alteracao));
-			dao.fechar();
+			p.removerTurma(DAOs.turmDAO.getTurmaPorCodigo(alteracao));
 		}
 		
 		mergeAtomico(p);

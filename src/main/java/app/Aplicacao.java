@@ -14,6 +14,7 @@ import app.modelo.NivelEscolar;
 import app.modelo.Professor;
 import app.modelo.Turma;
 import app.modelo.infra.AlunoDAO;
+import app.modelo.infra.DAOs;
 import app.modelo.infra.DisciplinaDAO;
 import app.modelo.infra.ProfessorDAO;
 import app.modelo.infra.TurmaDAO;
@@ -34,18 +35,17 @@ public class Aplicacao {
 		Aluno a = new Aluno("teste", "24581919088", "Feminino", "teste@gmail.com", sqlDate, t);
 		
 		//p2.adicionarDisciplinas(d2);
+
 		
-		ProfessorDAO profDAO = new ProfessorDAO();
-		AlunoDAO alunDAO = new AlunoDAO();
-		DisciplinaDAO discDAO = new DisciplinaDAO();
-		TurmaDAO turmDAO = new TurmaDAO();
+		DAOs.profDAO.criarProfessor(p2);
+		DAOs.discDAO.criarDisciplina(d1);
+		DAOs.discDAO.criarDisciplina(d2);
+		DAOs.profDAO.Atualizar("24581919088", AtributosProfessor.DISCIPLINAS_ADICIONAR, "LIT01");
+		DAOs.discDAO.removerDisciplina("LIT01");
+	
 		
-		//profDAO.Atualizar("24581919088", AtributosProfessor.TURMAS_ADICIONAR, "EMA");
-		//discDAO.removerDisciplina("LIT02");
-		turmDAO.removerTurma("EMA");
-		
-		discDAO.fechar();
-		alunDAO.fechar();
-		profDAO.fechar();
+		DAOs.discDAO.fechar();
+		DAOs.alunDAO.fechar();
+		DAOs.profDAO.fechar();
 	}
 }

@@ -52,13 +52,11 @@ public class TurmaDAO extends DAO<Turma>{
 	
 	public Turma removerTurma(String codigo) {
 		Turma t = getTurmaPorCodigo(codigo);
-		ProfessorDAO dao = new ProfessorDAO();
 		
 		t.getAlunos().forEach(a -> a.setTurma(null));
-		t.getProfessores().stream().forEach(p -> dao.Atualizar(p.getCPF(),
+		t.getProfessores().stream().forEach(p -> DAOs.profDAO.Atualizar(p.getCPF(),
 				AtributosProfessor.TURMAS_REMOVER, codigo));
 		
-		dao.fechar();
 		removerEntidade(t);
 		return t;
 	}
