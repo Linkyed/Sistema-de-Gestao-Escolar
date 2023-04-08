@@ -14,7 +14,7 @@ import app.modelo.Professor;
 
 public class ProfessorDAO extends DAO<Professor>{
 	
-	static public String obterProfessorSQL = "obterPessoaPorCPF";
+	static final public String OBTER_PROFESSOR_SQL = "obterProfessorPorCPF";
 	
 	public ProfessorDAO() {
 		super(Professor.class);
@@ -22,6 +22,8 @@ public class ProfessorDAO extends DAO<Professor>{
 	
 	public Professor obterProfessor(String CPF) {
 		Professor p = verificarExistencia(CPF);
+		if (p == null) throw new ConsultaNulaException("Nenhum professor encontrado.");
+		
 		return p;
 	}
 	
@@ -41,7 +43,7 @@ public class ProfessorDAO extends DAO<Professor>{
 			removerEntidade(p);
 			return p;
 		} else {
-			throw new ConsultaNulaException("Nenhum professor encontrado.");
+			throw new ConsultaNulaException("Nenhum professor encontrado para ser exlcuido.");
 		}		
 	}
 	
@@ -75,22 +77,7 @@ public class ProfessorDAO extends DAO<Professor>{
 	}	
 	
 	private Professor verificarExistencia(String CPF) {
-		CPF = Funcionalidades.validarCPF(CPF);
-		List<Professor> professores = consultar(obterProfessorSQL, "CPF", CPF);
-		
-		if (professores.size() != 0) 
-			return professores.get(0);
-		else 
-			return null;
-	}
-	
-	private List<Professor> consultar(String nomeConsulta, Object... params){
-		TypedQuery<Professor> query = em.createNamedQuery(nomeConsulta, classe);
-		for (int i = 0; i < params.length; i+=2) {
-			query.setParameter(params[i].toString(), params[i+1]);
-		}
-		
-		return query.getResultList();
+		return consutlarUm(OBTER_PROFESSOR_SQL, "CPF", CPF);
 	}
 	
 }

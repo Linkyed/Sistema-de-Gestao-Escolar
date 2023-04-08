@@ -20,9 +20,6 @@ public class Aluno {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(nullable = false, length = 15, unique = true)
-	private String matricula;
-	
 	@Column(nullable = false, length = 200)
 	private String nome;
 	
@@ -48,7 +45,6 @@ public class Aluno {
 		setSexo(sexo);
 		setEmail(email);
 		setDataNascimento(dataNacimento);
-		setMatricula();
 	}
 
 	public Long getId() {
@@ -57,15 +53,6 @@ public class Aluno {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getMatricula() {
-		return matricula;
-	}
-
-	private void setMatricula() {
-		String resultado = funcaoGerarMatricua();
-		matricula = String.format("%s%s", resultado, dataNascimento.toString().replace("-", ""));
 	}
 
 	public String getNome() {
@@ -82,9 +69,6 @@ public class Aluno {
 	
 	public void setCPF(String CPF) {
 		this.CPF = Funcionalidades.validarCPF(CPF);
-		if (this.CPF != null && this.dataNascimento != null) {			
-			setMatricula();
-		}
 	}
 	
 	public String getSexo() {
@@ -92,12 +76,7 @@ public class Aluno {
 	}
 
 	public void setSexo(String sexo) {
-		sexo = Funcionalidades.todaPrimeiraLetraMaiuscula(sexo);
-		if ("feminino".equalsIgnoreCase(sexo) || "masculino".equalsIgnoreCase(sexo) || "outro".equalsIgnoreCase(sexo)) {
-			this.sexo = Funcionalidades.todaPrimeiraLetraMaiuscula(sexo);			
-		} else {
-			throw new IllegalArgumentException("Sexo invalido");
-		}
+		this.sexo = Funcionalidades.verificarSexo(sexo);
 	}
 
 	public String getEmail() {
@@ -114,25 +93,12 @@ public class Aluno {
 
 	public void setDataNascimento(Date dataNacimento) {
 		this.dataNascimento = (Date) Funcionalidades.testarObjetoNulo.apply(dataNacimento);
-		if (this.CPF != null && this.dataNascimento != null) {			
-			setMatricula();
-		}
 	}
 	
-	private String funcaoGerarMatricua() {
-		int finalCPF = Integer.parseInt(CPF.substring(7));
-		int outrosDigitosSoma = 0;
-		
-		for (int i = 0; i < 9; i++) {
-			outrosDigitosSoma += Integer.parseInt(CPF.substring(i, i+1));
-		}
-		String funcaoMatricula = finalCPF + "" + outrosDigitosSoma;
-		return funcaoMatricula;
-	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(CPF, matricula);
+		return Objects.hash(CPF);
 	}
 
 	@Override
@@ -144,7 +110,7 @@ public class Aluno {
 		if (getClass() != obj.getClass())
 			return false;
 		Aluno other = (Aluno) obj;
-		return Objects.equals(CPF, other.CPF) && Objects.equals(matricula, other.matricula);
+		return Objects.equals(CPF, other.CPF);
 	}
 	
 }

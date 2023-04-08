@@ -37,8 +37,6 @@ public class Aplicacao {
 
 		//List<Professor> lista = DAOs.profDAO.consultar(ProfessorDAO.obterProfessor, "CPF", "93774484091");
 		//System.out.println(lista.size());
-
-		System.out.println(	Funcionalidades.validarCPF("93774484090"));
 		//DAOs.discDAO.fechar();
 		//DAOs.alunDAO.fechar();
 		DAOs.profDAO.fechar();

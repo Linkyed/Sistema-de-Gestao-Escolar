@@ -16,13 +16,11 @@ import app.modelo.Turma;
 
 public class AlunoTeste {
 	Aluno alun;
-	Turma t;
 	
 	@BeforeEach
 	void iniciarAluno(){
 		Date sqlDate = Funcionalidades.cirarDataSQL("10-03-2023");
-		t = new Turma(NivelEscolar.ENSINO_MEDIO, "A", "MP65");
-		alun = new Aluno("Thales ViTOr Costa", "05959533014", "Masculino", "thales@gmail.com", sqlDate, t);
+		alun = new Aluno("Thales ViTOr Costa", "05959533014", "Masculino", "thales@gmail.com", sqlDate);
 	}
 	
 	@Test
@@ -71,6 +69,21 @@ public class AlunoTeste {
 	}
 	
 	@Test
+	void alterarSexo5() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			alun.setSexo("");
+		});
+	}
+	
+
+	@Test
+	void alterarSexo6() {
+		assertThrows(NullPointerException.class, () -> {
+			alun.setSexo(null);
+		});
+	}
+	
+	@Test
 	void alterarEmail1() {
 		alun.setEmail("josiasbonifaio@gmail.com");
 		assertEquals("josiasbonifaio@gmail.com", alun.getEmail());
@@ -87,6 +100,20 @@ public class AlunoTeste {
 	void alterarEmail3() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			alun.setEmail("josiasbonifaiogmail.com");
+		});
+	}
+	
+	@Test
+	void alterarEmail4() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			alun.setEmail(" ");
+		});
+	}
+	
+	@Test
+	void alterarEmail5() {
+		assertThrows(NullPointerException.class, () -> {
+			alun.setEmail(null);
 		});
 	}
 	
@@ -111,7 +138,28 @@ public class AlunoTeste {
 	}
 	
 	@Test
-	void alterarContrato1() {
+	void alterarCPF4() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			alun.setCPF("");
+		});
+	}
+	
+	@Test
+	void alterarCPF5() {
+		assertThrows(NullPointerException.class, () -> {
+			alun.setCPF(null);
+		});
+	}
+	
+	@Test
+	void alterarDataNascimento1() {
+		Date sqlDate = Funcionalidades.cirarDataSQL("31-03-2023");
+		alun.setDataNascimento(sqlDate);
+		assertEquals(alun.getDataNascimento(), sqlDate);
+	}
+	
+	@Test
+	void alterarDataNascimento2() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			Date sqlDate = Funcionalidades.cirarDataSQL("29-02-2023");
 			alun.setDataNascimento(sqlDate);
@@ -119,7 +167,7 @@ public class AlunoTeste {
 	}
 	
 	@Test
-	void alterarContrato2() {
+	void alterarDataNascimento3() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			Date sqlDate = Funcionalidades.cirarDataSQL("32-03-2023");
 			alun.setDataNascimento(sqlDate);
@@ -127,7 +175,7 @@ public class AlunoTeste {
 	}
 	
 	@Test
-	void alterarContrato3() {
+	void alterarDataNascimento4() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			Date sqlDate = Funcionalidades.cirarDataSQL("31-04-2023");
 			alun.setDataNascimento(sqlDate);
@@ -135,28 +183,18 @@ public class AlunoTeste {
 	}
 	
 	@Test
-	void alterarContrato4() {
-		Date sqlDate = Funcionalidades.cirarDataSQL("31-03-2023");
-		alun.setDataNascimento(sqlDate);
-		assertEquals(alun.getDataNascimento(), sqlDate);
+	void alterarDataNascimento5() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			Date sqlDate = Funcionalidades.cirarDataSQL("");
+			alun.setDataNascimento(sqlDate);
+		});
 	}
 	
 	@Test
-	void alterarTurma1() {
-		Turma t1 = new Turma(NivelEscolar.ENSINO_MEDIO, "A", "MP65");
-		alun.setTurma(t1);
-		assertTrue(alun.getTurma().equals(t1));
-	}
-	
-	@Test
-	void alterarTurma2() {
-		alun.setTurma(null);
-		assertTrue(alun.getTurma() == (null));
-	}
-	
-	@Test
-	void testarMatricula() {
-		assertEquals("30143920230310", alun.getMatricula());
+	void alterarDataNascimento6() {
+		assertThrows(NullPointerException.class, () -> {
+			alun.setDataNascimento(null);
+		});
 	}
 	
 	
