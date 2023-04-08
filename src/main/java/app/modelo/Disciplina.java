@@ -36,11 +36,19 @@ public class Disciplina {
 	public Disciplina() {
 	}
 	
-	public Disciplina(String nome, Integer cargaHoraria, String nvEsc, String codigo) {
+	public Disciplina(String nome, Integer cargaHoraria, String nivelEscolar, String codigo) {
 		setNome(nome);
 		setCargaHoraria(cargaHoraria);
-		setNivelDaDisciplina(nvEsc);
+		setNivelDaDisciplina(nivelEscolar);
 		setCodigo(codigo);
+	}
+	
+	//Usado para fazer uma copia
+	public Disciplina(Disciplina outraDisciplina) {
+		 	setNome(outraDisciplina.getNome());
+			setCargaHoraria(outraDisciplina.getCargaHoraria());
+			setNivelDaDisciplina(outraDisciplina.getNivelDaDisciplina());
+			setCodigo(outraDisciplina.getCodigo().substring(0, 3));
 	}
 
 	public Long getId() {
@@ -55,7 +63,7 @@ public class Disciplina {
 		return codigo;
 	}
 
-	private void setCodigo(String codigo) {
+	public void setCodigo(String codigo) {
 		codigo = Funcionalidades.testarStringNula
 				.andThen(Funcionalidades.testarStringVazia)
 				.andThen(Funcionalidades.testarSoLetras).apply(codigo);
@@ -77,7 +85,7 @@ public class Disciplina {
 	}
 
 	public void setNome(String nome) {
-		nome = Funcionalidades.todaPrimeiraLetraMaiuscula(nome);
+		this.nome = Funcionalidades.todaPrimeiraLetraMaiuscula(nome);
 	}
 
 
@@ -101,8 +109,9 @@ public class Disciplina {
 		nivelEscolar = Funcionalidades.todaPrimeiraLetraMaiuscula(nivelEscolar);
 		if ("fundamental".equalsIgnoreCase(nivelEscolar) || "ensino medio".equalsIgnoreCase(nivelEscolar)) 
 			this.nivelEscolar = nivelEscolar;
-		
-		if (nivelEscolar != null && codigo != null) {
+		else
+			throw new IllegalArgumentException("Nivel escolar invalido.");
+		if (codigo != null) {
 			setCodigo(codigo.substring(0, 3));
 		}
 	}

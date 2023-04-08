@@ -15,74 +15,73 @@ import app.modelo.Professor;
 
 public class DisciplinaDAO extends DAO<Disciplina> {
 	
+	private final static String OBTER_DISCIPLINA_SQL = "obterDisciplinaPorCodigo";
+	
 	public DisciplinaDAO() {
 		super(Disciplina.class);
 	}
 	
-	public Disciplina getDisciplinaPorCodigo(String codigo) {
-		codigo = Funcionalidades.testarStringNula
-				.andThen(Funcionalidades.testarStringVazia).apply(codigo);
-		if (codigo.length() != 5) throw new IllegalArgumentException("Codigo invalido.");
+	public Disciplina obterDisciplina(String codigo) {
+		Disciplina d = verificarExistencia(codigo);
+		if (d == null) throw new ConsultaNulaException("Nenhuma disciplina encontrada.");
 		
-		String jpql = "select e from " + classe.getName() + " e where codigo = '" + codigo + "'";
-		try {
-			TypedQuery<Disciplina> query = em.createQuery(jpql, classe);	
-			if (query != null) {
-				Disciplina d = query.getSingleResult();
-				return d;
-			} 
-			throw new ConsultaNulaException("A consulta pelo Codigo resultou em nada encontrado.");
-		} catch (NoResultException e) {
-			throw new ConsultaNulaException("A consulta pelo Codigo resultou em nada encontrado.");
-		}
+		return d;
 	}
 	
 	public Disciplina criarDisciplina(Disciplina d) {
-		Funcionalidades.testarObjetoNulo.apply(d);
-		
-		try {
-			getDisciplinaPorCodigo(d.getCodigo());
-			throw new RegistroDuplicadoException("O Codigo da disciplina já existe no Banco de Dados.");
-		} catch (ConsultaNulaException e) {
+		if (verificarExistencia(d.getCodigo()) == null) {
 			incluirAtomico(d);
 			return d;
+		} else {
+			throw new RegistroDuplicadoException("O codigo da disciplina já existe no Banco de Dados.");			
 		}
 	}
 	
 	public Disciplina removerDisciplina(String codigo) {
-		Disciplina d = getDisciplinaPorCodigo(codigo);
-		for (int i = 0; i < d.getProfessores().size(); i ++) {
-			DAOs.profDAO.Atualizar(d.getProfessores().get(i).getCPF(), AtributosProfessor.DISCIPLINAS_REMOVER, codigo);
-		}
-		removerEntidade(d);
-		return d;			
+		Disciplina d = verificarExistencia(codigo);
+		
+		if (d != null) {
+			removerEntidade(d);
+			return d;
+		} else {
+			throw new ConsultaNulaException("Nenhuma disciplina encontrado para ser excluido.");
+		}			
 	}
 	
 	public Disciplina Atualizar(String codigo, AtributosDisciplina escolhaAlteracao, String alteracao){
-		Disciplina d = getDisciplinaPorCodigo(codigo);
+		Disciplina d = verificarExistencia(codigo);
+		Funcionalidades.testarObjetoNulo.apply(d);
 		Funcionalidades.testarObjetoNulo.apply(escolhaAlteracao);
 		
-		if (escolhaAlteracao.equals(AtributosDisciplina.NOME)) {
-			Disciplina teste = new Disciplina(Funcionalidades.stringParaAreaConhecimento(alteracao), d.getCargaHoraria(), Funcionalidades.StringParaNivelEscolar(d.getNivelDaDisciplina()));
-			try {
-				if (getDisciplinaPorCodigo(teste.getCodigo()) != null) throw new RegistroDuplicadoException("A Disciplina já existe.");
-			} catch (ConsultaNulaException e) {
-				d.setNome(Funcionalidades.stringParaAreaConhecimento(alteracao));
-			}			
+		if (escolhaAlteracao.equals(AtributosDisciplina.CODIGO)) {
+			Disciplina teste = verificarExistencia(alteracao + d.getCodigo().substring(3, 5));
+			if (teste == null)
+				d.setCodigo(alteracao);
+			else
+				throw new RegistroDuplicadoException("Disciplina com o codigo já existe no Banco de Dados.");
 		}
 		else if (escolhaAlteracao.equals(AtributosDisciplina.NIVEL_DISCIPLINA)) {
-			Disciplina teste = new Disciplina(Funcionalidades.stringParaAreaConhecimento(d.getNome()), d.getCargaHoraria(), Funcionalidades.StringParaNivelEscolar(alteracao));
-			try {
-				if (getDisciplinaPorCodigo(teste.getCodigo()) != null) throw new RegistroDuplicadoException("A Disciplina já existe.");
-			} catch (ConsultaNulaException e) {
-				d.setNivelDaDisciplina(Funcionalidades.StringParaNivelEscolar(alteracao));
-			}
+			Disciplina teste = new Disciplina(d);
+			teste.setNivelDaDisciplina(alteracao);
+			teste = verificarExistencia(teste.getCodigo());
+			
+			if (teste == null)
+				d.setNivelDaDisciplina(alteracao);
+			else
+				throw new RegistroDuplicadoException("Disciplina com o codigo já existe no Banco de Dados.");
 		}
+		else if (escolhaAlteracao.equals(AtributosDisciplina.NOME)) 
+			d.setNome(alteracao);
+		
 		else if (escolhaAlteracao.equals(AtributosDisciplina.CARGA_HORARIA)) 
 			d.setCargaHoraria(Funcionalidades.converterStringPraInteger(alteracao));
 		
 		mergeAtomico(d);
 		return d;
 	}	
+	
+	private Disciplina verificarExistencia(String codigo) {
+		return consutlarUm(OBTER_DISCIPLINA_SQL, "codigo", codigo); 
+	}
 	
 }

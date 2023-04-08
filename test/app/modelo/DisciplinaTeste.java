@@ -1,5 +1,6 @@
 package app.modelo;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -16,101 +17,30 @@ public class DisciplinaTeste {
 	
 	@BeforeEach
 	void iniciarDisciplina() {
-		dis = new Disciplina(AreasDeConhecimento.ARTES, 100, NivelEscolar.FUNDAMENTAL);
+		dis = new Disciplina("artes", 100, "fundamental", "ART");
 	}
 	
 	@Test
 	void alterarNome1() {
-		dis.setNome(AreasDeConhecimento.GEOGRAFIA);
+		dis.setNome("geografia    ");
 		assertEquals("Geografia", dis.getNome());
 	}
 	
 	@Test
 	void alterarNome2() {
-		dis.setNome(AreasDeConhecimento.ARTES);
+		dis.setNome("   ARTES   ");
 		assertEquals("Artes", dis.getNome());
 	}
 	
 	@Test
 	void alterarNome3() {
-		dis.setNome(AreasDeConhecimento.BIOLOGIA);
-		assertEquals("Biologia", dis.getNome());
+		assertThrows(IllegalArgumentException.class, () -> {
+			dis.setNome("");
+		});
 	}
 	
 	@Test
 	void alterarNome4() {
-		dis.setNome(AreasDeConhecimento.EDUCACAO_FISICA);
-		assertEquals("Educação Física", dis.getNome());
-	}
-	
-	@Test
-	void alterarNome5() {
-		dis.setNome(AreasDeConhecimento.FILOSOFIA);
-		assertEquals("Filosofia", dis.getNome());
-	}
-	
-	@Test
-	void alterarNome6() {
-		dis.setNome(AreasDeConhecimento.HISTORIA);
-		assertEquals("História", dis.getNome());
-	}
-	
-	@Test
-	void alterarNome7() {
-		dis.setNome(AreasDeConhecimento.MATEMATICA);
-		assertEquals("Matemática", dis.getNome());
-	}
-	
-	@Test
-	void alterarNome8() {
-		dis.setNome(AreasDeConhecimento.FISICA);
-		assertEquals("Física", dis.getNome());
-	}
-	
-	@Test
-	void alterarNome9() {
-		dis.setNome(AreasDeConhecimento.QUIMICA);
-		assertEquals("Química", dis.getNome());
-	}
-	
-	@Test
-	void alterarNome10() {
-		dis.setNome(AreasDeConhecimento.SOCIOLOGIA);
-		assertEquals("Sociologia", dis.getNome());
-	}
-	
-	@Test
-	void alterarNome11() {
-		dis.setNome(AreasDeConhecimento.LINGUA_PORTUGUESA);
-		assertEquals("Língua Portuguesa", dis.getNome());
-	}
-	
-	@Test
-	void alterarNome12() {
-		dis.setNome(AreasDeConhecimento.LITERATURA);
-		assertEquals("Literatura", dis.getNome());
-	}
-	
-	@Test
-	void alterarNome13() {
-		dis.setNome(AreasDeConhecimento.LINGUA_INGLESA);
-		assertEquals("Língua Inglesa", dis.getNome());
-	}
-	
-	@Test
-	void alterarNome14() {
-		dis.setNome(AreasDeConhecimento.LINGUA_ALEMA);
-		assertEquals("Língua Alemã", dis.getNome());
-	}
-	
-	@Test
-	void alterarNome15() {
-		dis.setNome(AreasDeConhecimento.LINGUA_FRANCESA);
-		assertEquals("Língua Francesa", dis.getNome());
-	}
-	
-	@Test
-	void alterarNome16() {
 		assertThrows(NullPointerException.class, () -> {
 			dis.setNome(null);
 		});
@@ -145,18 +75,66 @@ public class DisciplinaTeste {
 	
 	@Test
 	void alterarNivelDaDisciplina1() {
-		dis.setNivelDaDisciplina(NivelEscolar.ENSINO_MEDIO);
+		dis.setNivelDaDisciplina("ensino medio");
 		assertEquals("Ensino Medio", dis.getNivelDaDisciplina());
 	}
 	
 	@Test
 	void alterarNivelDaDisciplina2() {
-		dis.setNivelDaDisciplina(NivelEscolar.FUNDAMENTAL);
+		dis.setNivelDaDisciplina("fundamental");
 		assertEquals("Fundamental", dis.getNivelDaDisciplina());
 	}
 	
 	@Test
 	void alterarNivelDaDisciplina3() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			dis.setNivelDaDisciplina(" ");
+		});
+	}
+	
+	@Test
+	void alterarNivelDaDisciplina4() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			dis.setNivelDaDisciplina("nada aveere");
+		});
+	}
+	
+	@Test
+	void alterarNivelDaDisciplina5() {
+		assertThrows(NullPointerException.class, () -> {
+			dis.setNivelDaDisciplina(null);
+		});
+	}
+	
+	@Test
+	void alterarCodigo1() {
+		dis.setCodigo("GEO");
+		assertTrue("GEO01".equals(dis.getCodigo()));
+	}
+	
+	@Test
+	void alterarCodigo2() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			dis.setNivelDaDisciplina("GE01");
+		});
+	}
+	
+	@Test
+	void alterarCodigo3() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			dis.setNivelDaDisciplina(" ");
+		});
+	}
+	
+	@Test
+	void alterarCodigo4() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			dis.setNivelDaDisciplina("GE");
+		});
+	}
+	
+	@Test
+	void alterarCodigo5() {
 		assertThrows(NullPointerException.class, () -> {
 			dis.setNivelDaDisciplina(null);
 		});

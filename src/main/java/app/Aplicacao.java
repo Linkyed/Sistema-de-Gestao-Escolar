@@ -34,11 +34,13 @@ public class Aplicacao {
 		Disciplina d2 = new Disciplina("LITERATURA", 180, "ensino medio", "LIT");
 		Turma t = new Turma("Ensino medio", "A", "MP65");
 		Aluno a = new Aluno("teste", "24581919088", "Feminino", "teste@gmail.com", sqlDate);
-
-		//List<Professor> lista = DAOs.profDAO.consultar(ProfessorDAO.obterProfessor, "CPF", "93774484091");
-		//System.out.println(lista.size());
-		//DAOs.discDAO.fechar();
-		//DAOs.alunDAO.fechar();
+		
+		System.out.println(d2.getCodigo().substring(0, 3));
+		//DAOs.discDAO.criarDisciplina(d2);
+		//DAOs.discDAO.Atualizar("LIT02", AtributosDisciplina.CODIGO, null)
+		
+		DAOs.discDAO.fechar();
+		DAOs.alunDAO.fechar();
 		DAOs.profDAO.fechar();
 	}
 }
