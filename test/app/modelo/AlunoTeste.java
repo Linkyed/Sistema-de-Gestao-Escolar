@@ -1,6 +1,5 @@
 package app.modelo;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -9,10 +8,6 @@ import java.sql.Date;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import app.modelo.Aluno;
-import app.modelo.Funcionalidades;
-import app.modelo.NivelEscolar;
-import app.modelo.Turma;
 
 public class AlunoTeste {
 	Aluno alun;

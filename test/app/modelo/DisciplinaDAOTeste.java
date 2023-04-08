@@ -12,17 +12,8 @@ import org.junit.jupiter.api.Test;
 
 import app.excecao.ConsultaNulaException;
 import app.excecao.RegistroDuplicadoException;
-import app.modelo.Aluno;
-import app.modelo.AreasDeConhecimento;
-import app.modelo.AtributosAluno;
-import app.modelo.AtributosDisciplina;
-import app.modelo.Disciplina;
-import app.modelo.Funcionalidades;
-import app.modelo.NivelEscolar;
-import app.modelo.infra.AlunoDAO;
 import app.modelo.infra.DAOs;
-import app.modelo.infra.DisciplinaDAO;
-import app.modelo.infra.ProfessorDAO;
+
 
 public class DisciplinaDAOTeste {
 	Disciplina disc1;

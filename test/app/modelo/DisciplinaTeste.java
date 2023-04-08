@@ -7,9 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import app.modelo.AreasDeConhecimento;
-import app.modelo.Disciplina;
-import app.modelo.NivelEscolar;
 
 public class DisciplinaTeste {
 	
