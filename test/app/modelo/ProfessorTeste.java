@@ -1,21 +1,13 @@
 package app.modelo;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.text.ParseException;
 import java.sql.Date;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
-
-import app.modelo.AreasDeConhecimento;
-import app.modelo.Funcionalidades;
-import app.modelo.Professor;
 
 public class ProfessorTeste {
 
@@ -23,16 +15,10 @@ public class ProfessorTeste {
 	static Disciplina d;
 	static Turma t;
 	
-	@BeforeAll
-	static void iniciarSecundarios() {
-		d = new Disciplina(AreasDeConhecimento.ARTES, 120, NivelEscolar.ENSINO_MEDIO);
-		t = new Turma(NivelEscolar.ENSINO_MEDIO, "A", "MP65");
-	}
-	
 	@BeforeEach
 	void iniciarProfessor() throws ParseException {
 		Date sqlDate = Funcionalidades.cirarDataSQL("10-03-2023");
-		prof = new Professor("Josias", "93774484090", "Masculino", "josias@gmail.com", AreasDeConhecimento.GEOGRAFIA, 5050.50, sqlDate);
+		prof = new Professor("Josias", "93774484090", "Masculino", "josias@gmail.com", "geografia", 5050.50, sqlDate);
 	}
 	
 	@Test
@@ -81,8 +67,22 @@ public class ProfessorTeste {
 	}
 	
 	@Test
+	void alterarSexo5() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			prof.setSexo("");
+		});
+	}
+	
+	@Test
+	void alterarSexo6() {
+		assertThrows(NullPointerException.class, () -> {
+			prof.setSexo(null);
+		});
+	}
+	
+	@Test
 	void alterarEmail1() {
-		prof.setEmail("josiasbonifaio@gmail.com");
+		prof.setEmail("   josiasbonifaio@gmail.com    ");
 		assertEquals("josiasbonifaio@gmail.com", prof.getEmail());
 	}
 	
@@ -101,24 +101,46 @@ public class ProfessorTeste {
 	}
 	
 	@Test
+	void alterarEmail4() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			prof.setEmail("");
+		});
+	}
+	
+	@Test
+	void alterarEmail5() {
+		assertThrows(NullPointerException.class, () -> {
+			prof.setEmail(null);
+		});
+	}
+	
+	@Test
 	void alterarSalario1() {
+		prof.setSalario(11520.20);
+		assertEquals(11520.20, prof.getSalario());
+	}
+	
+	@Test
+	void alterarSalario2() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			prof.setSalario(-100.0);
 		});
 	}
 	
 	@Test
-	void alterarSalario2() {
+	void alterarSalario3() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			prof.setSalario(1000000000.0);
 		});
 	}
 	
 	@Test
-	void alterarSalario3() {
-		prof.setSalario(11520.20);
-		assertEquals(11520.20, prof.getSalario());
+	void alterarSalario4() {
+		assertThrows(NullPointerException.class, () -> {
+			prof.setSalario(null);
+		});
 	}
+	
 	
 	@Test
 	void alterarContrato1() {
@@ -146,6 +168,22 @@ public class ProfessorTeste {
 	
 	@Test
 	void alterarContrato4() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			Date sqlDate = Funcionalidades.cirarDataSQL("");
+			prof.setInicioContrato(sqlDate);
+		});
+	}
+	
+	@Test
+	void alterarContrato5() {
+		assertThrows(NullPointerException.class, () -> {
+			Date sqlDate = Funcionalidades.cirarDataSQL(null);
+			prof.setInicioContrato(sqlDate);
+		});
+	}
+	
+	@Test
+	void alterarContrato6() {
 		Date sqlDate = Funcionalidades.cirarDataSQL("31-03-2023");
 		prof.setInicioContrato(sqlDate);
 		assertEquals(prof.getInicioContrato(), sqlDate);
@@ -172,195 +210,39 @@ public class ProfessorTeste {
 	}
 	
 	@Test
+	void alterarCPF4() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			prof.setCPF("");
+		});
+	}
+	
+	@Test
+	void alterarCPF5() {
+		assertThrows(NullPointerException.class, () -> {
+			prof.setCPF(null);
+		});
+	}
+	
+	@Test
 	void alterarAreaDeFormacao1() {
-		prof.setAreaDeFormacao(AreasDeConhecimento.GEOGRAFIA);
-		assertEquals("Geografia", prof.getAreaDeFormacao());
+		prof.setFormacao("letras");
+		assertEquals("Letras", prof.getFormacao());
 	}
 	
 	@Test
 	void alterarAreaDeFormacao2() {
-		prof.setAreaDeFormacao(AreasDeConhecimento.ARTES);
-		assertEquals("Artes", prof.getAreaDeFormacao());
+		assertThrows(IllegalArgumentException.class, () -> {
+			prof.setFormacao("");			
+		});
 	}
 	
 	@Test
 	void alterarAreaDeFormacao3() {
-		prof.setAreaDeFormacao(AreasDeConhecimento.BIOLOGIA);
-		assertEquals("Biologia", prof.getAreaDeFormacao());
-	}
-	
-	@Test
-	void alterarAreaDeFormacao4() {
-		prof.setAreaDeFormacao(AreasDeConhecimento.EDUCACAO_FISICA);
-		assertEquals("Educação Física", prof.getAreaDeFormacao());
-	}
-	
-	@Test
-	void alterarAreaDeFormacao5() {
-		prof.setAreaDeFormacao(AreasDeConhecimento.FILOSOFIA);
-		assertEquals("Filosofia", prof.getAreaDeFormacao());
-	}
-	
-	@Test
-	void alterarAreaDeFormacao6() {
-		prof.setAreaDeFormacao(AreasDeConhecimento.HISTORIA);
-		assertEquals("História", prof.getAreaDeFormacao());
-	}
-	
-	@Test
-	void alterarAreaDeFormacao7() {
-		prof.setAreaDeFormacao(AreasDeConhecimento.MATEMATICA);
-		assertEquals("Matemática", prof.getAreaDeFormacao());
-	}
-	
-	@Test
-	void alterarAreaDeFormacao8() {
-		prof.setAreaDeFormacao(AreasDeConhecimento.FISICA);
-		assertEquals("Física", prof.getAreaDeFormacao());
-	}
-	
-	@Test
-	void alterarAreaDeFormacao9() {
-		prof.setAreaDeFormacao(AreasDeConhecimento.QUIMICA);
-		assertEquals("Química", prof.getAreaDeFormacao());
-	}
-	
-	@Test
-	void alterarAreaDeFormacao10() {
-		prof.setAreaDeFormacao(AreasDeConhecimento.SOCIOLOGIA);
-		assertEquals("Sociologia", prof.getAreaDeFormacao());
-	}
-	
-	@Test
-	void alterarAreaDeFormacao11() {
-		prof.setAreaDeFormacao(AreasDeConhecimento.LINGUA_PORTUGUESA);
-		assertEquals("Língua Portuguesa", prof.getAreaDeFormacao());
-	}
-	
-	@Test
-	void alterarAreaDeFormacao12() {
-		prof.setAreaDeFormacao(AreasDeConhecimento.LITERATURA);
-		assertEquals("Literatura", prof.getAreaDeFormacao());
-	}
-	
-	@Test
-	void alterarAreaDeFormacao13() {
-		prof.setAreaDeFormacao(AreasDeConhecimento.LINGUA_INGLESA);
-		assertEquals("Língua Inglesa", prof.getAreaDeFormacao());
-	}
-	
-	@Test
-	void alterarAreaDeFormacao14() {
-		prof.setAreaDeFormacao(AreasDeConhecimento.LINGUA_ALEMA);
-		assertEquals("Língua Alemã", prof.getAreaDeFormacao());
-	}
-	
-	@Test
-	void alterarAreaDeFormacao15() {
-		prof.setAreaDeFormacao(AreasDeConhecimento.LINGUA_FRANCESA);
-		assertEquals("Língua Francesa", prof.getAreaDeFormacao());
-	}
-	
-	
-	@Test
-	void alterarAreaDeFormacao16() {
 		assertThrows(NullPointerException.class, () -> {
-			prof.setAreaDeFormacao(null);
+			prof.setFormacao(null);			
 		});
 	}
 	
-	@Test
-	void adicionarDisciplina1() {
-		Disciplina d = new Disciplina(AreasDeConhecimento.ARTES, 120, NivelEscolar.ENSINO_MEDIO);
-		prof.adicionarDisciplina(d);
-		assertTrue(d.equals(prof.getDisciplinas().get(0)) && d.getProfessores().get(0).equals(prof));
-	}
 	
-	@Test
-	void adicionarDisciplina2() {
-		Disciplina d = new Disciplina(AreasDeConhecimento.ARTES, 120, NivelEscolar.ENSINO_MEDIO);
-		prof.adicionarDisciplina(d);
-		assertThrows(IllegalArgumentException.class, () -> {
-			prof.adicionarDisciplina(d);
-		});
-	}
-	
-	@Test
-	void adicionarDisciplina3() {
-		assertThrows(NullPointerException.class, () -> {
-			prof.adicionarDisciplina(null);
-		});
-	}
-	
-	@Test
-	void removerDisciplina1() {
-		Disciplina d = new Disciplina(AreasDeConhecimento.ARTES, 120, NivelEscolar.ENSINO_MEDIO);
-		prof.adicionarDisciplina(d);
-		prof.removerDisciplina(d);
-		assertEquals(d.getProfessores().size(), 0);
-		assertEquals(prof.getDisciplinas().size(), 0);
-	}
-	
-	@Test
-	void removerDisciplina2() {
-		Disciplina d = new Disciplina(AreasDeConhecimento.ARTES, 120, NivelEscolar.ENSINO_MEDIO);
-		assertThrows(IllegalArgumentException.class, () -> {
-			prof.removerDisciplina(d);
-		});
-	}
-	
-	@Test
-	void removerDisciplina3() {
-		assertThrows(NullPointerException.class, () -> {
-			prof.removerDisciplina(null);
-		});
-	}
-	
-	@Test
-	void adicionarTurma1() {
-		Turma t = new Turma(NivelEscolar.ENSINO_MEDIO, "A", "MP65");
-		prof.adicionarTurma(t);
-		assertTrue(t.equals(prof.getTurmas().get(0)) && t.getProfessores().get(0).equals(prof));
-	}
-	
-	@Test
-	void adicionarTurma2() {
-		Turma t = new Turma(NivelEscolar.ENSINO_MEDIO, "A", "MP65");
-		prof.adicionarTurma(t);
-		assertThrows(IllegalArgumentException.class, () -> {
-			prof.adicionarTurma(t);
-		});
-	}
-	
-	@Test
-	void adicionarTurma3() {
-		assertThrows(NullPointerException.class, () -> {
-			prof.adicionarTurma(null);
-		});
-	}
-	
-	@Test
-	void removerTurma1() {
-		Turma t = new Turma(NivelEscolar.ENSINO_MEDIO, "A", "MP65");
-		prof.adicionarTurma(t);
-		prof.removerTurma(t);
-		assertEquals(t.getProfessores().size(), 0);
-		assertEquals(prof.getTurmas().size(), 0);
-	}
-	
-	@Test
-	void removerTurma2() {
-		Turma t = new Turma(NivelEscolar.ENSINO_MEDIO, "A", "MP65");
-		assertThrows(IllegalArgumentException.class, () -> {
-			prof.removerTurma(t);
-		});
-	}
-	
-	@Test
-	void removerTurma3() {
-		assertThrows(NullPointerException.class, () -> {
-			prof.removerTurma(null);
-		});
-	}
 	
 }

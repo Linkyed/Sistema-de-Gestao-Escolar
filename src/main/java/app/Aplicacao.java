@@ -1,5 +1,6 @@
 package app; 
 import java.sql.Date;
+import java.util.List;
 
 import app.excecao.RegistroDuplicadoException;
 import app.modelo.Aluno;
@@ -26,24 +27,20 @@ public class Aplicacao {
 				
 		
 		//Iniciando Tabelas
-		Professor p1 = new Professor("Estefani Grilo Aguiar", "93774484090", "Masculino", "estefani@gmail.com", AreasDeConhecimento.LITERATURA, 4550.0, sqlDate);
-		Professor p2 = new Professor("Rafael Tosta", "66481727030", "Masculino", "rafael@gmail.com", AreasDeConhecimento.LINGUA_PORTUGUESA, 4550.0, sqlDate);
+		Professor p1 = new Professor("Estefani Grilo Aguiar", "93774484090", "Masculino", "estefani@gmail.com", "Geografia", 4550.0, sqlDate);
+		Professor p2 = new Professor("Rafael Tosta", "66481727030", "Masculino", "rafael@gmail.com", "Letras com português", 4550.0, sqlDate);
 		
-		Disciplina d1 = new Disciplina(AreasDeConhecimento.LITERATURA, 120, NivelEscolar.FUNDAMENTAL);
-		Disciplina d2 = new Disciplina(AreasDeConhecimento.LITERATURA, 180, NivelEscolar.ENSINO_MEDIO);
-		Turma t = new Turma(NivelEscolar.ENSINO_MEDIO, "A", "MP65");
-		Aluno a = new Aluno("teste", "24581919088", "Feminino", "teste@gmail.com", sqlDate, null);
-		
-		//p2.adicionarDisciplinas(d2);
-		DAOs.turmDAO.criarTurma(t);
-		DAOs.alunDAO.criarAluno(a);
-		DAOs.alunDAO.Atualizar("24581919088", AtributosAluno.TURMA, "EMA");
-		DAOs.alunDAO.Atualizar("24581919088", AtributosAluno.TURMA, null);
-		DAOs.turmDAO.removerTurma("EMA");
-	
-		
-		DAOs.discDAO.fechar();
-		DAOs.alunDAO.fechar();
+		Disciplina d1 = new Disciplina("Geografia", 120, "fundamental", "GEO");
+		Disciplina d2 = new Disciplina("LITERATURA", 180, "ensino medio", "LIT");
+		Turma t = new Turma("Ensino medio", "A", "MP65");
+		Aluno a = new Aluno("teste", "24581919088", "Feminino", "teste@gmail.com", sqlDate);
+
+		//List<Professor> lista = DAOs.profDAO.consultar(ProfessorDAO.obterProfessor, "CPF", "93774484091");
+		//System.out.println(lista.size());
+
+		System.out.println(	Funcionalidades.validarCPF("93774484090"));
+		//DAOs.discDAO.fechar();
+		//DAOs.alunDAO.fechar();
 		DAOs.profDAO.fechar();
 	}
 }

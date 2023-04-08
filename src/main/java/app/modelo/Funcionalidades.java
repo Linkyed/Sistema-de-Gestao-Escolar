@@ -53,7 +53,7 @@ public class Funcionalidades {
 		return s;
 	};
 
-	static public String primeiraLetraMaiuscula(String texto) {
+	static public String todaPrimeiraLetraMaiuscula(String texto) {
 		texto = testarStringNula.andThen(testarStringVazia).apply(texto);
 		String[] textoSeparado = texto.split(" ");
 		String novoTexto = "";
@@ -62,6 +62,13 @@ public class Funcionalidades {
 					+ " ";
 		}
 		return novoTexto.trim();
+	}
+	
+	static public String apenasPrimeiraLetraMaiscula(String texto) {
+		texto = testarStringNula.andThen(testarStringVazia).apply(texto);
+		texto = texto.substring(0, 1).toUpperCase() + texto.substring(1).toLowerCase();
+		return texto;
+				
 	}
 
 	static public String verificarStringVazia(String texto) {
@@ -73,6 +80,15 @@ public class Funcionalidades {
 		return texto;
 	}
 
+	static public String verificarSexo(String sexo) {
+		sexo = Funcionalidades.apenasPrimeiraLetraMaiscula(sexo);
+		if ("feminino".equalsIgnoreCase(sexo) || "masculino".equalsIgnoreCase(sexo) || "outro".equalsIgnoreCase(sexo)) {
+			return sexo;			
+		} else {
+			throw new IllegalArgumentException("Sexo invalido");
+		}
+	}
+	
 	static public String verificarEmail(String email) {
 		email = testarStringNula.andThen(testarStringVazia).apply(email);
 		Matcher matcher = PADRAO_EMAIL.matcher(email);
@@ -111,42 +127,53 @@ public class Funcionalidades {
 		}
 	}
 
-	static public boolean verificarEscritaCPF(String CPF) {
-		Matcher matcher = PADRAO_CPF.matcher(CPF);
-		return matcher.matches();
-	}
+	public static String validarCPF(String cpf) {
+		cpf = testarStringNula
+				.andThen(testarStringVazia)
+				.andThen(testarSoNumeros)
+				.apply(cpf);
+		
+	    cpf = cpf.replaceAll("[^0-9]", "");
 
-	static public String verificarValidadeCPF(String CPF) {
-		CPF = testarStringNula.andThen(testarStringVazia).apply(CPF);
-		if (!verificarEscritaCPF(CPF)) {
-			throw new IllegalArgumentException("Escrita CPF invalida.");
-		}
+	    if (cpf.length() != 11) {
+	        throw new IllegalArgumentException("CPF inválido: o número deve ter 11 dígitos.");
+	    }
+	    
+	    boolean verificarTodosIguais = true;
+	    
+	    for (int i=1; i < cpf.length(); i++) {
+	    	if (cpf.charAt(i) != cpf.charAt(i-1)) {
+	    		verificarTodosIguais = false;
+	    	}
+	    }
+	    
+	    if (verificarTodosIguais == true) {
+	    	throw new IllegalArgumentException("CPF invalido.");
+	    }
 
-		int soma = 0;
-		for (int i = 0; i < 9; i++) {
-			soma += Character.getNumericValue(CPF.charAt(i)) * (10 - i);
-		}
-		int digito1 = 11 - (soma % 11);
-		if (digito1 > 9) {
-			digito1 = 0;
-		}
+	    int soma = 0;
+	    for (int i = 0; i < 9; i++) {
+	        soma += Integer.parseInt(cpf.substring(i, i+1)) * (10 - i);
+	    }
+	    int digito1 = 11 - (soma % 11);
+	    if (digito1 > 9) {
+	        digito1 = 0;
+	    }
 
-		soma = 0;
-		for (int i = 0; i < 10; i++) {
-			soma += Character.getNumericValue(CPF.charAt(i)) * (11 - i);
-		}
-		int digito2 = 11 - (soma % 11);
-		if (digito2 > 9) {
-			digito2 = 0;
-		}
+	    soma = 0;
+	    for (int i = 0; i < 10; i++) {
+	        soma += Integer.parseInt(cpf.substring(i, i+1)) * (11 - i);
+	    }
+	    int digito2 = 11 - (soma % 11);
+	    if (digito2 > 9) {
+	        digito2 = 0;
+	    }
 
-		if ((Character.getNumericValue(CPF.charAt(9)) == digito1)
-				&& (Character.getNumericValue(CPF.charAt(10)) == digito2)) {
-			return CPF;
-		} else {
-			throw new IllegalArgumentException("CPF invalido.");
-		}
-
+	    if (digito1 == Integer.parseInt(cpf.substring(9, 10)) && digito2 == Integer.parseInt(cpf.substring(10))) {
+	        return cpf;
+	    } else {
+	        throw new IllegalArgumentException("CPF inválido.");
+	    }
 	}
 
 	static public void verificarData(int dia, int mes, int ano) {

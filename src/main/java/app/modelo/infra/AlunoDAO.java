@@ -1,5 +1,7 @@
 package app.modelo.infra;
 
+import java.util.List;
+
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
@@ -13,6 +15,10 @@ public class AlunoDAO extends DAO<Aluno> {
 	
 	public AlunoDAO() {
 		super(Aluno.class);
+	}
+	
+	public List<E> consutlar(String nomeConsulta, Object... params){
+		
 	}
 	
 	public Aluno getAlunoPorCPF(String CPF) {

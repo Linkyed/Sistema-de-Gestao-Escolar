@@ -25,30 +25,23 @@ public class Turma {
 	@Column(nullable = false, unique = true)
 	private String codigo;
 	
-	@Column(nullable = false, length = 25)
-	private String tipoEnsino;
+	@Column(name = "nivel_escolar", nullable = false, length = 25)
+	private String nivelEscolar;
 	
-	@Column(nullable = false, length = 1)
+	@Column(name = "letra_turma", nullable = false, length = 1)
 	private String letraTurma;
 	
 	@Column(nullable = false, length = 80)
 	private String sala;
-	
-	@OneToMany(mappedBy = "turma")
-	private List<Aluno> alunos;
-	
-	@ManyToMany(mappedBy = "turmas", cascade = CascadeType.MERGE)
-	private List<Professor> professores;
 
 	public Turma() {
 		
 	}
 	
-	public Turma(NivelEscolar tipoEnsino, String letraTurma, String sala) {
-		setTipoEnsino(tipoEnsino);
+	public Turma(String nivelEscolar, String letraTurma, String sala) {
+		setNivelEscolar(nivelEscolar);
 		setLetraTurma(letraTurma);
 		setSala(sala);
-		setCodigo();
 	}
 
 	public Long getId() {
@@ -64,13 +57,13 @@ public class Turma {
 	}
 
 	private void setCodigo() {
-		Funcionalidades.testarObjetoNulo.apply(tipoEnsino);
+		Funcionalidades.testarObjetoNulo.apply(nivelEscolar);
 		Funcionalidades.testarObjetoNulo.apply(letraTurma);
 		
 		String primeiraParte = "";
-		if (NivelEscolar.ENSINO_MEDIO.equals(Funcionalidades.StringParaNivelEscolar(tipoEnsino))) {
+		if ("ensino medio".equals(nivelEscolar)) {
 			primeiraParte = "EM";
-		} else if (NivelEscolar.FUNDAMENTAL.equals(Funcionalidades.StringParaNivelEscolar(tipoEnsino))) {
+		} else if ("fundamental".equals(nivelEscolar)) {
 			primeiraParte = "EF";
 		}
 		
@@ -78,13 +71,14 @@ public class Turma {
 		
 	}
 
-	public String getTipoEnsino() {
-		return tipoEnsino;
+	public String getNivelEscolar() {
+		return nivelEscolar;
 	}
 
-	public void setTipoEnsino(NivelEscolar tipoEnsino) {
-		Funcionalidades.testarObjetoNulo.apply(tipoEnsino);
-		this.tipoEnsino = Funcionalidades.nivelEscolarParaString(tipoEnsino);
+	public void setNivelEscolar(String nivelEscolar) {
+		nivelEscolar = Funcionalidades.todaPrimeiraLetraMaiuscula(nivelEscolar);
+		if ("fundamental".equalsIgnoreCase(nivelEscolar) || "ensino medio".equalsIgnoreCase(nivelEscolar)) 
+			this.nivelEscolar = nivelEscolar;
 		if (letraTurma != null) {
 			setCodigo();			
 		}
@@ -100,7 +94,8 @@ public class Turma {
 				.andThen(Funcionalidades.testarSoLetras).apply(letraTurma);
 		if (letraTurma.length() != 1) throw new IllegalArgumentException("Letra da turma só pode conter 1 caracter.");
 		this.letraTurma = letraTurma.toUpperCase();
-		if (tipoEnsino != null) {
+		
+		if (nivelEscolar != null) {
 			setCodigo();			
 		}
 	}
@@ -113,16 +108,6 @@ public class Turma {
 		sala = Funcionalidades.testarStringNula
 			.andThen(Funcionalidades.testarStringVazia).apply(sala);
 		this.sala = sala;
-	}
-
-	public List<Aluno> getAlunos() {
-		if (alunos == null) alunos = new ArrayList<>();
-		return alunos;
-	}
-
-	public List<Professor> getProfessores() {
-		if (professores == null) professores = new ArrayList<>();
-		return professores;
 	}
 
 	@Override

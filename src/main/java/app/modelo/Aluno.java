@@ -32,26 +32,22 @@ public class Aluno {
 	@Column(nullable = false, length = 10)
 	private String sexo;
 	
-	@Column(nullable = false, length = 150)
+	@Column(name = "email_do_responsavel", nullable = false, length = 150)
 	private String emailDoResponsavel;
 	
-	@Column(nullable = false)
+	@Column(name = "data_nascimento", nullable = false)
 	private Date dataNascimento;
-
-	@ManyToOne
-	private Turma turma;
 	
 	public Aluno() {
 		
 	}
 	
-	public Aluno(String nome, String CPF, String sexo, String email, Date dataNacimento, Turma turma) {
+	public Aluno(String nome, String CPF, String sexo, String email, Date dataNacimento) {
 		setNome(nome);
 		setCPF(CPF);
 		setSexo(sexo);
 		setEmail(email);
 		setDataNascimento(dataNacimento);
-		setTurma(turma);
 		setMatricula();
 	}
 
@@ -77,7 +73,7 @@ public class Aluno {
 	}
 
 	public void setNome(String nome) {
-		this.nome = Funcionalidades.primeiraLetraMaiuscula(nome);
+		this.nome = Funcionalidades.todaPrimeiraLetraMaiuscula(nome);
 	}
 
 	public String getCPF() {
@@ -85,7 +81,7 @@ public class Aluno {
 	}
 	
 	public void setCPF(String CPF) {
-		this.CPF = Funcionalidades.verificarValidadeCPF(CPF);
+		this.CPF = Funcionalidades.validarCPF(CPF);
 		if (this.CPF != null && this.dataNascimento != null) {			
 			setMatricula();
 		}
@@ -96,9 +92,9 @@ public class Aluno {
 	}
 
 	public void setSexo(String sexo) {
-		sexo = Funcionalidades.primeiraLetraMaiuscula(sexo);
+		sexo = Funcionalidades.todaPrimeiraLetraMaiuscula(sexo);
 		if ("feminino".equalsIgnoreCase(sexo) || "masculino".equalsIgnoreCase(sexo) || "outro".equalsIgnoreCase(sexo)) {
-			this.sexo = Funcionalidades.primeiraLetraMaiuscula(sexo);			
+			this.sexo = Funcionalidades.todaPrimeiraLetraMaiuscula(sexo);			
 		} else {
 			throw new IllegalArgumentException("Sexo invalido");
 		}
@@ -150,24 +146,5 @@ public class Aluno {
 		Aluno other = (Aluno) obj;
 		return Objects.equals(CPF, other.CPF) && Objects.equals(matricula, other.matricula);
 	}
-
-	public Turma getTurma() {
-		return turma;
-	}
-
-	public void setTurma(Turma turma) {
-		if (turma == null && this.turma != null) this.turma.getAlunos().remove(this);
-		else if (turma != null && this.turma == null) turma.getAlunos().add(this); 
-		else if (turma != null && this.turma != null) {
-			if (!this.turma.equals(turma)) {
-				this.turma.getAlunos().remove(this);
-				turma.getAlunos().add(this);
-			} 		
-		}
-		
-		this.turma = turma;
-	}
-	
-	
 	
 }
