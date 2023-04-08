@@ -39,7 +39,7 @@ public class Disciplina {
 	public Disciplina(String nome, Integer cargaHoraria, String nivelEscolar, String codigo) {
 		setNome(nome);
 		setCargaHoraria(cargaHoraria);
-		setNivelDaDisciplina(nivelEscolar);
+		setNivelEscolar(nivelEscolar);
 		setCodigo(codigo);
 	}
 	
@@ -47,7 +47,7 @@ public class Disciplina {
 	public Disciplina(Disciplina outraDisciplina) {
 		 	setNome(outraDisciplina.getNome());
 			setCargaHoraria(outraDisciplina.getCargaHoraria());
-			setNivelDaDisciplina(outraDisciplina.getNivelDaDisciplina());
+			setNivelEscolar(outraDisciplina.getNivelEscolar());
 			setCodigo(outraDisciplina.getCodigo().substring(0, 3));
 	}
 
@@ -101,11 +101,11 @@ public class Disciplina {
 		this.cargaHoraria = cargaHoraria;
 	}
 
-	public String getNivelDaDisciplina() {
+	public String getNivelEscolar() {
 		return nivelEscolar;
 	}
 
-	public void setNivelDaDisciplina(String nivelEscolar) {
+	public void setNivelEscolar(String nivelEscolar) {
 		nivelEscolar = Funcionalidades.todaPrimeiraLetraMaiuscula(nivelEscolar);
 		if ("fundamental".equalsIgnoreCase(nivelEscolar) || "ensino medio".equalsIgnoreCase(nivelEscolar)) 
 			this.nivelEscolar = nivelEscolar;

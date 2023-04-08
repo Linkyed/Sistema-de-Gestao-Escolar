@@ -44,7 +44,7 @@ public class DisciplinaDAO extends DAO<Disciplina> {
 			removerEntidade(d);
 			return d;
 		} else {
-			throw new ConsultaNulaException("Nenhuma disciplina encontrado para ser excluido.");
+			throw new ConsultaNulaException("Nenhuma disciplina encontrada para ser excluida.");
 		}			
 	}
 	
@@ -62,11 +62,11 @@ public class DisciplinaDAO extends DAO<Disciplina> {
 		}
 		else if (escolhaAlteracao.equals(AtributosDisciplina.NIVEL_DISCIPLINA)) {
 			Disciplina teste = new Disciplina(d);
-			teste.setNivelDaDisciplina(alteracao);
+			teste.setNivelEscolar(alteracao);
 			teste = verificarExistencia(teste.getCodigo());
 			
 			if (teste == null)
-				d.setNivelDaDisciplina(alteracao);
+				d.setNivelEscolar(alteracao);
 			else
 				throw new RegistroDuplicadoException("Disciplina com o codigo já existe no Banco de Dados.");
 		}

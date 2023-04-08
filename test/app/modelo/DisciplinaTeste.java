@@ -72,34 +72,34 @@ public class DisciplinaTeste {
 	
 	@Test
 	void alterarNivelDaDisciplina1() {
-		dis.setNivelDaDisciplina("ensino medio");
-		assertEquals("Ensino Medio", dis.getNivelDaDisciplina());
+		dis.setNivelEscolar("ensino medio");
+		assertEquals("Ensino Medio", dis.getNivelEscolar());
 	}
 	
 	@Test
 	void alterarNivelDaDisciplina2() {
-		dis.setNivelDaDisciplina("fundamental");
-		assertEquals("Fundamental", dis.getNivelDaDisciplina());
+		dis.setNivelEscolar("fundamental");
+		assertEquals("Fundamental", dis.getNivelEscolar());
 	}
 	
 	@Test
 	void alterarNivelDaDisciplina3() {
 		assertThrows(IllegalArgumentException.class, () -> {
-			dis.setNivelDaDisciplina(" ");
+			dis.setNivelEscolar(" ");
 		});
 	}
 	
 	@Test
 	void alterarNivelDaDisciplina4() {
 		assertThrows(IllegalArgumentException.class, () -> {
-			dis.setNivelDaDisciplina("nada aveere");
+			dis.setNivelEscolar("nada aveere");
 		});
 	}
 	
 	@Test
 	void alterarNivelDaDisciplina5() {
 		assertThrows(NullPointerException.class, () -> {
-			dis.setNivelDaDisciplina(null);
+			dis.setNivelEscolar(null);
 		});
 	}
 	
@@ -112,28 +112,28 @@ public class DisciplinaTeste {
 	@Test
 	void alterarCodigo2() {
 		assertThrows(IllegalArgumentException.class, () -> {
-			dis.setNivelDaDisciplina("GE01");
+			dis.setNivelEscolar("GE01");
 		});
 	}
 	
 	@Test
 	void alterarCodigo3() {
 		assertThrows(IllegalArgumentException.class, () -> {
-			dis.setNivelDaDisciplina(" ");
+			dis.setNivelEscolar(" ");
 		});
 	}
 	
 	@Test
 	void alterarCodigo4() {
 		assertThrows(IllegalArgumentException.class, () -> {
-			dis.setNivelDaDisciplina("GE");
+			dis.setNivelEscolar("GE");
 		});
 	}
 	
 	@Test
 	void alterarCodigo5() {
 		assertThrows(NullPointerException.class, () -> {
-			dis.setNivelDaDisciplina(null);
+			dis.setNivelEscolar(null);
 		});
 	}
 	

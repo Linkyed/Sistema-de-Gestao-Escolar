@@ -4,14 +4,12 @@ import java.util.List;
 
 import app.excecao.RegistroDuplicadoException;
 import app.modelo.Aluno;
-import app.modelo.AreasDeConhecimento;
 import app.modelo.AtributosAluno;
 import app.modelo.AtributosDisciplina;
 import app.modelo.AtributosProfessor;
 import app.modelo.AtributosTurma;
 import app.modelo.Disciplina;
 import app.modelo.Funcionalidades;
-import app.modelo.NivelEscolar;
 import app.modelo.Professor;
 import app.modelo.Turma;
 import app.modelo.infra.AlunoDAO;
@@ -34,10 +32,6 @@ public class Aplicacao {
 		Disciplina d2 = new Disciplina("LITERATURA", 180, "ensino medio", "LIT");
 		Turma t = new Turma("Ensino medio", "A", "MP65");
 		Aluno a = new Aluno("teste", "24581919088", "Feminino", "teste@gmail.com", sqlDate);
-		
-		System.out.println(d2.getCodigo().substring(0, 3));
-		//DAOs.discDAO.criarDisciplina(d2);
-		//DAOs.discDAO.Atualizar("LIT02", AtributosDisciplina.CODIGO, null)
 		
 		DAOs.discDAO.fechar();
 		DAOs.alunDAO.fechar();

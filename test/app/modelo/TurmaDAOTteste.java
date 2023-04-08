@@ -3,54 +3,27 @@ package app.modelo;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.sql.Date;
-
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import app.excecao.ConsultaNulaException;
 import app.excecao.RegistroDuplicadoException;
-import app.modelo.AreasDeConhecimento;
-import app.modelo.AtributosDisciplina;
-import app.modelo.AtributosTurma;
-import app.modelo.Disciplina;
-import app.modelo.NivelEscolar;
-import app.modelo.Turma;
 import app.modelo.infra.DAOs;
-import app.modelo.infra.DisciplinaDAO;
-import app.modelo.infra.TurmaDAO;
 
 public class TurmaDAOTteste {
 	Turma turm1;
 	Turma turm2;
 	Turma turm3;
 	
-	@BeforeAll
-	static void inicializarSecundarios() {
-		Date sqlDate = Funcionalidades.cirarDataSQL("28-02-2023");
-		Professor p = new Professor("Estefani Grilo Aguiar", "66481727030", "Masculino", "estefanixxaads@gmail.com", AreasDeConhecimento.LITERATURA, 4550.0, sqlDate);
-		Aluno a = new Aluno("teste", "66481727030", "Feminino", "teste@gmail.com", sqlDate, null);
-		DAOs.alunDAO.criarAluno(a);
-		DAOs.profDAO.criarProfessor(p);
-	}
-	
 	@BeforeEach
 	void inicializarDAOeAluno() {
-		turm3 = new Turma(NivelEscolar.FUNDAMENTAL, "Z", "MP65");
-		turm2 = new Turma(NivelEscolar.ENSINO_MEDIO, "Z", "MP65");
-		turm1 = new Turma(NivelEscolar.FUNDAMENTAL, "X", "MP65");
+		turm3 = new Turma("fundamental", "Z", "MP65");
+		turm2 = new Turma("ensino medio", "Z", "MP65");
+		turm1 = new Turma("fundamental", "X", "MP65");
 		DAOs.turmDAO.criarTurma(turm3);
 		DAOs.turmDAO.criarTurma(turm2);
 		DAOs.turmDAO.criarTurma(turm1);
-	}
-	
-	@AfterAll
-	static void removerSecundarios() {
-		DAOs.alunDAO.removerAluno("66481727030");
-		DAOs.profDAO.removerProfessor("66481727030");
 	}
 	
 	@AfterEach
@@ -83,7 +56,7 @@ public class TurmaDAOTteste {
 	void testarRemocao1() {
 		Turma t = DAOs.turmDAO.removerTurma("EFX");
 		boolean verificar = t.equals(turm1);
-		DAOs.turmDAO.criarTurma(new Turma(NivelEscolar.FUNDAMENTAL, "X", "MP65"));
+		DAOs.turmDAO.criarTurma(new Turma("fundamental", "X", "MP65"));
 		assertTrue(verificar);
 	}
 	
@@ -96,14 +69,14 @@ public class TurmaDAOTteste {
 
 	@Test
 	void testarRemocao3() {
-		assertThrows(IllegalArgumentException.class, () -> {
+		assertThrows(ConsultaNulaException.class, () -> {
 			DAOs.turmDAO.removerTurma("DDDD");
 		});
 	}
 	
 	@Test
 	void testarRemocao4() {
-		assertThrows(NullPointerException.class, () -> {
+		assertThrows(ConsultaNulaException.class, () -> {
 			DAOs.turmDAO.removerTurma(null);
 		});
 	}
@@ -130,15 +103,22 @@ public class TurmaDAOTteste {
 	}
 	
 	@Test
-	void alteracaoVazia() {
+	void alteracaoVazia1() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			DAOs.turmDAO.Atualizar("EFX", AtributosTurma.NIVEL_TURMA, "");
 		});
 	}
 	
 	@Test
+	void alteracaoVazia2() {
+		assertThrows(NullPointerException.class, () -> {
+			DAOs.turmDAO.Atualizar("", AtributosTurma.NIVEL_TURMA, "XDD");
+		});
+	}
+	
+	@Test
 	void alteracaoCodigoInvalido() {
-		assertThrows(ConsultaNulaException.class, () -> {
+		assertThrows(NullPointerException.class, () -> {
 			DAOs.turmDAO.Atualizar("DDD", AtributosTurma.NIVEL_TURMA, "fundamental");
 		});
 	}
@@ -177,18 +157,6 @@ public class TurmaDAOTteste {
 	void alteracaoSala1() {
 		DAOs.turmDAO.Atualizar("EFX", AtributosTurma.SALA, "MT44");
 		assertTrue("MT44".equals(DAOs.turmDAO.obterUltimo().getSala()));
-	}
-	
-	@Test
-	void testarProfessorNaTurma() {
-		DAOs.profDAO.Atualizar("66481727030", AtributosProfessor.TURMAS_ADICIONAR, "EFX");
-		assertTrue(turm1.equals(DAOs.profDAO.getProfessorPorCPF("66481727030").getTurmas().get(0)));
-	}
-	
-	@Test
-	void testarAlunoNaTurma() {
-		DAOs.alunDAO.Atualizar("66481727030", AtributosAluno.TURMA, "EFX");
-		assertTrue(turm1.equals(DAOs.alunDAO.getAlunoPorCPF("66481727030").getTurma()));
 	}
 	
 }

@@ -153,7 +153,7 @@ public class DisciplinaDAOTeste {
 	@Test
 	void alterarNivelDisciplina1() {
 		DAOs.discDAO.Atualizar("GEO02", AtributosDisciplina.NIVEL_DISCIPLINA, "fundamental");
-		boolean verificacao = "Fundamental".equalsIgnoreCase(DAOs.discDAO.obterUltimo().getNivelDaDisciplina());
+		boolean verificacao = "Fundamental".equalsIgnoreCase(DAOs.discDAO.obterUltimo().getNivelEscolar());
 		DAOs.discDAO.Atualizar("GEO01", AtributosDisciplina.NIVEL_DISCIPLINA, "ensino medio");
 		assertTrue(verificacao);
 	}

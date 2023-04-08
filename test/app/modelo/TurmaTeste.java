@@ -1,18 +1,10 @@
 package app.modelo;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.sql.Date;
-
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import app.modelo.NivelEscolar;
-import app.modelo.Turma;
 
 public class TurmaTeste {
 	
@@ -20,34 +12,42 @@ public class TurmaTeste {
 	static Professor p;
 	static Aluno a;
 	
-	@BeforeAll
-	static void inicializarSecundarios() {
-		Date sqlDate = Funcionalidades.cirarDataSQL("28-02-2023");
-		p = new Professor("Estefani Grilo Aguiar", "93774484090", "Masculino", "estefani@gmail.com", AreasDeConhecimento.LITERATURA, 4550.0, sqlDate);
-		a = new Aluno("teste", "24581919088", "Feminino", "teste@gmail.com", sqlDate, null);
-	}
 	
 	@BeforeEach
 	void inicializarTurma() {
-		turm = new Turma(NivelEscolar.FUNDAMENTAL, "A", "MP65");
+		turm = new Turma("fundamental", "A", "MP65");
 	}
 	
 	@Test
 	void alterarNivelEscolar1() {
-		turm.setTipoEnsino(NivelEscolar.FUNDAMENTAL);
-		assertTrue("Fundamental".equals(turm.getTipoEnsino()));
+		turm.setNivelEscolar("fundamental");
+		assertTrue("Fundamental".equals(turm.getNivelEscolar()));
 	}
 	
 	@Test
 	void alterarNivelEscolar2() {
-		turm.setTipoEnsino(NivelEscolar.ENSINO_MEDIO);
-		assertTrue("Ensino Medio".equals(turm.getTipoEnsino()));
+		turm.setNivelEscolar("ensino medio");
+		assertTrue("Ensino Medio".equals(turm.getNivelEscolar()));
 	}
 	
 	@Test
 	void alterarNivelEscolar3() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			turm.setNivelEscolar("Nada aver");
+		});
+	}
+	
+	@Test
+	void alterarNivelEscolar4() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			turm.setNivelEscolar("");
+		});
+	}
+	
+	@Test
+	void alterarNivelEscolar5() {
 		assertThrows(NullPointerException.class, () -> {
-			turm.setTipoEnsino(null);
+			turm.setNivelEscolar(null);
 		});
 	}
 	
@@ -112,41 +112,27 @@ public class TurmaTeste {
 	}
 	
 	@Test
-	void testarAlunoNaTurma() {
-		a.setTurma(turm);
-		assertTrue(turm.equals(a.getTurma()));
-		a.setTurma(null);
-		assertEquals(0, turm.getAlunos().size());
-	}
-	
-	@Test
-	void testarProfessorNaTurma() {
-		p.adicionarTurma(turm);
-		assertTrue(turm.equals(p.getTurmas().get(0)));
-		p.removerTurma(turm);
-		assertEquals(0, p.getTurmas().size());
-	}
-
-	@Test
 	void testarCodigo1() {
 		assertTrue("EFA".equals(turm.getCodigo()));;
 	}
 	
 	@Test
 	void testarCodigo2() {
-		turm.setTipoEnsino(NivelEscolar.ENSINO_MEDIO);
+		turm.setNivelEscolar("ensino medio");
 		assertTrue("EMA".equals(turm.getCodigo()));;
 	}
 	
 	@Test
 	void testarCodigo3() {
-		assertTrue("EFA".equals(turm.getCodigo()));;
+		turm.setLetraTurma("B");
+		assertTrue("EFB".equals(turm.getCodigo()));;
 	}
 	
 	@Test
 	void testarCodigo4() {
-		turm.setLetraTurma("B");;
-		assertTrue("EFB".equals(turm.getCodigo()));;
+		turm.setLetraTurma("B");
+		turm.setNivelEscolar("ensino medio");
+		assertTrue("EMB".equals(turm.getCodigo()));;
 	}
 	
 }

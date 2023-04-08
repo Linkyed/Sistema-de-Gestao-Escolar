@@ -43,6 +43,14 @@ public class Turma {
 		setLetraTurma(letraTurma);
 		setSala(sala);
 	}
+	
+	//Usado para fazer uma copia
+	public Turma(Turma outraTurma) {
+		setLetraTurma(outraTurma.getLetraTurma());
+		setNivelEscolar(outraTurma.getNivelEscolar());
+		setSala(outraTurma.getSala());
+		outraTurma.setCodigo();
+	}
 
 	public Long getId() {
 		return id;
@@ -61,9 +69,9 @@ public class Turma {
 		Funcionalidades.testarObjetoNulo.apply(letraTurma);
 		
 		String primeiraParte = "";
-		if ("ensino medio".equals(nivelEscolar)) {
+		if ("Ensino Medio".equals(nivelEscolar)) {
 			primeiraParte = "EM";
-		} else if ("fundamental".equals(nivelEscolar)) {
+		} else if ("Fundamental".equals(nivelEscolar)) {
 			primeiraParte = "EF";
 		}
 		
@@ -79,6 +87,8 @@ public class Turma {
 		nivelEscolar = Funcionalidades.todaPrimeiraLetraMaiuscula(nivelEscolar);
 		if ("fundamental".equalsIgnoreCase(nivelEscolar) || "ensino medio".equalsIgnoreCase(nivelEscolar)) 
 			this.nivelEscolar = nivelEscolar;
+		else
+			throw new IllegalArgumentException("Nivel escolar invalido.");
 		if (letraTurma != null) {
 			setCodigo();			
 		}
