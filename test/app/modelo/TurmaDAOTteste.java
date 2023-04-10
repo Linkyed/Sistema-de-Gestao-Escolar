@@ -1,9 +1,12 @@
 package app.modelo;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,8 +19,14 @@ public class TurmaDAOTteste {
 	Turma turm2;
 	Turma turm3;
 	
+	@BeforeAll
+	static void inicializarAluno() {
+		DAOs.alunDAO.criarAluno(new Aluno("teste", "32518682090", "Feminino", "teste@gmail.com", 
+				Funcionalidades.cirarDataSQL("28-02-2023")));
+	}
+	
 	@BeforeEach
-	void inicializarDAOeAluno() {
+	void inicializarTurma() {
 		turm3 = new Turma("fundamental", "Z", "MP65");
 		turm2 = new Turma("ensino medio", "Z", "MP65");
 		turm1 = new Turma("fundamental", "X", "MP65");
@@ -27,10 +36,15 @@ public class TurmaDAOTteste {
 	}
 	
 	@AfterEach
-	void removerAluno() {
+	void removerTurma() {
 		DAOs.turmDAO.removerTurma("EFZ");
 		DAOs.turmDAO.removerTurma("EMZ");
 		DAOs.turmDAO.removerTurma("EFX");
+	}
+	
+	@AfterAll
+	static void removerAluno() {
+		DAOs.alunDAO.removerAluno("32518682090");
 	}
 	
 	@Test
@@ -157,6 +171,29 @@ public class TurmaDAOTteste {
 	void alteracaoSala1() {
 		DAOs.turmDAO.Atualizar("EFX", AtributosTurma.SALA, "MT44");
 		assertTrue("MT44".equals(DAOs.turmDAO.obterUltimo().getSala()));
+	}
+	
+	@Test
+	void verificarAlunos1() {
+		DAOs.alunDAO.Atualizar("32518682090", AtributosAluno.TURMA, "EFX");
+		assertEquals(1, DAOs.turmDAO.obterTurma("EFX").getAlunos().size());
+		DAOs.alunDAO.Atualizar("32518682090", AtributosAluno.TURMA, null);
+	}
+	
+	@Test
+	void verificarAlunos2() {
+		DAOs.alunDAO.Atualizar("32518682090", AtributosAluno.TURMA, "EFX");
+		DAOs.alunDAO.Atualizar("32518682090", AtributosAluno.TURMA, null);
+		assertEquals(0, DAOs.turmDAO.obterTurma("EFX").getAlunos().size());
+	}
+	
+	@Test
+	void verificarAlunos3() {
+		DAOs.alunDAO.Atualizar("32518682090", AtributosAluno.TURMA, "EFX");
+		DAOs.alunDAO.Atualizar("32518682090", AtributosAluno.TURMA, "EFZ");
+		assertEquals(0, DAOs.turmDAO.obterTurma("EFX").getAlunos().size());
+		assertEquals(1, DAOs.turmDAO.obterTurma("EFZ").getAlunos().size());
+		DAOs.alunDAO.Atualizar("32518682090", AtributosAluno.TURMA, null);
 	}
 	
 }

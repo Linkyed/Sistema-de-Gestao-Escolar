@@ -11,6 +11,7 @@ import app.modelo.Aluno;
 import app.modelo.AtributosAluno;
 import app.modelo.Funcionalidades;
 import app.modelo.Professor;
+import app.modelo.Turma;
 
 public class AlunoDAO extends DAO<Aluno> {
 	
@@ -58,6 +59,13 @@ public class AlunoDAO extends DAO<Aluno> {
 				a.setCPF(alteracao);				
 			else 
 				throw new RegistroDuplicadoException("A CPF já existe.");			
+		}
+		else if (escolhaAlteracao.equals(AtributosAluno.TURMA)) {
+			if (alteracao == null) a.setTurma(null);
+			else {
+				Turma t = DAOs.turmDAO.obterTurma(alteracao);
+				a.setTurma(t);
+			}
 		}
 		else if (escolhaAlteracao.equals(AtributosAluno.NOME)) 
 			a.setNome(alteracao);

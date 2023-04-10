@@ -33,8 +33,11 @@ public class Aplicacao {
 		Turma t = new Turma("Ensino medio", "A", "MP65");
 		Aluno a = new Aluno("teste", "24581919088", "Feminino", "teste@gmail.com", sqlDate);
 		
+		DAOs.turmDAO.removerTurma(t.getCodigo());
+		
 		DAOs.discDAO.fechar();
 		DAOs.alunDAO.fechar();
 		DAOs.profDAO.fechar();
+		DAOs.turmDAO.fechar();
 	}
 }

@@ -1,6 +1,7 @@
 package app.modelo;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.sql.Date;
@@ -21,8 +22,14 @@ public class AlunoDAOTeste {
 	Aluno alun1;
 	Aluno alun2;
 
+	@BeforeAll
+	static void inicializarTurma() {
+		DAOs.turmDAO.criarTurma(new Turma("fundamental", "X", "MP65"));
+		DAOs.turmDAO.criarTurma(new Turma("fundamental", "Z", "MP65"));
+	}
+	
 	@BeforeEach
-	void inicializarDAOeAluno() {
+	void inicializarAluno() {
 		Date sqlDate = Funcionalidades.cirarDataSQL("28-02-2023");
 		alun2 = new Aluno("Josias", "95383664173", "Masculino", "josiasmalafaia@gmail.com", sqlDate);
 		alun1 = new Aluno("Josias", "30282548670", "Masculino", "josias@gmail.com", sqlDate);
@@ -34,6 +41,12 @@ public class AlunoDAOTeste {
 	void removerAluno() {
 		DAOs.alunDAO.removerAluno("30282548670");
 		DAOs.alunDAO.removerAluno("95383664173");
+	}
+	
+	@AfterAll
+	static void removerTurma() {
+		DAOs.turmDAO.removerTurma("EFX");
+		DAOs.turmDAO.removerTurma("EFZ");
 	}
 	
 	@Test
@@ -172,5 +185,27 @@ public class AlunoDAOTeste {
 			DAOs.alunDAO.Atualizar("30282548670", AtributosAluno.DATA_NASCIMENTO, "asd");			
 		});
 	}
+	
+	@Test
+	void alteracaoTurma1() {
+		DAOs.alunDAO.Atualizar("30282548670", AtributosAluno.TURMA, "EFX");
+		assertTrue("EFX".equals(DAOs.alunDAO.obterAluno("30282548670").getTurma().getCodigo()));
+	}
+	
+	@Test
+	void alteracaoTurma2() {
+		DAOs.alunDAO.Atualizar("30282548670", AtributosAluno.TURMA, "EFX");
+		DAOs.alunDAO.Atualizar("30282548670", AtributosAluno.TURMA, "EFZ");
+		assertTrue("EFZ".equals(DAOs.alunDAO.obterAluno("30282548670").getTurma().getCodigo()));
+	}
+	
+	@Test
+	void alteracaoTurma3() {
+		DAOs.alunDAO.Atualizar("30282548670", AtributosAluno.TURMA, "EFX");
+		DAOs.alunDAO.Atualizar("30282548670", AtributosAluno.TURMA, null);
+		assertTrue(null == DAOs.alunDAO.obterAluno("30282548670").getTurma());
+	}
+	
+	
 	
 }

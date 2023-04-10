@@ -7,6 +7,7 @@ import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,6 +35,9 @@ public class Turma {
 	@Column(nullable = false, length = 80)
 	private String sala;
 
+	@OneToMany(mappedBy = "turma", cascade = CascadeType.MERGE)
+	private List<Aluno> alunos = new ArrayList<>();
+	
 	public Turma() {
 		
 	}
@@ -118,6 +122,26 @@ public class Turma {
 		sala = Funcionalidades.testarStringNula
 			.andThen(Funcionalidades.testarStringVazia).apply(sala);
 		this.sala = sala;
+	}
+
+	public List<Aluno> getAlunos() {
+		return alunos;
+	}
+
+	public void adicionarAluno(Aluno aluno) {
+		Funcionalidades.testarObjetoNulo.apply(aluno);
+		if (!getAlunos().contains(aluno)) {
+			getAlunos().add(aluno);
+			aluno.setTurma(this);
+		}
+	}
+	
+	public void removerAluno(Aluno aluno) {
+		Funcionalidades.testarObjetoNulo.apply(aluno);
+		if (getAlunos().contains(aluno)) {
+			getAlunos().remove(aluno);
+			aluno.setTurma(null);
+		}
 	}
 
 	@Override

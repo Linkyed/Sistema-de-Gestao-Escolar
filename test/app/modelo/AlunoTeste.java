@@ -1,5 +1,6 @@
 package app.modelo;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -190,6 +191,31 @@ public class AlunoTeste {
 		assertThrows(NullPointerException.class, () -> {
 			alun.setDataNascimento(null);
 		});
+	}
+	
+	@Test
+	void alterarTurma1() {
+		Turma t = new Turma("Ensino medio", "A", "MP65");
+		alun.setTurma(t);
+		assertTrue(alun.getTurma().equals(t));
+	}
+	
+	@Test
+	void alterarTurma2() {
+		Turma t = new Turma("Ensino medio", "A", "MP65");
+		Turma q = new Turma("Ensino medio", "B", "MP65");
+		alun.setTurma(t);
+		assertTrue(alun.getTurma().equals(t));
+		alun.setTurma(q);
+		assertTrue(alun.getTurma().equals(q));
+	}
+	
+	@Test
+	void alterarTurma3() {
+		Turma t = new Turma("Ensino medio", "A", "MP65");
+		alun.setTurma(t);
+		alun.setTurma(null);
+		assertTrue(alun.getTurma() == null);
 	}
 	
 	

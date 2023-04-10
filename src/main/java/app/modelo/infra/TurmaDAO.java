@@ -7,6 +7,7 @@ import javax.persistence.TypedQuery;
 
 import app.excecao.ConsultaNulaException;
 import app.excecao.RegistroDuplicadoException;
+import app.modelo.Aluno;
 import app.modelo.AtributosAluno;
 import app.modelo.AtributosProfessor;
 import app.modelo.AtributosTurma;
@@ -44,6 +45,7 @@ public class TurmaDAO extends DAO<Turma>{
 		Turma t = verificarExistencia(codigo);
 		
 		if (t != null) {
+			t.getAlunos().forEach(a -> a.setTurma(null));
 			removerEntidade(t);
 			return t;
 		} else {

@@ -6,6 +6,7 @@ import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,6 +36,10 @@ public class Aluno {
 	@Column(name = "data_nascimento", nullable = false)
 	private Date dataNascimento;
 	
+	@ManyToOne
+	@JoinColumn(nullable = true)
+	private Turma turma;
+	
 	public Aluno() {
 		
 	}
@@ -46,6 +51,16 @@ public class Aluno {
 		setEmail(email);
 		setDataNascimento(dataNacimento);
 	}
+	
+	public Aluno(String nome, String CPF, String sexo, String email, Date dataNacimento, Turma turma) {
+		setNome(nome);
+		setCPF(CPF);
+		setSexo(sexo);
+		setEmail(email);
+		setTurma(turma);
+		setDataNascimento(dataNacimento);
+	}
+
 
 	public Long getId() {
 		return id;
@@ -95,6 +110,19 @@ public class Aluno {
 		this.dataNascimento = (Date) Funcionalidades.testarObjetoNulo.apply(dataNacimento);
 	}
 	
+	public Turma getTurma() {
+		return turma;
+	}
+
+	public void setTurma(Turma turma) {
+		if (turma == null) {
+			if (this.turma != null) this.turma.removerAluno(this);
+		} else {
+			if (this.turma != null) this.turma.removerAluno(this);
+			turma.adicionarAluno(this);
+		}
+		this.turma = turma;
+	}
 
 	@Override
 	public int hashCode() {
