@@ -35,10 +35,14 @@ public class Aplicacao {
 		Aluno a = new Aluno("teste", "24581919088", "Feminino", "teste@gmail.com", sqlDate);
 		Aula aula = new Aula();
 
-		System.out.println(DAOs.aulaDAO.obterAula(
-				DAOs.profDAO.obterProfessor(p2.getCPF()),
-						DAOs.discDAO.obterUltimo(),
-						DAOs.turmDAO.obterUltimo()).getProfessor().getCPF());
+		aula.setDisciplina(DAOs.discDAO.obterPrimeiro());
+		aula.setProfessor(DAOs.profDAO.obterPrimeiro());
+		aula.setTurma(DAOs.turmDAO.obterPrimeiro());
+		
+		DAOs.discDAO.removerDisciplina(d2.getCodigo());
+		
+		
+		System.out.println(DAOs.profDAO.obterPrimeiro().getAulas().size());
 		
 		DAOs.aulaDAO.fechar();
 		DAOs.discDAO.fechar();

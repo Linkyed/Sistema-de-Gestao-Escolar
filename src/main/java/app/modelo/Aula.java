@@ -16,17 +16,17 @@ public class Aula {
 	
 	@MapsId("professorId")
 	@ManyToOne
-	@JoinColumn(name = "professor_id", referencedColumnName = "id")
+	@JoinColumn(name = "professor_id", referencedColumnName = "id", nullable = false)
 	private Professor professor;
 	
 	@MapsId("disciplinaId")
 	@ManyToOne
-	@JoinColumn(name = "disciplina_id", referencedColumnName = "id")
+	@JoinColumn(name = "disciplina_id", referencedColumnName = "id", nullable = false)
 	private Disciplina disciplina;
 	
 	@MapsId("turmaId")
 	@ManyToOne
-	@JoinColumn(name = "turma_id", referencedColumnName = "id")
+	@JoinColumn(name = "turma_id", referencedColumnName = "id", nullable = false)
 	private Turma turma;
 
 	public Professor getProfessor() {
@@ -34,6 +34,8 @@ public class Aula {
 	}
 
 	public void setProfessor(Professor professor) {
+		Funcionalidades.testarObjetoNulo.apply(professor);
+		professor.adicionarAula(this);
 		this.professor = professor;
 	}
 
@@ -42,6 +44,8 @@ public class Aula {
 	}
 
 	public void setDisciplina(Disciplina disciplina) {
+		Funcionalidades.testarObjetoNulo.apply(disciplina);
+		disciplina.adicionarAula(this);
 		this.disciplina = disciplina;
 	}
 
@@ -50,6 +54,8 @@ public class Aula {
 	}
 
 	public void setTurma(Turma turma) {
+		Funcionalidades.testarObjetoNulo.apply(turma);
+		turma.adicionarAula(this);
 		this.turma = turma;
 	}
 	

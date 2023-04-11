@@ -24,9 +24,23 @@ public class AulaDAO extends DAO<Aula>{
 	}
 
 	public Aula criarAula(Aula a) {
-
+		if (verificarExistencia(a.getProfessor(), a.getDisciplina(), a.getTurma()) == null) {
 			incluirAtomico(a);
 			return a;
+		} else {
+			throw new RegistroDuplicadoException("A aula já existe no Banco de Dados.");			
+		}
+	}
+	
+	public Aula removerAula(Professor profId, Disciplina discId, Turma turmaId) {
+		Aula a = verificarExistencia(profId, discId, turmaId);
+		
+		if (a != null) {
+			removerEntidade(a);
+			return a;
+		} else {
+			throw new ConsultaNulaException("Nenhuma aula encontrada para ser excluido.");
+		}				
 	}
 	
 	private Aula verificarExistencia(Professor profId, Disciplina discId, Turma turmaId) {

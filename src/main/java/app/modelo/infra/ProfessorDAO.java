@@ -40,6 +40,10 @@ public class ProfessorDAO extends DAO<Professor>{
 		Professor p = verificarExistencia(CPF);
 		
 		if (p != null) {
+			p.getAulas().forEach(a -> {
+				a.getDisciplina().removerAula(a);
+				a.getTurma().removerAula(a);
+			});
 			removerEntidade(p);
 			return p;
 		} else {

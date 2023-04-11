@@ -34,7 +34,7 @@ public class Disciplina {
 	@Column(name = "nivel_escolar", nullable = false, length = 20)
 	private String nivelEscolar;
 	
-	@OneToMany(mappedBy = "disciplina")
+	@OneToMany(mappedBy = "disciplina", cascade = {CascadeType.MERGE, CascadeType.REMOVE})
 	private List<Aula> aulas;
 	
 	public Disciplina() {
@@ -125,8 +125,18 @@ public class Disciplina {
 		return aulas;
 	}
 
-	public void setAulas(Aula aula) {
-		getAulas().add(aula);
+	public void adicionarAula(Aula aula) {
+		Funcionalidades.testarObjetoNulo.apply(aula);
+		if (!getAulas().contains(aula)) {
+			getAulas().add(aula);
+			aula.setDisciplina(this);			
+		}
+	}
+	
+	public void removerAula(Aula aula) {
+		Funcionalidades.testarObjetoNulo.apply(aula);
+		if (getAulas().contains(aula))
+			getAulas().remove(aula);
 	}
 
 	@Override

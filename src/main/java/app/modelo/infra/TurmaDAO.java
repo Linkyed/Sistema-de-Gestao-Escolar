@@ -46,6 +46,10 @@ public class TurmaDAO extends DAO<Turma>{
 		
 		if (t != null) {
 			t.getAlunos().forEach(a -> a.setTurma(null));
+			t.getAulas().forEach(a -> {
+					a.getDisciplina().removerAula(a);
+					a.getProfessor().removerAula(a);
+				});
 			removerEntidade(t);
 			return t;
 		} else {

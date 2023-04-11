@@ -41,6 +41,10 @@ public class DisciplinaDAO extends DAO<Disciplina> {
 		Disciplina d = verificarExistencia(codigo);
 		
 		if (d != null) {
+			d.getAulas().forEach(a -> {
+				a.getProfessor().removerAula(a);
+				a.getTurma().removerAula(a);
+			});
 			removerEntidade(d);
 			return d;
 		} else {
