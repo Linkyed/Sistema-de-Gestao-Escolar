@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -32,6 +33,9 @@ public class Disciplina {
 	
 	@Column(name = "nivel_escolar", nullable = false, length = 20)
 	private String nivelEscolar;
+	
+	@OneToMany(mappedBy = "disciplina")
+	private List<Aula> aulas;
 	
 	public Disciplina() {
 	}
@@ -114,6 +118,15 @@ public class Disciplina {
 		if (codigo != null) {
 			setCodigo(codigo.substring(0, 3));
 		}
+	}
+	
+	public List<Aula> getAulas() {
+		if (aulas == null) aulas = new ArrayList<>();
+		return aulas;
+	}
+
+	public void setAulas(Aula aula) {
+		getAulas().add(aula);
 	}
 
 	@Override

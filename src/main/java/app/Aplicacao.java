@@ -8,6 +8,7 @@ import app.modelo.AtributosAluno;
 import app.modelo.AtributosDisciplina;
 import app.modelo.AtributosProfessor;
 import app.modelo.AtributosTurma;
+import app.modelo.Aula;
 import app.modelo.Disciplina;
 import app.modelo.Funcionalidades;
 import app.modelo.Professor;
@@ -32,9 +33,14 @@ public class Aplicacao {
 		Disciplina d2 = new Disciplina("LITERATURA", 180, "ensino medio", "LIT");
 		Turma t = new Turma("Ensino medio", "A", "MP65");
 		Aluno a = new Aluno("teste", "24581919088", "Feminino", "teste@gmail.com", sqlDate);
+		Aula aula = new Aula();
+
+		System.out.println(DAOs.aulaDAO.obterAula(
+				DAOs.profDAO.obterProfessor(p2.getCPF()),
+						DAOs.discDAO.obterUltimo(),
+						DAOs.turmDAO.obterUltimo()).getProfessor().getCPF());
 		
-		DAOs.turmDAO.removerTurma(t.getCodigo());
-		
+		DAOs.aulaDAO.fechar();
 		DAOs.discDAO.fechar();
 		DAOs.alunDAO.fechar();
 		DAOs.profDAO.fechar();

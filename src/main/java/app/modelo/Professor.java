@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -43,6 +44,10 @@ public class Professor{
 	
 	@Column(name = "inicio_contrato", nullable = false)
 	private Date inicioContrato;
+	
+	@OneToMany(mappedBy = "professor")
+	private List<Aula> aulas;
+	
 	
 	public Professor() {
 		
@@ -126,6 +131,17 @@ public class Professor{
 
 	public void setInicioContrato(Date inicioContrato) {
 		this.inicioContrato = (Date) Funcionalidades.testarObjetoNulo.apply(inicioContrato);
+	}
+	
+	
+
+	public List<Aula> getAulas() {
+		if (aulas == null) aulas = new ArrayList<>();
+		return aulas;
+	}
+
+	public void setAulas(Aula aula) {
+		getAulas().add(aula);
 	}
 
 	@Override

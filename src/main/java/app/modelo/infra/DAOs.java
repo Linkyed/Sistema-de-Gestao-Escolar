@@ -5,4 +5,5 @@ public class DAOs {
 	public static final AlunoDAO alunDAO = new AlunoDAO();
 	public static final TurmaDAO turmDAO = new TurmaDAO();
 	public static final DisciplinaDAO discDAO = new DisciplinaDAO();
+	public static final AulaDAO aulaDAO = new AulaDAO();
 }

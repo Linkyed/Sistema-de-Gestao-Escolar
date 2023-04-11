@@ -38,6 +38,9 @@ public class Turma {
 	@OneToMany(mappedBy = "turma", cascade = CascadeType.MERGE)
 	private List<Aluno> alunos = new ArrayList<>();
 	
+	@OneToMany(mappedBy = "turma")
+	private List<Aula> aulas;
+	
 	public Turma() {
 		
 	}
@@ -142,6 +145,15 @@ public class Turma {
 			getAlunos().remove(aluno);
 			aluno.setTurma(null);
 		}
+	}
+	
+	public List<Aula> getAulas() {
+		if (aulas == null) aulas = new ArrayList<>();
+		return aulas;
+	}
+
+	public void setAulas(Aula aula) {
+		getAulas().add(aula);
 	}
 
 	@Override

@@ -11,7 +11,7 @@ import app.modelo.Funcionalidades;
 
 public class DAO<E> {
 	private static EntityManagerFactory emf;
-	EntityManager em;
+	static EntityManager em;
 	Class<E> classe;
 	
 	static {
