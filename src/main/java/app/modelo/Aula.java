@@ -35,6 +35,8 @@ public class Aula {
 
 	public void setProfessor(Professor professor) {
 		Funcionalidades.testarObjetoNulo.apply(professor);
+		if (this.professor != null)
+			this.professor.removerAula(this);
 		professor.adicionarAula(this);
 		this.professor = professor;
 	}
@@ -45,6 +47,8 @@ public class Aula {
 
 	public void setDisciplina(Disciplina disciplina) {
 		Funcionalidades.testarObjetoNulo.apply(disciplina);
+		if (this.disciplina != null)
+			this.disciplina.removerAula(this);
 		disciplina.adicionarAula(this);
 		this.disciplina = disciplina;
 	}
@@ -55,6 +59,8 @@ public class Aula {
 
 	public void setTurma(Turma turma) {
 		Funcionalidades.testarObjetoNulo.apply(turma);
+		if (this.turma != null)
+			this.turma.removerAula(this);
 		turma.adicionarAula(this);
 		this.turma = turma;
 	}

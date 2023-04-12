@@ -36,6 +36,9 @@ public class AulaDAO extends DAO<Aula>{
 		Aula a = verificarExistencia(profId, discId, turmaId);
 		
 		if (a != null) {
+			a.getProfessor().removerAula(a);
+			a.getDisciplina().removerAula(a);
+			a.getTurma().removerAula(a);
 			removerEntidade(a);
 			return a;
 		} else {

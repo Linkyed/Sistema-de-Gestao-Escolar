@@ -135,4 +135,52 @@ public class TurmaTeste {
 		assertTrue("EMB".equals(turm.getCodigo()));;
 	}
 	
+	@Test
+	void testarAula1() {
+		Aula a = new Aula();
+		turm.adicionarAula(a);
+		assertTrue(turm.getAulas().get(0).equals(a));
+	}
+	
+	@Test
+	void testarAula2() {
+		Aula a = new Aula();
+		turm.adicionarAula(a);
+		turm.adicionarAula(a);
+		turm.adicionarAula(a);
+		turm.adicionarAula(a);
+		assertTrue(turm.getAulas().size() == 1);
+	}
+	
+	@Test
+	void testarAula3() {
+		Aula a = new Aula();
+		turm.adicionarAula(a);
+		turm.removerAula(a);
+		assertTrue(turm.getAulas().size() == 0);
+	}
+	
+	@Test
+	void testarAula4() {
+		Aula a = new Aula();
+		int quantidadeAntes = turm.getAulas().size();
+		turm.removerAula(a);
+		assertTrue(quantidadeAntes == turm.getAulas().size());
+	}
+	
+	@Test
+	void testarAula5() {
+		assertThrows(NullPointerException.class, () -> {
+			turm.adicionarAula(null);
+		});
+	}
+	
+	@Test
+	void testarAula6() {
+		assertThrows(NullPointerException.class, () -> {
+			turm.removerAula(null);
+		});
+	}
+	
+
 }

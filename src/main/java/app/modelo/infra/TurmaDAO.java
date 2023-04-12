@@ -45,11 +45,15 @@ public class TurmaDAO extends DAO<Turma>{
 		Turma t = verificarExistencia(codigo);
 		
 		if (t != null) {
-			t.getAlunos().forEach(a -> a.setTurma(null));
-			t.getAulas().forEach(a -> {
-					a.getDisciplina().removerAula(a);
-					a.getProfessor().removerAula(a);
-				});
+			for (int i = 0; i < t.getAlunos().size(); i++) {
+				t.getAlunos().get(0).setTurma(null);
+				
+			}
+			for (int i = 0; i < t.getAulas().size(); i++) {
+				t.getAulas().get(0).getDisciplina().removerAula(t.getAulas().get(0));
+				t.getAulas().get(0).getProfessor().removerAula(t.getAulas().get(0));
+				
+			}
 			removerEntidade(t);
 			return t;
 		} else {

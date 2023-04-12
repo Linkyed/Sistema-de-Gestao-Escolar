@@ -41,7 +41,6 @@ public class Aplicacao {
 		
 		DAOs.discDAO.removerDisciplina(d2.getCodigo());
 		
-		
 		System.out.println(DAOs.profDAO.obterPrimeiro().getAulas().size());
 		
 		DAOs.aulaDAO.fechar();

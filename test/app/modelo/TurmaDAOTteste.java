@@ -76,20 +76,30 @@ public class TurmaDAOTteste {
 	
 	@Test
 	void testarRemocao2() {
+		DAOs.alunDAO.Atualizar("32518682090", AtributosAluno.TURMA, "EFX");
+		Turma t = DAOs.turmDAO.removerTurma("EFX");
+		boolean verificar1 = t.equals(turm1);
+		boolean verificar2 = DAOs.alunDAO.obterAluno("32518682090").getTurma() == null;
+		DAOs.turmDAO.criarTurma(new Turma("fundamental", "X", "MP65"));
+		assertTrue(verificar1 && verificar2);
+	}
+	
+	@Test
+	void testarRemocao3() {
 		assertThrows(ConsultaNulaException.class, () -> {
 			DAOs.turmDAO.removerTurma("DDD");
 		});
 	}
 
 	@Test
-	void testarRemocao3() {
+	void testarRemocao4() {
 		assertThrows(ConsultaNulaException.class, () -> {
 			DAOs.turmDAO.removerTurma("DDDD");
 		});
 	}
 	
 	@Test
-	void testarRemocao4() {
+	void testarRemocao5() {
 		assertThrows(ConsultaNulaException.class, () -> {
 			DAOs.turmDAO.removerTurma(null);
 		});
